@@ -9,7 +9,10 @@ interface BikesGridProps {
 
 const BikesGrid: FunctionComponent<BikesGridProps> = ({ bikes }) => {
   return (
-    <Grid gutter={20}>
+    <Grid gutter="xl" justify="center" style={{
+      padding: '20px 20px',
+      margin: '0 auto'
+    }}>
       {bikes.map((bike,index) => (
         <BikeCard key={index} bike={bike} />
       ))}
