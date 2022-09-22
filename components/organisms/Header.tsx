@@ -1,13 +1,14 @@
 import { HeaderAuthCTAs } from "@components/moleculs";
 import { Avatar, Group, Modal, Text, UnstyledButton } from "@mantine/core";
-import { useAuth, useModalControls } from "hooks";
+import { useAuth } from "@root/providers";
+import { useModalControls } from "hooks";
 import { FunctionComponent, useState } from "react";
 import AuthForm from "./AuthForm";
 import styles from "./header.module.scss";
 interface HeaderProps {}
 
 const Header: FunctionComponent<HeaderProps> = () => {
-  const { authenticated } = useAuth();
+  const { user, loading } = useAuth();
   const { open, payload, ...modalControls } = useModalControls<
     "login" | "signup"
   >();
@@ -28,12 +29,12 @@ const Header: FunctionComponent<HeaderProps> = () => {
           flexDirection: "row",
         }}
       >
-        {authenticated && (
+        {user && !loading && (
           <Avatar color="yellow" radius="xl">
             {parseNameInitials("Strange Danger")}
           </Avatar>
         )}
-        {!authenticated && <HeaderAuthCTAs onClick={open} />}
+        {!user && !loading && <HeaderAuthCTAs onClick={open} />}
       </Group>
       <Modal {...modalControls} centered>
         <AuthForm defaultView={payload} />

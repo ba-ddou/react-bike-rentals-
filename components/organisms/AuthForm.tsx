@@ -14,16 +14,24 @@ import {
   Stack,
 } from "@mantine/core";
 import { FunctionComponent } from "react";
-
+import { useAuth } from "@root/providers";
+import { LoaderOverlay } from "@components/atoms";
 
 interface AuthFormProps {
-    defaultView: "login" | "signup" | null;
+  defaultView: "login" | "signup" | null;
 }
- 
+
+interface InputFields {
+  email: string;
+  name: string;
+  password: string;
+}
+
 const AuthForm: FunctionComponent<AuthFormProps> = ({ defaultView }) => {
   const [type, toggle] = useToggle(
     defaultView == "signup" ? ["signup", "login"] : ["login", "signup"]
   );
+  const { loading, login, signup } = useAuth();
   const form = useForm({
     initialValues: {
       email: "",
@@ -40,13 +48,22 @@ const AuthForm: FunctionComponent<AuthFormProps> = ({ defaultView }) => {
     },
   });
 
+  const onSubmit = (values: InputFields) => {
+    const { email, name, password } = values;
+    if (type === "login") {
+      login({ email, password });
+    } else if (type === "signup") {
+      signup({ email, name, password });
+    }
+  };
+
   return (
     <Paper radius="md" p="xl">
       <Text size="lg" weight={500}>
         Welcome to bike rental, {type} with
       </Text>
 
-      <form onSubmit={form.onSubmit(() => {})}>
+      <form onSubmit={form.onSubmit(onSubmit)}>
         <Stack>
           {type === "signup" && (
             <TextInput
@@ -63,6 +80,7 @@ const AuthForm: FunctionComponent<AuthFormProps> = ({ defaultView }) => {
             required
             label="Email"
             placeholder="hello@example.com"
+            type="email"
             value={form.values.email}
             onChange={(event) =>
               form.setFieldValue("email", event.currentTarget.value)
@@ -100,8 +118,9 @@ const AuthForm: FunctionComponent<AuthFormProps> = ({ defaultView }) => {
           <Button type="submit">{upperFirst(type)}</Button>
         </Group>
       </form>
+      <LoaderOverlay loading={loading} />
     </Paper>
   );
 };
- 
+
 export default AuthForm;

@@ -9,3 +9,5 @@ export enum UserRole {
   MANAGER = "manager",
   USER = "user",
 }
+
+export type UserInput = Omit<User, "id" | "role"> & { password: string };
