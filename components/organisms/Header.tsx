@@ -54,7 +54,7 @@ const Header: FunctionComponent<HeaderProps> = () => {
         )}
       </Group>
       <Modal {...modalControls} centered>
-        <AuthForm defaultView={payload} />
+        <AuthForm defaultView={payload} onResolve={modalControls.onClose} />
       </Modal>
     </div>
   );

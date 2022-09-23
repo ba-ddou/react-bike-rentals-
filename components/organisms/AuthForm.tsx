@@ -13,12 +13,14 @@ import {
   Anchor,
   Stack,
 } from "@mantine/core";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useEffect } from "react";
 import { LoaderOverlay } from "@components/atoms";
 import { useSignup } from "hooks";
+import { useAuth } from "@root/providers";
 
 interface AuthFormProps {
   defaultView: "login" | "signup" | null;
+  onResolve?: () => void;
 }
 
 interface InputFields {
@@ -27,11 +29,12 @@ interface InputFields {
   password: string;
 }
 
-const AuthForm: FunctionComponent<AuthFormProps> = ({ defaultView }) => {
+const AuthForm: FunctionComponent<AuthFormProps> = ({ defaultView,onResolve }) => {
   const [type, toggle] = useToggle(
     defaultView == "signup" ? ["signup", "login"] : ["login", "signup"]
   );
   const { signup, loading: signup_loading } = useSignup();
+  const { currentUser } = useAuth();
   const form = useForm({
     initialValues: {
       email: "",
@@ -56,6 +59,11 @@ const AuthForm: FunctionComponent<AuthFormProps> = ({ defaultView }) => {
       signup({ email, name, password });
     }
   };
+
+  useEffect(() => {
+    if(currentUser) onResolve?.();
+  }, [currentUser])
+  
 
   return (
     <Paper radius="md" p="xl">

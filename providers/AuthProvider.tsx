@@ -43,12 +43,17 @@ export const AuthProvider: FunctionComponent<AuthProviderProps> = ({
     return null;
   };
 
+  const logout = async () => { 
+    await auth.signOut();
+    setCurrentUser(null);
+  }
+
   return (
     <AuthContext.Provider
       value={{
         loading,
         currentUser: currentUser,
-        logout: () => auth.signOut(),
+        logout,
       }}
     >
       {children}
