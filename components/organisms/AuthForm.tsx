@@ -14,8 +14,8 @@ import {
   Stack,
 } from "@mantine/core";
 import { FunctionComponent } from "react";
-import { useAuth } from "@root/providers";
 import { LoaderOverlay } from "@components/atoms";
+import { useSignup } from "hooks";
 
 interface AuthFormProps {
   defaultView: "login" | "signup" | null;
@@ -31,7 +31,7 @@ const AuthForm: FunctionComponent<AuthFormProps> = ({ defaultView }) => {
   const [type, toggle] = useToggle(
     defaultView == "signup" ? ["signup", "login"] : ["login", "signup"]
   );
-  const { loading, login, signup } = useAuth();
+  const { signup, loading: signup_loading } = useSignup();
   const form = useForm({
     initialValues: {
       email: "",
@@ -118,7 +118,7 @@ const AuthForm: FunctionComponent<AuthFormProps> = ({ defaultView }) => {
           <Button type="submit">{upperFirst(type)}</Button>
         </Group>
       </form>
-      <LoaderOverlay loading={loading} />
+      <LoaderOverlay loading={signup_loading} />
     </Paper>
   );
 };

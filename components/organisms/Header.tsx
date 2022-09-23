@@ -1,7 +1,13 @@
 import { HeaderAuthCTAs } from "@components/moleculs";
-import { Avatar, Group, Modal, Text, UnstyledButton } from "@mantine/core";
-import { useAuth } from "@root/providers";
-import { useAuthState, useModalControls } from "hooks";
+import {
+  Avatar,
+  Button,
+  Group,
+  Modal,
+  Text,
+  UnstyledButton,
+} from "@mantine/core";
+import { useAuthState, useModalControls, useAuth } from "hooks";
 import { FunctionComponent, useState } from "react";
 import AuthForm from "./AuthForm";
 import styles from "./header.module.scss";
@@ -9,6 +15,7 @@ interface HeaderProps {}
 
 const Header: FunctionComponent<HeaderProps> = () => {
   const { user, loading } = useAuthState();
+  const { logout } = useAuth();
   const { open, payload, ...modalControls } = useModalControls<
     "login" | "signup"
   >();
@@ -19,7 +26,7 @@ const Header: FunctionComponent<HeaderProps> = () => {
           Welcome
         </Text>
         <Text weight="bold" size="lg">
-          Stranger{" "}
+          {user ? user.name : `Stranger`}
         </Text>
       </div>
       <Group
@@ -30,9 +37,16 @@ const Header: FunctionComponent<HeaderProps> = () => {
         }}
       >
         {user && !loading && (
-          <Avatar color="yellow" radius="xl">
-            {parseNameInitials("Strange Danger")}
-          </Avatar>
+          <>
+            <Button onClick={logout}>
+              <Text weight="bold" size="sm">
+                Logout
+              </Text>
+            </Button>
+            <Avatar color="yellow" radius="xl">
+              {parseNameInitials(user.name)}
+            </Avatar>
+          </>
         )}
         {!user && !loading && <HeaderAuthCTAs onClick={open} />}
       </Group>
@@ -46,6 +60,7 @@ const Header: FunctionComponent<HeaderProps> = () => {
 export default Header;
 
 function parseNameInitials(name: string) {
+  if (!name) return "";
   const nameParts = name.split(" ");
   return nameParts.length > 1
     ? nameParts[0][0].toUpperCase() + nameParts[1][0].toUpperCase()
