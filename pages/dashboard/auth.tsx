@@ -1,3 +1,4 @@
+import { SigninForm } from "@components/moleculs";
 import {
   TextInput,
   PasswordInput,
@@ -10,8 +11,10 @@ import {
   Group,
   Button,
 } from "@mantine/core";
+import { useSignin } from "hooks";
 
 function ManagerAuthentication() {
+  const { signin, loading, error } = useSignin();
   return (
     <Container size={420} my={40}>
       <Title
@@ -26,28 +29,8 @@ function ManagerAuthentication() {
       <Text color="dimmed" size="sm" align="center" mt={5}>
         Login using a manager account credentials{" "}
       </Text>
-
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-        <TextInput label="Email" placeholder="you@mantine.dev" required />
-        <PasswordInput
-          label="Password"
-          placeholder="Your password"
-          required
-          mt="md"
-        />
-        <Group position="apart" mt="md">
-          <Checkbox label="Remember me" />
-          {/* <Anchor<"a">
-            onClick={(event) => event.preventDefault()}
-            href="#"
-            size="sm"
-          >
-            Forgot password?
-          </Anchor> */}
-        </Group>
-        <Button fullWidth mt="xl">
-          Sign in
-        </Button>
+        <SigninForm signin={signin} loading={loading} error={error} />
       </Paper>
     </Container>
   );

@@ -1,10 +1,10 @@
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword } from "firebase/auth";
 import {
   useAuthState as useFirebaseAuthState,
   useCreateUserWithEmailAndPassword,
 } from "react-firebase-hooks/auth";
 import firebaseApp from "config/firebase";
-import { UserInput, User } from "@types";
+import { UserInput, User, SigninCredentials } from "@types";
 import { createUser } from "@root/services";
 import { useState } from "react";
 const auth = getAuth(firebaseApp);
@@ -47,6 +47,39 @@ export const useSignup = () => {
 
   return {
     signup,
+    loading,
+    error,
+  };
+};
+
+
+export const useSignin = () => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const reset = () => {
+    setLoading(false);
+    setError(null);
+  };
+
+  const signin = async (credentials: SigninCredentials) => {
+    reset();
+    const { email, password } = credentials;
+    setLoading(true);
+    const result = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    ).catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      setError(errorMessage);
+    });
+    setLoading(false);
+  };
+
+  return {
+    signin,
     loading,
     error,
   };
