@@ -44,7 +44,7 @@ const Header: FunctionComponent<HeaderProps> = () => {
                 Logout
               </Text>
             </Button>
-            <Avatar color="yellow" radius="xl">
+            <Avatar radius="xl">
               {parseNameInitials(currentUser.name)}
             </Avatar>
           </>
