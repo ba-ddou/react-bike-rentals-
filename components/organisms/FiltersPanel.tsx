@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { Accordion, Text } from "@mantine/core";
-
+import { CheckboxGroup } from '@components/moleculs';
 
 interface FiltersPanelProps {
     
@@ -23,7 +23,20 @@ const FiltersPanel: FunctionComponent<FiltersPanelProps> = () => {
             <Accordion.Control>
               <Text size="sm">Model</Text>
             </Accordion.Control>
-            <Accordion.Panel></Accordion.Panel>
+            <Accordion.Panel>
+              <CheckboxGroup
+                options={[
+                  {
+                    id: "Model 1",
+                    label: "Model 1",
+                  },
+                  {
+                    id: "Model 2",
+                    label: "Model 2",
+                  },
+                ]}
+              />
+            </Accordion.Panel>
           </Accordion.Item>
 
           <Accordion.Item value="Color">
