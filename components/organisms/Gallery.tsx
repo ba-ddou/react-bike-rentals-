@@ -1,7 +1,7 @@
 import { useBikes } from 'hooks';
 import React, { FunctionComponent } from 'react'
 import BikesGrid from './BikesGrid';
-import FiltersSidebar from './FiltersSidebar';
+import Sidebar from './Sidebar';
 import styles from './gallery.module.scss';
 import Header from './Header';
 
@@ -13,7 +13,7 @@ const Gallery: FunctionComponent<GalleryProps> = () => {
     const { bikes } = useBikes();
     return (
       <div className={styles.gallery}>
-        <FiltersSidebar />
+        <Sidebar />
         <div>
           <Header />
           <BikesGrid bikes={bikes} />
