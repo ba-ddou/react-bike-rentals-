@@ -15,15 +15,12 @@ import {
 } from "@mantine/core";
 import {
   TablerIcon,
-  IconHome2,
-  IconGauge,
-  IconDeviceDesktopAnalytics,
-  IconFingerprint,
-  IconCalendarStats,
-  IconUser,
-  IconSettings,
+  IconCalendar,
+  IconUsers,
   IconLogout,
   IconSwitchHorizontal,
+  IconBike,
+  IconUser,
 } from "@tabler/icons";
 import { UsersTable } from "@components/organisms";
 
@@ -82,9 +79,10 @@ function NavbarLink({ icon: Icon, label, active, onClick }: NavbarLinkProps) {
 }
 
 const mockdata = [
-  { icon: IconUser, label: "Users" },
-  { icon: IconHome2, label: "Managers" },
-  { icon: IconGauge, label: "Reservations" },
+  { icon: IconBike, label: "Bikes" },
+  { icon: IconCalendar, label: "Reservations" },
+  { icon: IconUsers, label: "Users" },
+  { icon: IconUser, label: "Managers" },
 ];
 
 const Dashboard: FunctionComponent<DashboardProps> = () => {
