@@ -1,4 +1,5 @@
 import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
 const firebaseConfig = {
   apiKey: "AIzaSyCZ6HWMI24_8CsVKA7RDwNgdxVnq8zioa0",
   authDomain: "bike-rentals-7d7a9.firebaseapp.com",
@@ -9,6 +10,6 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-
+export const db = getFirestore(app);
 
 export default app;

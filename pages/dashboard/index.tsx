@@ -25,6 +25,7 @@ import {
   IconLogout,
   IconSwitchHorizontal,
 } from "@tabler/icons";
+import { UsersTable } from "@components/organisms";
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -106,30 +107,45 @@ const Dashboard: FunctionComponent<DashboardProps> = () => {
       </Head>
 
       <main className={styles.main}>
-      <Navbar width={{ base: 80 }} p="md">
-        <Center>
-          <Text
-            size="xl"
-            weight="bolder"
-            style={{
-              padding: "1rem",
-            }}
-          >
-            Bikes
-          </Text>
-        </Center>
-        <Navbar.Section grow mt={50}>
-          <Stack justify="center" spacing={0}>
-            {links}
-          </Stack>
-        </Navbar.Section>
-        <Navbar.Section>
-          <Stack justify="center" spacing={0}>
-            <NavbarLink icon={IconSwitchHorizontal} label="Change account" />
-            <NavbarLink icon={IconLogout} label="Logout" />
-          </Stack>
-        </Navbar.Section>
-      </Navbar>
+        <div style={{
+          display: "flex",
+          flexDirection: "row",
+        }}>
+          <Navbar width={{ base: 80 }} p="md">
+            <Center>
+              <Text
+                size="xl"
+                weight="bolder"
+                style={{
+                  padding: "1rem",
+                }}
+              >
+                Bikes
+              </Text>
+            </Center>
+            <Navbar.Section grow mt={50}>
+              <Stack justify="center" spacing={0}>
+                {links}
+              </Stack>
+            </Navbar.Section>
+            <Navbar.Section>
+              <Stack justify="center" spacing={0}>
+                <NavbarLink
+                  icon={IconSwitchHorizontal}
+                  label="Change account"
+                />
+                <NavbarLink icon={IconLogout} label="Logout" />
+              </Stack>
+            </Navbar.Section>
+          </Navbar>
+          <div style={{
+            display: "flex",
+            width: "100%",
+            flex: 1,
+          }}>
+            <UsersTable />
+          </div>
+        </div>
       </main>
     </div>
   );
