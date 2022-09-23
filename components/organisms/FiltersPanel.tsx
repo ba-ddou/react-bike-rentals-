@@ -1,12 +1,17 @@
 import React, { FunctionComponent } from "react";
 import { Accordion, Text, useMantineTheme } from "@mantine/core";
-import { CheckboxGroup, ColorSwatchSelectionGroup } from "@components/moleculs";
+import {
+  CheckboxGroup,
+  ColorSwatchSelectionGroup,
+  MultiSelectWithSearch,
+} from "@components/moleculs";
 
 interface FiltersPanelProps {}
 
 const FiltersPanel: FunctionComponent<FiltersPanelProps> = () => {
   const theme = useMantineTheme();
   const colors = Object.keys(theme.colors);
+  const cities = ["New York", "London", "Paris", "Berlin", "Madrid"];
   return (
     <div>
       <Text
@@ -55,7 +60,11 @@ const FiltersPanel: FunctionComponent<FiltersPanelProps> = () => {
           <Accordion.Control>
             <Text size="sm">Location</Text>
           </Accordion.Control>
-          <Accordion.Panel></Accordion.Panel>
+          <Accordion.Panel>
+            <MultiSelectWithSearch
+              options={cities.map((city) => ({ label: city, value: city }))}
+            />
+          </Accordion.Panel>
         </Accordion.Item>
         <Accordion.Item value="Rating">
           <Accordion.Control>
