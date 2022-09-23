@@ -16,7 +16,7 @@ const DashboardLayout: FunctionComponent<DashboardLayoutProps> = ({
           flexDirection: "row",
         }}
       >
-        <DashboardNavbar />
+        <DashboardNavbar initialPath={parseDashboardPath(pathname)} />
         {children}
       </div>
     );
@@ -24,3 +24,8 @@ const DashboardLayout: FunctionComponent<DashboardLayoutProps> = ({
 };
 
 export default DashboardLayout;
+
+function parseDashboardPath(pathname: string) {
+  const path = pathname.split("/");
+  return path[2];
+}

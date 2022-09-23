@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 import Head from "next/head";
 import styles from "../../styles/Home.module.css";
-interface DashboardNavbarProps {}
+
 
 import { useState } from "react";
 import {
@@ -85,21 +85,28 @@ function NavbarLink({ icon: Icon, label,path, active, onClick }: NavbarLinkProps
 }
 
 const mockdata = [
-  { icon: IconBike, label: "Bikes", path: "/bikes" },
-  { icon: IconCalendar, label: "Reservations", path: "/reservations" },
-  { icon: IconUsers, label: "Users", path: "/users" },
-  { icon: IconUser, label: "Managers", path: "/managers" },
+  { icon: IconBike, label: "Bikes", path: "bikes" },
+  { icon: IconCalendar, label: "Reservations", path: "reservations" },
+  { icon: IconUsers, label: "Users", path: "users" },
+  { icon: IconUser, label: "Managers", path: "managers" },
 ];
 
-const DashboardNavbar: FunctionComponent<DashboardNavbarProps> = () => {
-  const [active, setActive] = useState(0);
+
+interface DashboardNavbarProps {
+  initialPath: string;
+}
+
+const DashboardNavbar: FunctionComponent<DashboardNavbarProps> = ({
+  initialPath
+}) => {
+  const [active, setActive] = useState(initialPath);
 
   const links = mockdata.map((link, index) => (
     <NavbarLink
       {...link}
       key={link.label}
-      active={index === active}
-      onClick={() => setActive(index)}
+      active={link.path === active}
+      onClick={() => setActive(link.path)}
     />
   ));
   return (
