@@ -15,13 +15,6 @@ import {
 import { IconPencil, IconTrash } from "@tabler/icons";
 
 interface UsersTableProps {
-  data: {
-    avatar: string;
-    name: string;
-    job: string;
-    email: string;
-    phone: string;
-  }[];
 }
 
 interface UsersTableProps {}

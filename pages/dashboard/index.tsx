@@ -1,101 +1,10 @@
-import React, { FunctionComponent } from "react";
 import Head from "next/head";
+import { FunctionComponent } from "react";
 import styles from "../../styles/Home.module.css";
+
 interface DashboardProps {}
 
-import { useState } from "react";
-import {
-  Navbar,
-  Center,
-  Tooltip,
-  UnstyledButton,
-  createStyles,
-  Stack,
-  Text,
-} from "@mantine/core";
-import {
-  TablerIcon,
-  IconCalendar,
-  IconUsers,
-  IconLogout,
-  IconSwitchHorizontal,
-  IconBike,
-  IconUser,
-} from "@tabler/icons";
-import { UsersTable } from "@components/organisms";
-
-const useStyles = createStyles((theme) => ({
-  link: {
-    width: 50,
-    height: 50,
-    borderRadius: theme.radius.md,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    color:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[0]
-        : theme.colors.gray[7],
-
-    "&:hover": {
-      backgroundColor:
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[5]
-          : theme.colors.gray[0],
-    },
-  },
-
-  active: {
-    "&, &:hover": {
-      backgroundColor: theme.fn.variant({
-        variant: "light",
-        color: theme.primaryColor,
-      }).background,
-      color: theme.fn.variant({ variant: "light", color: theme.primaryColor })
-        .color,
-    },
-  },
-}));
-
-interface NavbarLinkProps {
-  icon: TablerIcon;
-  label: string;
-  active?: boolean;
-  onClick?(): void;
-}
-
-function NavbarLink({ icon: Icon, label, active, onClick }: NavbarLinkProps) {
-  const { classes, cx } = useStyles();
-  return (
-    <Tooltip label={label} position="right" transitionDuration={0}>
-      <UnstyledButton
-        onClick={onClick}
-        className={cx(classes.link, { [classes.active]: active })}
-      >
-        <Icon stroke={1.5} />
-      </UnstyledButton>
-    </Tooltip>
-  );
-}
-
-const mockdata = [
-  { icon: IconBike, label: "Bikes" },
-  { icon: IconCalendar, label: "Reservations" },
-  { icon: IconUsers, label: "Users" },
-  { icon: IconUser, label: "Managers" },
-];
-
 const Dashboard: FunctionComponent<DashboardProps> = () => {
-  const [active, setActive] = useState(2);
-
-  const links = mockdata.map((link, index) => (
-    <NavbarLink
-      {...link}
-      key={link.label}
-      active={index === active}
-      onClick={() => setActive(index)}
-    />
-  ));
   return (
     <div className={styles.container}>
       <Head>
@@ -104,47 +13,7 @@ const Dashboard: FunctionComponent<DashboardProps> = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <div style={{
-          display: "flex",
-          flexDirection: "row",
-        }}>
-          <Navbar width={{ base: 80 }} p="md">
-            <Center>
-              <Text
-                size="xl"
-                weight="bolder"
-                style={{
-                  padding: "1rem",
-                }}
-              >
-                Bikes
-              </Text>
-            </Center>
-            <Navbar.Section grow mt={50}>
-              <Stack justify="center" spacing={0}>
-                {links}
-              </Stack>
-            </Navbar.Section>
-            <Navbar.Section>
-              <Stack justify="center" spacing={0}>
-                <NavbarLink
-                  icon={IconSwitchHorizontal}
-                  label="Change account"
-                />
-                <NavbarLink icon={IconLogout} label="Logout" />
-              </Stack>
-            </Navbar.Section>
-          </Navbar>
-          <div style={{
-            display: "flex",
-            width: "100%",
-            flex: 1,
-          }}>
-            <UsersTable />
-          </div>
-        </div>
-      </main>
+      <main className={styles.main}></main>
     </div>
   );
 };

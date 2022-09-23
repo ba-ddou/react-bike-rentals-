@@ -1,8 +1,9 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import "../styles/globals.css";
+import type { AppProps } from "next/app";
 import { MantineProvider } from "@mantine/core";
-import { AuthProvider } from '@root/providers';
+import { AuthProvider } from "@root/providers";
 import "config/firebase";
+import { DashboardLayout } from "@components/templates";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -15,10 +16,12 @@ function MyApp({ Component, pageProps }: AppProps) {
           colorScheme: "light",
         }}
       >
-        <Component {...pageProps} />
+        <DashboardLayout>
+          <Component {...pageProps} />
+        </DashboardLayout>
       </MantineProvider>
     </AuthProvider>
   );
 }
 
-export default MyApp
+export default MyApp;
