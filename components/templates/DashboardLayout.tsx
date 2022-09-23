@@ -8,7 +8,7 @@ const DashboardLayout: FunctionComponent<DashboardLayoutProps> = ({
   children,
 }) => {
   const { pathname } = useRouter();
-  if (pathname.includes("dashboard"))
+  if (isInMainDashboard(pathname))
     return (
       <div
         style={{
@@ -28,4 +28,9 @@ export default DashboardLayout;
 function parseDashboardPath(pathname: string) {
   const path = pathname.split("/");
   return path[2];
+}
+
+
+function isInMainDashboard(pathname: string) {
+  return pathname.includes("dashboard") && !pathname.includes("auth");
 }
