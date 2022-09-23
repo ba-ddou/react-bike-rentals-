@@ -11,7 +11,7 @@ const auth = getAuth(firebaseApp);
 
 export const useAuthState = () => {
   const [user, loading, error] = useFirebaseAuthState(auth);
-  return { user: user as User | null, loading, error };
+  return { user, authenticated: user != null, loading, error };
 };
 
 export const useSignup = () => {
@@ -49,17 +49,5 @@ export const useSignup = () => {
     signup,
     loading,
     error,
-  };
-};
-
-export const useAuth = () => {
-  const { user, loading, error } = useAuthState();
-  const { signup } = useSignup();
-  return {
-    user,
-    loading,
-    error,
-    signup,
-    logout: () => auth.signOut(),
   };
 };

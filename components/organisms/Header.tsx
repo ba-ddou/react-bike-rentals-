@@ -7,15 +7,16 @@ import {
   Text,
   UnstyledButton,
 } from "@mantine/core";
-import { useAuthState, useModalControls, useAuth } from "hooks";
+import { useAuth } from "@root/providers";
+import { useAuthState, useModalControls } from "hooks";
 import { FunctionComponent, useState } from "react";
 import AuthForm from "./AuthForm";
 import styles from "./header.module.scss";
 interface HeaderProps {}
 
 const Header: FunctionComponent<HeaderProps> = () => {
-  const { user, loading } = useAuthState();
-  const { logout } = useAuth();
+  const { authenticated, loading } = useAuthState();
+  const { currentUser, logout } = useAuth();
   const { open, payload, ...modalControls } = useModalControls<
     "login" | "signup"
   >();
@@ -25,9 +26,9 @@ const Header: FunctionComponent<HeaderProps> = () => {
         <Text weight="lighter" size="lg">
           Welcome
         </Text>
-        <Text weight="bold" size="lg">
-          {user ? user.name : `Stranger`}
-        </Text>
+        {<Text weight="bold" size="lg">
+          {currentUser ? currentUser.name : `Stranger`}
+        </Text>}
       </div>
       <Group
         style={{
@@ -36,7 +37,7 @@ const Header: FunctionComponent<HeaderProps> = () => {
           flexDirection: "row",
         }}
       >
-        {user && !loading && (
+        {currentUser && !loading && (
           <>
             <Button onClick={logout}>
               <Text weight="bold" size="sm">
@@ -44,11 +45,13 @@ const Header: FunctionComponent<HeaderProps> = () => {
               </Text>
             </Button>
             <Avatar color="yellow" radius="xl">
-              {parseNameInitials(user.name)}
+              {parseNameInitials(currentUser.name)}
             </Avatar>
           </>
         )}
-        {!user && !loading && <HeaderAuthCTAs onClick={open} />}
+        {!currentUser && !authenticated && !loading && (
+          <HeaderAuthCTAs onClick={open} />
+        )}
       </Group>
       <Modal {...modalControls} centered>
         <AuthForm defaultView={payload} />

@@ -5,14 +5,19 @@ import React, {
   useContext,
   FunctionComponent,
   ComponentProps,
+  useEffect,
 } from "react";
+
+import firebaseApp from "config/firebase";
+import { getAuth } from "firebase/auth";
+import { useAuthState } from "hooks";
+import { getUser } from "@root/services";
+const auth = getAuth(firebaseApp);
 
 export const AuthContext = createContext<{
   loading: boolean;
-  user: User | null;
-  login: (credentials: { email: string; password: string }) => void;
+  currentUser: User | null;
   logout: () => void;
-  signup: (user: UserInput) => void;
   // @ts-ignore
 }>(undefined);
 
@@ -21,25 +26,34 @@ export interface AuthProviderProps {}
 export const AuthProvider: FunctionComponent<AuthProviderProps> = ({
   children,
 }) => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const signup = (user: UserInput) => {
-    setLoading(true);
+  const { user, loading, error } = useAuthState();
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  useEffect(() => {
+    loadUser();
+  }, [user]);
 
-    setLoading(false);
+  const loadUser = async () => {
+    if (user) {
+      const { uid } = user;
+      const currentUser = await getUser(uid);
+      if (currentUser) {
+        return setCurrentUser(currentUser.data() as User);
+      }
+    }
+    return null;
   };
-  const login = (credentials: { email: string; password: string }) => {
-    setLoading(true);
 
-    // setLoading(false);
-  };
-  return <AuthContext.Provider value={{
-    loading,
-    user: null,
-    login,
-    logout: () => { },
-    signup,
-  }}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider
+      value={{
+        loading,
+        currentUser: currentUser,
+        logout: () => auth.signOut(),
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export default AuthProvider;

@@ -1,6 +1,6 @@
 import { StrippedUser, UserRole } from "@root/@types";
 import firebaseApp from "../config/firebase";
-import { getFirestore, doc, setDoc } from "firebase/firestore";
+import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
 const db = getFirestore(firebaseApp);
 
 export const createUser = async (id: string, user: StrippedUser) => {
@@ -10,3 +10,9 @@ export const createUser = async (id: string, user: StrippedUser) => {
   });
   return res;
 };
+
+
+export const getUser = async (id: string) => { 
+  const user = await getDoc(doc(db, "users", id));
+  return user;
+}

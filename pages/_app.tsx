@@ -6,6 +6,7 @@ import "config/firebase";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
+    <AuthProvider>
       <MantineProvider
         withGlobalStyles
         withNormalizeCSS
@@ -16,6 +17,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       >
         <Component {...pageProps} />
       </MantineProvider>
+    </AuthProvider>
   );
 }
 
