@@ -1,14 +1,14 @@
 import { HeaderAuthCTAs } from "@components/moleculs";
 import { Avatar, Group, Modal, Text, UnstyledButton } from "@mantine/core";
 import { useAuth } from "@root/providers";
-import { useModalControls } from "hooks";
+import { useAuthState, useModalControls } from "hooks";
 import { FunctionComponent, useState } from "react";
 import AuthForm from "./AuthForm";
 import styles from "./header.module.scss";
 interface HeaderProps {}
 
 const Header: FunctionComponent<HeaderProps> = () => {
-  const { user, loading } = useAuth();
+  const { user, loading } = useAuthState();
   const { open, payload, ...modalControls } = useModalControls<
     "login" | "signup"
   >();
