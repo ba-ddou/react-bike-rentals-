@@ -1,6 +1,6 @@
-import { StrippedUser, UserRole } from "@root/@types";
+import { BikeCreationInput, ExtendedBikeCreationInput, StrippedUser, UserRole } from "@root/@types";
 import firebaseApp from "../config/firebase";
-import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
+import { getFirestore, doc, setDoc, getDoc,addDoc,collection } from "firebase/firestore";
 import cookie from "js-cookie";
 import { getAuth } from "firebase/auth";
 
@@ -23,4 +23,10 @@ export const getUser = async (id: string) => {
 export const signOut = async () => { 
   await auth.signOut();
   cookie.remove("token");
+}
+
+
+export const createBike = async (bike: ExtendedBikeCreationInput) => { 
+  const res = await addDoc(collection(db, "bikes"), bike);
+  return res;
 }
