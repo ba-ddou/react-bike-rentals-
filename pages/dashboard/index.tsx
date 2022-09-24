@@ -1,6 +1,8 @@
+import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { FunctionComponent } from "react";
 import styles from "../../styles/Home.module.css";
+import { getAuthUser } from "helpers";
 
 interface DashboardProps {}
 

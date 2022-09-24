@@ -7,11 +7,6 @@ export function middleware(request: NextRequest) {
     nextUrl: { pathname },
     cookies,
   } = request;
-    console.log("🚀 ~ file: middleware.ts ~ line 10 ~ middleware ~ pathname", pathname)
-  console.log(
-    "🚀 ~ file: middleware.ts ~ line 10 ~ middleware ~ cookies",
-    cookies
-  );
   if (pathname === "/dashboard") {
     return NextResponse.redirect(new URL("/dashboard/users", request.url));
   }

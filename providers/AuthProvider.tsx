@@ -11,7 +11,7 @@ import React, {
 import firebaseApp from "config/firebase";
 import { getAuth } from "firebase/auth";
 import { useAuthState } from "hooks";
-import { getUser } from "@root/services";
+import { getUser, signOut } from "services";
 const auth = getAuth(firebaseApp);
 
 export const AuthContext = createContext<{
@@ -43,10 +43,10 @@ export const AuthProvider: FunctionComponent<AuthProviderProps> = ({
     return null;
   };
 
-  const logout = async () => { 
-    await auth.signOut();
+  const logout = async () => {
+    await signOut();
     setCurrentUser(null);
-  }
+  };
 
   return (
     <AuthContext.Provider

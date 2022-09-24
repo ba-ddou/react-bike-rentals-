@@ -1,4 +1,5 @@
 import { DashboardNavbar } from "@components/organisms";
+import { useAuth } from "@root/providers";
 import { useRouter } from "next/router";
 import { FunctionComponent } from "react";
 

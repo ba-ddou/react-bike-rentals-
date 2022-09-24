@@ -1,4 +1,8 @@
-import { getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import {
   useAuthState as useFirebaseAuthState,
   useCreateUserWithEmailAndPassword,
@@ -7,6 +11,7 @@ import firebaseApp from "config/firebase";
 import { UserInput, User, SigninCredentials } from "@types";
 import { createUser } from "@root/services";
 import { useState } from "react";
+import cookie from "js-cookie";
 const auth = getAuth(firebaseApp);
 
 export const useAuthState = () => {
@@ -52,7 +57,6 @@ export const useSignup = () => {
   };
 };
 
-
 export const useSignin = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -62,7 +66,7 @@ export const useSignin = () => {
     setError(null);
   };
 
-  const signin = async (credentials: SigninCredentials) => {
+  const signin = async (credentials: SigninCredentials): Promise<boolean> => {
     reset();
     const { email, password } = credentials;
     setLoading(true);
@@ -75,7 +79,14 @@ export const useSignin = () => {
       const errorMessage = error.message;
       setError(errorMessage);
     });
+    result?.user.getIdToken().then((token) => {
+      cookie.set("token", token, {
+        expires: 10,
+        path: "/",
+      });
+    });
     setLoading(false);
+    return result?.user ? true : false;
   };
 
   return {

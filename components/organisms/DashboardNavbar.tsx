@@ -2,7 +2,6 @@ import React, { FunctionComponent } from "react";
 import Head from "next/head";
 import styles from "../../styles/Home.module.css";
 
-
 import { useState } from "react";
 import {
   Navbar,
@@ -24,6 +23,7 @@ import {
 } from "@tabler/icons";
 import { UsersTable } from "@components/organisms";
 import { useRouter } from "next/router";
+import { useAuth } from "@root/providers";
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -61,21 +61,27 @@ const useStyles = createStyles((theme) => ({
 interface NavbarLinkProps {
   icon: TablerIcon;
   label: string;
-  path: string;
+  path?: string;
   active?: boolean;
   onClick?(): void;
 }
 
-function NavbarLink({ icon: Icon, label,path, active, onClick }: NavbarLinkProps) {
+function NavbarLink({
+  icon: Icon,
+  label,
+  path,
+  active,
+  onClick,
+}: NavbarLinkProps) {
   const { classes, cx } = useStyles();
   const { push } = useRouter();
   return (
     <Tooltip label={label} position="right" transitionDuration={0}>
       <UnstyledButton
-              onClick={() => {
-                  onClick?.();
-                  push(`/dashboard/${path}`);
-              }}
+        onClick={() => {
+          onClick?.();
+          path && push(`/dashboard/${path}`);
+        }}
         className={cx(classes.link, { [classes.active]: active })}
       >
         <Icon stroke={1.5} />
@@ -91,15 +97,21 @@ const mockdata = [
   { icon: IconUser, label: "Managers", path: "managers" },
 ];
 
-
 interface DashboardNavbarProps {
   initialPath: string;
 }
 
 const DashboardNavbar: FunctionComponent<DashboardNavbarProps> = ({
-  initialPath
+  initialPath,
 }) => {
   const [active, setActive] = useState(initialPath);
+  const { push } = useRouter();
+  const { logout } = useAuth();
+
+  const onLogout = async () => {
+    logout();
+    push("/dashboard/auth");
+  };
 
   const links = mockdata.map((link, index) => (
     <NavbarLink
@@ -143,11 +155,15 @@ const DashboardNavbar: FunctionComponent<DashboardNavbarProps> = ({
             </Navbar.Section>
             <Navbar.Section>
               <Stack justify="center" spacing={0}>
-                <NavbarLink
+                {/* <NavbarLink
                   icon={IconSwitchHorizontal}
                   label="Change account"
+                /> */}
+                <NavbarLink
+                  icon={IconLogout}
+                  label="Logout"
+                  onClick={onLogout}
                 />
-                <NavbarLink icon={IconLogout} label="Logout" />
               </Stack>
             </Navbar.Section>
           </Navbar>
