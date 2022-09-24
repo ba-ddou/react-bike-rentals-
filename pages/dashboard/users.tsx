@@ -1,5 +1,6 @@
 import { LargeHeading } from "@components/atoms";
 import { UsersTable } from "@components/organisms";
+import { useUsers } from "@root/hooks";
 import { getAuthUser } from "helpers";
 import { GetServerSideProps } from "next";
 import { FunctionComponent } from "react";
@@ -7,10 +8,11 @@ import { FunctionComponent } from "react";
 interface UsersProps {}
 
 const Users: FunctionComponent<UsersProps> = () => {
+  const { users } = useUsers();
   return (
     <>
       <LargeHeading>Users</LargeHeading>
-      <UsersTable />
+      <UsersTable users={users} />
     </>
   );
 };

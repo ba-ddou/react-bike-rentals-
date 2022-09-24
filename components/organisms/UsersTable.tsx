@@ -13,20 +13,21 @@ import {
   Center,
 } from "@mantine/core";
 import { IconPencil, IconTrash } from "@tabler/icons";
+import { User } from "@root/@types";
 
 interface UsersTableProps {
+  users: User[] | null;
 }
 
 interface UsersTableProps {}
 
-const UsersTable: FunctionComponent<UsersTableProps> = () => {
-  const { users } = useUsers();
+const UsersTable: FunctionComponent<UsersTableProps> = ({users}) => {
   if (!users) return null;
   const rows = users.map((item) => (
     <tr key={item.name}>
       <td>
         <Group spacing="sm">
-          <Avatar size={30} src={item.avatar} radius={30} />
+          <Avatar size={30} radius={30} />
           <Text size="sm" weight={500}>
             {item.name}
           </Text>

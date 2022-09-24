@@ -5,8 +5,8 @@ export interface Bike {
     price: number; // $/day
     color: string;
     image: string;
-    location: string;  // city
-    rating: number;
+    location: string;  // city name
+    rating: number; // 0-5
     ratingCount: number;
     createBy: string // Manager id
 }
