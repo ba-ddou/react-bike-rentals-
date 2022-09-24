@@ -34,11 +34,6 @@ const BikesTable: FunctionComponent<BikesTableProps> = ({ bikes }) => {
       </td>
       <td>
         <Text size="sm" weight={500}>
-          {item.name}
-        </Text>
-      </td>
-      <td>
-        <Text size="sm" weight={500}>
           {item.model}
         </Text>
       </td>
@@ -47,7 +42,7 @@ const BikesTable: FunctionComponent<BikesTableProps> = ({ bikes }) => {
           {`${item.price} $/day`}
         </Text>
       </td>
-      <td>
+      {/* <td>
         <Center>
           <ColorSwatch
             key="color"
@@ -57,7 +52,7 @@ const BikesTable: FunctionComponent<BikesTableProps> = ({ bikes }) => {
             size={18}
           />
         </Center>
-      </td>
+      </td> */}
       <td>
         <Text size="sm" weight={500}>
           {item.location}
@@ -93,14 +88,13 @@ const BikesTable: FunctionComponent<BikesTableProps> = ({ bikes }) => {
       }}
     >
       <ScrollArea>
-        <Table verticalSpacing="sm">
+        <Table sx={{ minWidth: 1000 }}  verticalSpacing="md">
           <thead>
             <tr>
-              <th>Image</th>
-              <th>Name</th>
+              <th>Bike</th>
               <th>Model</th>
               <th>Price</th>
-              <th>Color</th>
+              {/* <th>Color</th> */}
               <th>Location</th>
               <th>Rating</th>
               <th />

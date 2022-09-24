@@ -9,3 +9,12 @@ export const useUsers = () => {
 
   return { users: users as User[], loading, error };
 };
+
+
+export const useManagers = () => {
+  const [managers, loading, error] = useCollectionData(
+    query(collection(db, "users"), where("role", "==", UserRole.MANAGER))
+  );
+
+  return { managers: managers as User[], loading, error };
+};

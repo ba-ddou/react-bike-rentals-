@@ -1,7 +1,7 @@
 import { LargeHeading } from "@components/atoms";
 import { UsersTable } from "@components/organisms";
 import { UserRole } from "@root/@types";
-import { useUsers } from "@root/hooks";
+import { useManagers, useUsers } from "@root/hooks";
 import { getAuthUser } from "helpers";
 import { GetServerSideProps } from "next";
 import { FunctionComponent } from "react";
@@ -9,11 +9,11 @@ import { FunctionComponent } from "react";
 interface UsersProps {}
 
 const Users: FunctionComponent<UsersProps> = () => {
-  const { users } = useUsers();
+  const { managers } = useManagers();
   return (
     <>
-      <LargeHeading>Users</LargeHeading>
-      <UsersTable users={users} role={UserRole.USER} />
+      <LargeHeading>Managers</LargeHeading>
+      <UsersTable users={managers} role={UserRole.MANAGER} />
     </>
   );
 };

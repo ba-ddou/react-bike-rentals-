@@ -13,15 +13,16 @@ import {
   Center,
 } from "@mantine/core";
 import { IconPencil, IconTrash } from "@tabler/icons";
-import { User } from "@root/@types";
+import { User, UserRole } from "@root/@types";
 
 interface UsersTableProps {
   users: User[] | null;
+  role: UserRole;
 }
 
 interface UsersTableProps {}
 
-const UsersTable: FunctionComponent<UsersTableProps> = ({users}) => {
+const UsersTable: FunctionComponent<UsersTableProps> = ({users,role}) => {
   if (!users) return null;
   const rows = users.map((item) => (
     <tr key={item.name}>
@@ -61,7 +62,7 @@ const UsersTable: FunctionComponent<UsersTableProps> = ({users}) => {
         <Table sx={{ minWidth: 1000 }} verticalSpacing="sm">
           <thead>
             <tr>
-              <th>User</th>
+              <th>{role}</th>
               <th>Email</th>
               <th />
             </tr>
