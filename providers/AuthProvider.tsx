@@ -1,4 +1,4 @@
-import { User, UserInput } from "@types";
+import { User, UserInput, UserRole } from "@types";
 import React, {
   useState,
   createContext,
@@ -12,6 +12,7 @@ import firebaseApp from "config/firebase";
 import { getAuth } from "firebase/auth";
 import { useAuthState } from "hooks";
 import { getUser, signOut } from "services";
+import { useRouter } from "next/router";
 const auth = getAuth(firebaseApp);
 
 export const AuthContext = createContext<{
@@ -28,6 +29,7 @@ export const AuthProvider: FunctionComponent<AuthProviderProps> = ({
 }) => {
   const { user, loading, error } = useAuthState();
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const { push } = useRouter();
   useEffect(() => {
     loadUser();
   }, [user]);
@@ -45,6 +47,7 @@ export const AuthProvider: FunctionComponent<AuthProviderProps> = ({
 
   const logout = async () => {
     await signOut();
+    if (currentUser?.role == UserRole.MANAGER) push("/dashboard/auth");
     setCurrentUser(null);
   };
 

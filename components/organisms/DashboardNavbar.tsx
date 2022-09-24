@@ -105,13 +105,8 @@ const DashboardNavbar: FunctionComponent<DashboardNavbarProps> = ({
   initialPath,
 }) => {
   const [active, setActive] = useState(initialPath);
-  const { push } = useRouter();
   const { logout } = useAuth();
 
-  const onLogout = async () => {
-    logout();
-    push("/dashboard/auth");
-  };
 
   const links = mockdata.map((link, index) => (
     <NavbarLink
@@ -162,7 +157,7 @@ const DashboardNavbar: FunctionComponent<DashboardNavbarProps> = ({
                 <NavbarLink
                   icon={IconLogout}
                   label="Logout"
-                  onClick={onLogout}
+                  onClick={logout}
                 />
               </Stack>
             </Navbar.Section>

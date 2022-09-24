@@ -64,7 +64,7 @@ const BikesTable: FunctionComponent<BikesTableProps> = ({ bikes }) => {
           <Text size="sm" weight={500}>
             {`${item.rating}`}
           </Text>
-          <Text size="xs" weight={500} color="gray">
+          <Text size="xs" weight={500} color="dimmed">
             {`(${item.ratingCount})`}
           </Text>
         </Group>

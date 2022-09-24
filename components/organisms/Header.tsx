@@ -1,4 +1,4 @@
-import { HeaderAuthCTAs } from "@components/moleculs";
+import { DynamicAvatar, HeaderAuthCTAs } from "@components/moleculs";
 import {
   Avatar,
   Button,
@@ -43,14 +43,11 @@ const Header: FunctionComponent<HeaderProps> = () => {
         }}
       >
         {currentUser && !loading && (
-          <>
-            {/* <Button onClick={logout}>
-              <Text weight="bold" size="sm">
-                Logout
-              </Text>
-            </Button> */}
-            <Avatar radius="xl">{parseNameInitials(currentUser.name)}</Avatar>
-          </>
+          <DynamicAvatar
+            user={currentUser}
+            onLogout={logout}
+            onEdit={() => {}}
+          />
         )}
         {!currentUser && !authenticated && !loading && (
           <HeaderAuthCTAs onClick={open} />
@@ -64,11 +61,3 @@ const Header: FunctionComponent<HeaderProps> = () => {
 };
 
 export default Header;
-
-function parseNameInitials(name: string) {
-  if (!name) return "";
-  const nameParts = name.split(" ");
-  return nameParts.length > 1
-    ? nameParts[0][0].toUpperCase() + nameParts[1][0].toUpperCase()
-    : name[0];
-}
