@@ -22,14 +22,19 @@ const Header: FunctionComponent<HeaderProps> = () => {
   >();
   return (
     <div className={styles.header}>
-      <div>
-        <Text weight="lighter" size="lg">
-          Welcome
-        </Text>
-        {<Text weight="bold" size="lg">
-          {currentUser ? currentUser.name : `Stranger`}
-        </Text>}
-      </div>
+      {/* TODO: only render once the user document is done loading (refine the loading state -must take into consideration the user doument loading-) */}
+      {!loading && (
+        <div>
+          <Text weight="lighter" size="md">
+            Welcome
+          </Text>
+          {
+            <Text weight="bold" size="md">
+              {currentUser ? currentUser.name : `Stranger`}
+            </Text>
+          }
+        </div>
+      )}
       <Group
         style={{
           display: "flex",
@@ -39,14 +44,12 @@ const Header: FunctionComponent<HeaderProps> = () => {
       >
         {currentUser && !loading && (
           <>
-            <Button onClick={logout}>
+            {/* <Button onClick={logout}>
               <Text weight="bold" size="sm">
                 Logout
               </Text>
-            </Button>
-            <Avatar radius="xl">
-              {parseNameInitials(currentUser.name)}
-            </Avatar>
+            </Button> */}
+            <Avatar radius="xl">{parseNameInitials(currentUser.name)}</Avatar>
           </>
         )}
         {!currentUser && !authenticated && !loading && (

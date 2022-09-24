@@ -57,7 +57,7 @@ const UsersTable: FunctionComponent<UsersTableProps> = () => {
       }}
     >
       <ScrollArea>
-        <Table sx={{ minWidth: 800 }} verticalSpacing="sm">
+        <Table sx={{ minWidth: 1000 }} verticalSpacing="sm">
           <thead>
             <tr>
               <th>User</th>

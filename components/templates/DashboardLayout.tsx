@@ -1,4 +1,4 @@
-import { DashboardNavbar } from "@components/organisms";
+import { DashboardNavbar, Header } from "@components/organisms";
 import { useAuth } from "@root/providers";
 import { useRouter } from "next/router";
 import { FunctionComponent } from "react";
@@ -17,8 +17,23 @@ const DashboardLayout: FunctionComponent<DashboardLayoutProps> = ({
           flexDirection: "row",
         }}
       >
+        {/* TODO: passing the initialPath is not enough, the navbar needs to watch for pathname changes  */}
         <DashboardNavbar initialPath={parseDashboardPath(pathname)} />
-        {children}
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            justifyContent: "center",
+          }}
+        >
+          <Header />
+          <div style={{
+            padding: "3rem",
+          }}>
+            {children}
+          </div>
+          
+        </div>
       </div>
     );
   return <>{children}</>;

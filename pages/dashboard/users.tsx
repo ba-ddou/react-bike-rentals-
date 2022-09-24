@@ -1,3 +1,4 @@
+import { LargeHeading } from "@components/atoms";
 import { UsersTable } from "@components/organisms";
 import { getAuthUser } from "helpers";
 import { GetServerSideProps } from "next";
@@ -7,16 +8,10 @@ interface UsersProps {}
 
 const Users: FunctionComponent<UsersProps> = () => {
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "100%",
-        display: "flex",
-        justifyContent: "center",
-      }}
-    >
+    <>
+      <LargeHeading>Users</LargeHeading>
       <UsersTable />
-    </div>
+    </>
   );
 };
 
