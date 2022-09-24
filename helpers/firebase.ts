@@ -1,5 +1,4 @@
 import { IncomingMessage } from "http";
-import { NextApiRequest } from "next";
 import admin from "../lib/firebase";
 
 export const getAuthUser = async (

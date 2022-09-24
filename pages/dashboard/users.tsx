@@ -2,7 +2,7 @@ import { LargeHeading } from "@components/atoms";
 import { UsersTable } from "@components/organisms";
 import { UserRole } from "@root/@types";
 import { useUsers } from "@root/hooks";
-import { getAuthUser } from "helpers";
+import { getAuthUser } from "helpers/firebase";
 import { GetServerSideProps } from "next";
 import { FunctionComponent } from "react";
 

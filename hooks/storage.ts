@@ -6,7 +6,7 @@ import {
   UploadTaskSnapshot,
   getDownloadURL,
   StorageReference,
-} from "@firebase/storage";
+} from "firebase/storage";
 
 import firebaseApp from "config/firebase";
 

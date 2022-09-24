@@ -1,7 +1,8 @@
 import { LargeHeading } from "@components/atoms";
-import { BikesTable, UsersTable } from "@components/organisms";
-import { useBikes, useUsers } from "@root/hooks";
-import { getAuthUser } from "helpers";
+import { BikesTable, CreateBikeForm, UsersTable } from "@components/organisms";
+import { Modal } from "@mantine/core";
+import { useBikes, useModalControls, useUsers } from "@root/hooks";
+import { getAuthUser } from "helpers/firebase";
 import { GetServerSideProps } from "next";
 import { FunctionComponent } from "react";
 
@@ -9,10 +10,18 @@ interface BikesProps {}
 
 const Bikes: FunctionComponent<BikesProps> = () => {
   const { bikes } = useBikes();
+  const { open, payload, ...modalControls } = useModalControls<undefined>();
   return (
     <>
       <LargeHeading>Bikes</LargeHeading>
-      <BikesTable bikes={bikes} onAdd={()=>{}} />
+      <BikesTable bikes={bikes} onAdd={open} />
+      <Modal {...modalControls} centered>
+        <CreateBikeForm
+          // defaultView={payload}
+          onCancel={modalControls.onClose}
+          onResolve={modalControls.onClose}
+        />
+      </Modal>
     </>
   );
 };
