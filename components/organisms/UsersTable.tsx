@@ -12,17 +12,22 @@ import {
   ScrollArea,
   Center,
 } from "@mantine/core";
-import { IconPencil, IconTrash } from "@tabler/icons";
+import { IconPencil, IconPlus, IconTrash } from "@tabler/icons";
 import { User, UserRole } from "@root/@types";
 
 interface UsersTableProps {
   users: User[] | null;
   role: UserRole;
+  onAdd?: () => void;
 }
 
 interface UsersTableProps {}
 
-const UsersTable: FunctionComponent<UsersTableProps> = ({users,role}) => {
+const UsersTable: FunctionComponent<UsersTableProps> = ({
+  users,
+  role,
+  onAdd,
+}) => {
   if (!users) return null;
   const rows = users.map((item) => (
     <tr key={item.name}>
@@ -64,7 +69,15 @@ const UsersTable: FunctionComponent<UsersTableProps> = ({users,role}) => {
             <tr>
               <th>{role}</th>
               <th>Email</th>
-              <th />
+              <th>
+                {onAdd && (
+                  <Group spacing={0} position="right">
+                    <ActionIcon onClick={onAdd}>
+                      <IconPlus size={16} stroke={2} color="black" />
+                    </ActionIcon>
+                  </Group>
+                )}
+              </th>
             </tr>
           </thead>
           <tbody>{rows}</tbody>

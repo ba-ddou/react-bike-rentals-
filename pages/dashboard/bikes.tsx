@@ -12,7 +12,7 @@ const Bikes: FunctionComponent<BikesProps> = () => {
   return (
     <>
       <LargeHeading>Bikes</LargeHeading>
-      <BikesTable bikes={bikes} />
+      <BikesTable bikes={bikes} onAdd={()=>{}} />
     </>
   );
 };

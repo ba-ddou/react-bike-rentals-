@@ -13,7 +13,7 @@ const Users: FunctionComponent<UsersProps> = () => {
   return (
     <>
       <LargeHeading>Managers</LargeHeading>
-      <UsersTable users={managers} role={UserRole.MANAGER} />
+      <UsersTable users={managers} role={UserRole.MANAGER} onAdd={() => {}} />
     </>
   );
 };

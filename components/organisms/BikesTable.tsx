@@ -12,15 +12,18 @@ import {
   ScrollArea,
   Center,
   ColorSwatch,
+  useMantineTheme,
 } from "@mantine/core";
-import { IconPencil, IconTrash, IconStar } from "@tabler/icons";
+import { IconPencil, IconTrash, IconStar, IconPlus } from "@tabler/icons";
 import { User } from "@root/@types";
 
 interface BikesTableProps {
   bikes: Bike[];
+  onAdd: () => void;
 }
 
-const BikesTable: FunctionComponent<BikesTableProps> = ({ bikes }) => {
+const BikesTable: FunctionComponent<BikesTableProps> = ({ bikes, onAdd }) => {
+  const { colors } = useMantineTheme();
   if (!bikes) return null;
   const rows = bikes.map((item) => (
     <tr key={item.name}>
@@ -88,7 +91,7 @@ const BikesTable: FunctionComponent<BikesTableProps> = ({ bikes }) => {
       }}
     >
       <ScrollArea>
-        <Table sx={{ minWidth: 1000 }}  verticalSpacing="md">
+        <Table sx={{ minWidth: 1000 }} verticalSpacing="md">
           <thead>
             <tr>
               <th>Bike</th>
@@ -97,7 +100,13 @@ const BikesTable: FunctionComponent<BikesTableProps> = ({ bikes }) => {
               {/* <th>Color</th> */}
               <th>Location</th>
               <th>Rating</th>
-              <th />
+              <th>
+                <Group spacing={0} position="right">
+                  <ActionIcon onClick={onAdd}>
+                    <IconPlus size={16} stroke={2} color="black" />
+                  </ActionIcon>
+                </Group>
+              </th>
             </tr>
           </thead>
           <tbody>{rows}</tbody>
