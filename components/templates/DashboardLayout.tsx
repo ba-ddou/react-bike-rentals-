@@ -24,15 +24,17 @@ const DashboardLayout: FunctionComponent<DashboardLayoutProps> = ({
             width: "100%",
             height: "100%",
             justifyContent: "center",
+            paddingLeft: 80,
           }}
         >
           <Header />
-          <div style={{
-            padding: "3rem",
-          }}>
+          <div
+            style={{
+              padding: "3rem",
+            }}
+          >
             {children}
           </div>
-          
         </div>
       </div>
     );
