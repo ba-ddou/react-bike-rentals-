@@ -23,6 +23,7 @@ const Users: FunctionComponent<UsersProps> = () => {
 export default Users;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  // TODO: Encapsulate & DRY out the auth redirection logic in a middleware
   const user = await getAuthUser(context.req);
   if (!user) {
     return {

@@ -29,6 +29,7 @@ interface InputFields {
   password: string;
 }
 
+// TODO: De-compose the signin/signup form into separate components (use the existing SigninForm molecule) | Re-write with Formik & yup
 const AuthForm: FunctionComponent<AuthFormProps> = ({ defaultView,onResolve }) => {
   const [type, toggle] = useToggle(
     defaultView == "signup" ? ["signup", "login"] : ["login", "signup"]
