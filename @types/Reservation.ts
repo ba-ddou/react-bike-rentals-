@@ -16,13 +16,16 @@ export interface Reservation {
 }
 
 export enum ReservationStatus {
+  CANCELLED = -1,
   PENDING,
   IN_PROGRESS,
   COMPLETED,
-  CANCELLED,
 }
 
-export type ReservationCreationInput = Omit<Reservation, "id" | "rating" | "status">;
+export type ReservationCreationInput = Omit<
+  Reservation,
+  "id" | "rating" | "status"
+>;
 
 export type ReservationWithProjections = Omit<Reservation, "user" | "bike"> & {
   user: User;
