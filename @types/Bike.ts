@@ -1,5 +1,5 @@
 export interface Bike {
-  id: number;
+  id: string;
   model: string;
   price: number; // $/day
   color: string;

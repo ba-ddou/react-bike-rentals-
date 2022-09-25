@@ -17,18 +17,17 @@ import { User, UserRole } from "@root/@types";
 //   ratingCount: 10,
 //   createBy: "1",
 // };
-export const useBikes = ()=> {
+export const useBikesData = () => {
   const [bikes, loading, error] = useCollectionData(
     query(collection(db, "bikes"), where("status", "==", BikeStatus.AVAILABLE))
   );
 
   return {
-    bikes,
+    bikes: bikes as Bike[],
     loading,
     error,
   };
 };
-
 
 export const useUsers = () => {
   const [users, loading, error] = useCollectionData(

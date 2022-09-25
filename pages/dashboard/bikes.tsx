@@ -1,7 +1,8 @@
 import { LargeHeading } from "@components/atoms";
 import { BikesTable, CreateBikeForm, UsersTable } from "@components/organisms";
 import { Modal } from "@mantine/core";
-import { useBikes, useModalControls, useUsers } from "@root/hooks";
+import { useModalControls, useUsers } from "@root/hooks";
+import { useBikes } from "@root/providers";
 import { getAuthUser } from "helpers/firebase";
 import { GetServerSideProps } from "next";
 import { FunctionComponent } from "react";

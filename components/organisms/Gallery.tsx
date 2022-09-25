@@ -1,4 +1,4 @@
-import { useBikes } from "hooks";
+import { useBikes } from "providers";
 import React, { FunctionComponent } from "react";
 import BikesGrid from "./BikesGrid";
 import Sidebar from "./Sidebar";
