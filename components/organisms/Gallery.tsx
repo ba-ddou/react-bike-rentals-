@@ -1,5 +1,5 @@
 import { useBikes } from "providers";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useState } from "react";
 import BikesGrid from "./BikesGrid";
 import Sidebar from "./Sidebar";
 import styles from "./gallery.module.scss";
@@ -9,6 +9,11 @@ import { DateRangePicker } from "@components/moleculs";
 import { useModalControls } from "@root/hooks";
 import Booking from "./Booking";
 
+interface DateRange {
+  from: Date;
+  to: Date;
+}
+
 interface GalleryProps {}
 
 const Gallery: FunctionComponent<GalleryProps> = () => {
@@ -16,6 +21,10 @@ const Gallery: FunctionComponent<GalleryProps> = () => {
   const { open, payload, ...modalControls } = useModalControls<{
     bikeId: string;
   }>();
+  const [dateRange, setDateRange] = useState<DateRange>({
+    from: new Date(),
+    to: new Date(),
+  });
   if (!bikes) return null;
   return (
     <div className={styles.gallery}>
@@ -32,7 +41,14 @@ const Gallery: FunctionComponent<GalleryProps> = () => {
           }}
         >
           <Center>
-            <DateRangePicker onChange={() => {}} />
+            <DateRangePicker
+              onChange={([from, to]) =>
+                setDateRange({
+                  from,
+                  to,
+                })
+              }
+            />
           </Center>
           <BikesGrid
             bikes={bikes}
@@ -46,7 +62,7 @@ const Gallery: FunctionComponent<GalleryProps> = () => {
         </div>
       </div>
       <Modal {...modalControls} size="xl" centered>
-        <Booking {...payload} />
+        <Booking {...payload} dateRange={dateRange} onResolve={modalControls.onClose} />
       </Modal>
     </div>
   );

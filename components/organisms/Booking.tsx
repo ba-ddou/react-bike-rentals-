@@ -1,14 +1,41 @@
+import { LoaderOverlay } from "@components/atoms";
 import { BikeBanner } from "@components/moleculs";
-import { Button, Container, Text } from "@mantine/core";
+import { Button, Container, Group, Text } from "@mantine/core";
+import { useAuthState } from "@root/hooks";
 import { useBike } from "@root/providers";
+import { createReservation } from "@root/services";
 import React, { FunctionComponent } from "react";
 
+interface DateRange {
+  from: Date;
+  to: Date;
+}
 interface BookingProps {
   bikeId: string;
+  dateRange: DateRange;
+  onResolve: () => void;
 }
 
-const Booking: FunctionComponent<BookingProps> = ({ bikeId }) => {
+const Booking: FunctionComponent<BookingProps> = ({
+  bikeId,
+  dateRange,
+  onResolve,
+}) => {
   const { bike } = useBike(bikeId);
+  const { user } = useAuthState();
+  const [loading, setLoading] = React.useState<boolean>(false);
+  const { from, to } = dateRange;
+  const bookNow = async () => {
+    if (!user || !bike) return;
+    setLoading(true);
+    const res = await createReservation({
+      bike,
+      user: user?.uid,
+      dateRange,
+    });
+    setLoading(false);
+    onResolve();
+  };
   if (!bike) {
     return null;
   }
@@ -16,15 +43,26 @@ const Booking: FunctionComponent<BookingProps> = ({ bikeId }) => {
     // <Container>
     //   <Text>{bike?.model}</Text>
     // </Container>
-    <div>
+    <div
+      style={{
+        position: "relative",
+      }}
+    >
       <BikeBanner bike={bike} />
-      <Button size="md" sx={{
-        width: "15rem",
-      }}>
+      <Text color="dimmed">
+        {from.toLocaleDateString()} - {to.toLocaleDateString()}
+      </Text>
+      <Button
+        size="md"
+        sx={{
+          width: "15rem",
+        }}
+        onClick={bookNow}
+      >
         Book now
       </Button>
+      <LoaderOverlay loading={loading} />
     </div>
-    
   );
 };
 

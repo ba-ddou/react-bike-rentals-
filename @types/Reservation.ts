@@ -22,10 +22,7 @@ export enum ReservationStatus {
   COMPLETED,
 }
 
-export type ReservationCreationInput = Omit<
-  Reservation,
-  "id" | "rating" | "status"
->;
+export type ReservationCreationInput = Omit<Reservation, "id" | "rating">;
 
 export type ReservationWithProjections = Omit<Reservation, "user" | "bike"> & {
   user: User;
