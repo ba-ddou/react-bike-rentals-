@@ -16,6 +16,7 @@ import {
 } from "@mantine/core";
 import { IconPencil, IconTrash, IconStar, IconPlus } from "@tabler/icons";
 import { User } from "@root/@types";
+import Link from "next/link";
 
 interface BikesTableProps {
   bikes: Bike[];
@@ -26,26 +27,32 @@ const BikesTable: FunctionComponent<BikesTableProps> = ({ bikes, onAdd }) => {
   const { colors } = useMantineTheme();
   if (!bikes) return null;
   const rows = bikes.map((item) => (
-    <tr key={item.id}>
-      <td>
-        <Group spacing="sm">
-          <Avatar size={30} src={item.image} radius={30} />
-          {/* <Text size="sm" weight={500}>
+    <Link key={item.id} href={`/dashboard/bikes/${item.id}`}>
+      <tr
+        key={item.id}
+        style={{
+          cursor: "pointer",
+        }}
+      >
+        <td>
+          <Group spacing="sm">
+            <Avatar size={30} src={item.image} radius={30} />
+            {/* <Text size="sm" weight={500}>
             {item.name}
           </Text> */}
-        </Group>
-      </td>
-      <td>
-        <Text size="sm" weight={500}>
-          {item.model}
-        </Text>
-      </td>
-      <td>
-        <Text size="sm" weight={500}>
-          {`${item.price} $/day`}
-        </Text>
-      </td>
-      {/* <td>
+          </Group>
+        </td>
+        <td>
+          <Text size="sm" weight={500}>
+            {item.model}
+          </Text>
+        </td>
+        <td>
+          <Text size="sm" weight={500}>
+            {`${item.price} $/day`}
+          </Text>
+        </td>
+        {/* <td>
         <Center>
           <ColorSwatch
             key="color"
@@ -56,33 +63,34 @@ const BikesTable: FunctionComponent<BikesTableProps> = ({ bikes, onAdd }) => {
           />
         </Center>
       </td> */}
-      <td>
-        <Text size="sm" weight={500}>
-          {item.location}
-        </Text>
-      </td>
-      <td>
-        <Group spacing={1}>
-          <IconStar size={18} />
+        <td>
           <Text size="sm" weight={500}>
-            {`${item.rating}`}
+            {item.location}
           </Text>
-          <Text size="xs" weight={500} color="dimmed">
-            {`(${item.ratingCount})`}
-          </Text>
-        </Group>
-      </td>
-      <td>
-        <Group spacing={0} position="right">
-          <ActionIcon>
-            <IconPencil size={16} stroke={1.5} />
-          </ActionIcon>
-          <ActionIcon color="red">
-            <IconTrash size={16} stroke={1.5} />
-          </ActionIcon>
-        </Group>
-      </td>
-    </tr>
+        </td>
+        <td>
+          <Group spacing={1}>
+            <IconStar size={18} />
+            <Text size="sm" weight={500}>
+              {`${item.rating}`}
+            </Text>
+            <Text size="xs" weight={500} color="dimmed">
+              {`(${item.ratingCount})`}
+            </Text>
+          </Group>
+        </td>
+        <td>
+          <Group spacing={0} position="right">
+            <ActionIcon>
+              <IconPencil size={16} stroke={1.5} />
+            </ActionIcon>
+            <ActionIcon color="red">
+              <IconTrash size={16} stroke={1.5} />
+            </ActionIcon>
+          </Group>
+        </td>
+      </tr>
+    </Link>
   ));
   return (
     <Center
@@ -91,7 +99,7 @@ const BikesTable: FunctionComponent<BikesTableProps> = ({ bikes, onAdd }) => {
       }}
     >
       <ScrollArea>
-        <Table sx={{ minWidth: 1000 }} verticalSpacing="md">
+        <Table sx={{ minWidth: 1000 }} verticalSpacing="md" highlightOnHover>
           <thead>
             <tr>
               <th>Bike</th>
