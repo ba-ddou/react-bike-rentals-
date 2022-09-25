@@ -19,7 +19,7 @@ const ImageScope: FunctionComponent<ImageScopeProps> = ({
 
   const onSaveHandler = () => {
     if (editorRef.current) {
-      const canvasScaled: HTMLCanvasElement = editorRef.current.getImageScaledToCanvas();
+      const canvasScaled: HTMLCanvasElement = editorRef.current.getImage();
       canvasScaled.toBlob((blob) => {
         if (!blob) return;
         let file = new File([blob], "fileName.png", { type: "image/png" });
@@ -46,6 +46,7 @@ const ImageScope: FunctionComponent<ImageScopeProps> = ({
         scale={scale}
         rotate={0}
         borderRadius={15}
+
       />
       <Slider
         value={Number(scale.toFixed(1))}

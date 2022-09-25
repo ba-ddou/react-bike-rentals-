@@ -6,3 +6,4 @@ export { default as DateRangePicker } from "./DateRangePicker";
 export { default as SigninForm } from "./SigninForm";
 export { default as DynamicAvatar } from "./DynamicAvatar";
 export { default as Input } from "./Input";
+export { default as BikeBanner } from "./BikeBanner";

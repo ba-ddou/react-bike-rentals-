@@ -1,4 +1,6 @@
+import { BikeBanner } from "@components/moleculs";
 import { getAuthUser } from "@helpers/firebase";
+import { Container } from "@mantine/core";
 import { useBike } from "@root/providers";
 import { GetServerSideProps } from "next";
 import React, { FunctionComponent } from "react";
@@ -9,7 +11,12 @@ interface BikeProps {
 
 const Bike: FunctionComponent<BikeProps> = ({ id }) => {
   const { bike } = useBike(id);
-  return <div>{bike?.model}</div>;
+  if (!bike) return null;
+  return (
+    <Container>
+      <BikeBanner bike={bike} />
+    </Container>
+  );
 };
 
 export default Bike;

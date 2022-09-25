@@ -10,16 +10,29 @@ interface BikeCardProps {
 
 const BikeCard: FunctionComponent<BikeCardProps> = ({ bike, onClick }) => {
   return (
-    <div className={styles.bikeCard} onClick={onClick} style={{
-      cursor: "pointer"
-    }}>
+    <div
+      className={styles.bikeCard}
+      onClick={onClick}
+      style={{
+        cursor: "pointer",
+      }}
+    >
       <div className={styles.imageContainer}>
-        <Image
+        {/* <Image
           src={bike.image}
           alt={bike.model}
           layout="responsive"
           width={100}
           height={100}
+        /> */}
+        <img
+          src={bike.image}
+          alt={bike.model}
+          style={{
+            objectFit: "contain",
+            width: "100%",
+            height: "100%",
+          }}
         />
       </div>
       <div className={styles.info}>
