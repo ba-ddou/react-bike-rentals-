@@ -24,7 +24,7 @@ const ValidationSchema = yup.object().shape({
     .number()
     .moreThan(0, "The price must greater than 0")
     .required("The price is required"),
-  color: yup.string().required("Name is required"),
+  color: yup.string().required("The color is required"),
   image: yup.string().required("The image is required"),
   location: yup.string().required("The city is required"),
 });
@@ -32,7 +32,6 @@ const ValidationSchema = yup.object().shape({
 const BikeForm: FunctionComponent<BikeFormProps> = ({
   initialValues = {
     model: "",
-    name: "string",
     price: 0,
     color: "",
     image: "",

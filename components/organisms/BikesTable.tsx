@@ -26,13 +26,13 @@ const BikesTable: FunctionComponent<BikesTableProps> = ({ bikes, onAdd }) => {
   const { colors } = useMantineTheme();
   if (!bikes) return null;
   const rows = bikes.map((item) => (
-    <tr key={item.name}>
+    <tr key={item.id}>
       <td>
         <Group spacing="sm">
           <Avatar size={30} src={item.image} radius={30} />
-          <Text size="sm" weight={500}>
+          {/* <Text size="sm" weight={500}>
             {item.name}
-          </Text>
+          </Text> */}
         </Group>
       </td>
       <td>
