@@ -3,7 +3,7 @@ import React, { FunctionComponent } from "react";
 import BikeForm from "./BikeForm";
 import { BikeCreationInput, BikeStatus } from "@root/@types";
 import { createBike } from "@root/services";
-
+import { Text } from "@mantine/core";
 
 interface CreateBikeFormProps {
   onCancel: () => void;
@@ -35,12 +35,16 @@ const CreateBikeForm: FunctionComponent<CreateBikeFormProps> = ({
     return {};
   };
   return (
-    <div>
-      <span>Add a new bike</span>
+    <>
+      <Text size="lg" weight="bolder" sx={{
+        marginBottom: 30
+      }}>
+        Add a new bike
+      </Text>
       <BikeForm onSubmit={onSubmit} onCancel={onCancel} error={error || null} />
       {loading && <div>Loading...</div>}
       {error && <div>{error}</div>}
-    </div>
+    </>
   );
 };
 

@@ -11,11 +11,12 @@ interface BikesProps {}
 const Bikes: FunctionComponent<BikesProps> = () => {
   const { bikes } = useBikes();
   const { open, payload, ...modalControls } = useModalControls<undefined>();
+  if(!bikes) return null;
   return (
     <>
       <LargeHeading>Bikes</LargeHeading>
       <BikesTable bikes={bikes} onAdd={open} />
-      <Modal {...modalControls} centered>
+      <Modal {...modalControls} centered size={700}>
         <CreateBikeForm
           // defaultView={payload}
           onCancel={modalControls.onClose}

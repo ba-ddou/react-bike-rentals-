@@ -11,10 +11,13 @@ interface GalleryProps {}
 
 const Gallery: FunctionComponent<GalleryProps> = () => {
   const { bikes } = useBikes();
+  if (!bikes) return null;
   return (
     <div className={styles.gallery}>
       <Sidebar />
-      <div>
+      <div style={{
+        width: "100%",
+      }}>
         <Header />
         <div
           style={{

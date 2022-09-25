@@ -5,6 +5,7 @@ import * as yup from "yup";
 import ImageFormField from "../ImageFormField";
 import { v4 as uuidv4 } from "uuid";
 import { BikeCreationInput } from "@root/@types";
+import { Button, Container, Group } from "@mantine/core";
 
 interface BikeFormProps {
   initialValues?: BikeCreationInput;
@@ -56,7 +57,7 @@ const BikeForm: FunctionComponent<BikeFormProps> = ({
     });
   };
   return (
-    <div>
+    <Container>
       <Formik
         initialValues={initialValues}
         validationSchema={ValidationSchema}
@@ -64,14 +65,23 @@ const BikeForm: FunctionComponent<BikeFormProps> = ({
       >
         {({ handleSubmit, isSubmitting, values, handleChange }) => (
           <form onSubmit={handleSubmit}>
-            <div>
+            <Container
+              sx={{
+                display: "flex",
+              }}
+            >
               <ImageFormField
                 entityId={storageRef.current}
                 src={values.image}
                 onChange={handleChange("image")}
                 onError={(error) => console.log(error)}
               />
-              <div>
+              <Container
+                sx={{
+                  paddingRight: 0,
+                  marginRight: 0,
+                }}
+              >
                 <Input
                   type="text"
                   name="model"
@@ -96,22 +106,42 @@ const BikeForm: FunctionComponent<BikeFormProps> = ({
                   label="Price (USD)"
                   placeholder="0.00 $"
                 />
-              </div>
-            </div>
-            <div>
-              <button disabled={isSubmitting} onClick={onCancel}>
+              </Container>
+            </Container>
+            <Group
+              position="center"
+              sx={{
+                justifyContent: "space-between",
+                paddingTop: 20,
+              }}
+            >
+              <Button
+                size="xs"
+                radius="xs"
+                disabled={isSubmitting}
+                onClick={onCancel}
+                variant="outline"
+                color="red"
+                sx={{ width: 80 }}
+              >
                 Cancel
-              </button>
-              <button type="submit" disabled={isSubmitting}>
+              </Button>
+              <Button
+                type="submit"
+                size="xs"
+                radius="xs"
+                disabled={isSubmitting}
+                sx={{ width: 80 }}
+              >
                 Save
-              </button>
-            </div>
+              </Button>
+            </Group>
             {!isSubmitting && error != null && <div>{error}</div>}
             {isSubmitting && <div>Submitting...</div>}
           </form>
         )}
       </Formik>
-    </div>
+    </Container>
   );
 };
 

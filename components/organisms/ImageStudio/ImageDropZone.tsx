@@ -7,6 +7,8 @@ const useStyles = createStyles((theme) => ({
   wrapper: {
     position: "relative",
     marginBottom: 30,
+    // height: 300,
+    width: 350,
   },
 
   dropzone: {
@@ -33,7 +35,7 @@ interface ImageDropZoneProps {
   onSelect: (file: File) => void;
 }
 
-const ImageDropZone: FunctionComponent<ImageDropZoneProps> = ({onSelect}) => {
+const ImageDropZone: FunctionComponent<ImageDropZoneProps> = ({ onSelect }) => {
   const { classes, theme } = useStyles();
   const openRef = useRef<() => void>(null);
 
@@ -78,23 +80,22 @@ const ImageDropZone: FunctionComponent<ImageDropZoneProps> = ({onSelect}) => {
             <Dropzone.Reject>
               We only accept.png or.jpeg file that are less than 5mb
             </Dropzone.Reject>
-            <Dropzone.Idle>Upload menu item image</Dropzone.Idle>
+            <Dropzone.Idle>Upload bike image</Dropzone.Idle>
           </Text>
           <Text align="center" size="sm" mt="xs" color="dimmed">
             Drag&apos;n&apos;drop the image here to upload. We can only accept{" "}
             <i>.png or.jpeg</i> image that are less than 5mb in size.
           </Text>
         </div>
+        <Button
+          className={classes.control}
+          size="xs"
+          radius="xl"
+          onClick={() => openRef.current?.()}
+        >
+          Select file
+        </Button>
       </Dropzone>
-
-      <Button
-        className={classes.control}
-        size="md"
-        radius="xl"
-        onClick={() => openRef.current?.()}
-      >
-        Select files
-      </Button>
     </div>
   );
 };
