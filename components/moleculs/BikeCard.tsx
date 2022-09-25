@@ -2,14 +2,17 @@ import { Bike } from "@types";
 import React, { FunctionComponent } from "react";
 import Image from "next/image";
 import styles from "./bikeCard.module.scss";
-import {Text} from "@mantine/core"
+import { Text } from "@mantine/core";
 interface BikeCardProps {
   bike: Bike;
+  onClick: () => void;
 }
 
-const BikeCard: FunctionComponent<BikeCardProps> = ({ bike }) => {
+const BikeCard: FunctionComponent<BikeCardProps> = ({ bike, onClick }) => {
   return (
-    <div className={styles.bikeCard}>
+    <div className={styles.bikeCard} onClick={onClick} style={{
+      cursor: "pointer"
+    }}>
       <div className={styles.imageContainer}>
         <Image
           src={bike.image}

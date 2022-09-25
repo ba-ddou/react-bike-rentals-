@@ -4,7 +4,7 @@ export const useModalControls = <T>(): {
   opened: boolean;
   open: (payload: T) => void;
   onClose: () => void;
-  payload: T | null;
+  payload: T;
 } => {
   const [opened, setOpened] = React.useState(false);
   const [payload, setPayload] = React.useState<T | null>(null);
@@ -16,12 +16,13 @@ export const useModalControls = <T>(): {
 
   const onClose = () => {
     setOpened(false);
+    setPayload(null);
   };
 
   return {
     opened,
     open,
     onClose,
-    payload,
+    payload: payload as T,
   };
 };

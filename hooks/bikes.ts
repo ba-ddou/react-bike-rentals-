@@ -1,7 +1,7 @@
 import { Bike, BikeStatus } from "@types";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { db } from "config/firebase";
-import { collection, where, query } from "firebase/firestore";
+import { collection, where, query, FirestoreDataConverter, WithFieldValue, DocumentData, QueryDocumentSnapshot, SnapshotOptions } from "firebase/firestore";
 import { User, UserRole } from "@root/@types";
 
 // const mockBike: Bike = {
@@ -17,9 +17,29 @@ import { User, UserRole } from "@root/@types";
 //   ratingCount: 10,
 //   createBy: "1",
 // };
+
+const docConverter: FirestoreDataConverter<any> = {
+  toFirestore: (data: any) => data,
+  fromFirestore(
+    snapshot: QueryDocumentSnapshot,
+    options: SnapshotOptions
+  ): any {
+    const data = snapshot.data(options);
+    return {
+      ...data,
+      id: snapshot.id,
+    };
+  },
+};
 export const useBikesData = () => {
   const [bikes, loading, error] = useCollectionData(
-    query(collection(db, "bikes"), where("status", "==", BikeStatus.AVAILABLE))
+    query(
+      collection(db, "bikes").withConverter(docConverter),
+      where("status", "==", BikeStatus.AVAILABLE)
+    ),
+    {
+      snapshotOptions: {},
+    }
   );
 
   return {
@@ -31,7 +51,10 @@ export const useBikesData = () => {
 
 export const useUsers = () => {
   const [users, loading, error] = useCollectionData(
-    query(collection(db, "users"), where("role", "==", UserRole.USER))
+    query(collection(db, "users"), where("role", "==", UserRole.USER)),
+    {
+      idField: "id",
+    }
   );
 
   return { users: users as User[], loading, error };
