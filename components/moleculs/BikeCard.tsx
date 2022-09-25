@@ -13,7 +13,7 @@ const BikeCard: FunctionComponent<BikeCardProps> = ({ bike }) => {
       <div className={styles.imageContainer}>
         <Image
           src={bike.image}
-          alt={bike.name}
+          alt={bike.model}
           layout="responsive"
           width={100}
           height={100}
@@ -21,7 +21,7 @@ const BikeCard: FunctionComponent<BikeCardProps> = ({ bike }) => {
       </div>
       <div className={styles.info}>
         <Text size="sm" weight="bold">
-          {bike.name}
+          {bike.model}
         </Text>
         <Text size="xs">{`${bike.price} $/day`}</Text>
       </div>

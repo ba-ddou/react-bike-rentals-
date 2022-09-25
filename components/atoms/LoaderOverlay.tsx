@@ -1,11 +1,16 @@
 import React, { FunctionComponent } from "react";
-import { Loader } from "@mantine/core";
+import { Center, Loader } from "@mantine/core";
+import { Text } from "@mantine/core";
 
 interface LoaderOverlayProps {
   loading: boolean;
+  uploadProgress?: number;
 }
 
-const LoaderOverlay: FunctionComponent<LoaderOverlayProps> = ({ loading }) => {
+const LoaderOverlay: FunctionComponent<LoaderOverlayProps> = ({
+  loading,
+  uploadProgress,
+}) => {
   if (!loading) return null;
   return (
     <div
@@ -22,6 +27,20 @@ const LoaderOverlay: FunctionComponent<LoaderOverlayProps> = ({ loading }) => {
       }}
     >
       <Loader />
+      {uploadProgress != null && (
+        <Center sx={{
+          width: "100%",
+          height: "100%",
+          position: "absolute",
+          top: 0,
+          left: 0,
+        }}>
+          <Text size="xs" weight="bold" color="brand" sx={{
+             translateY: "3rem",
+           }}>{`${uploadProgress.toFixed(2)}%`}</Text>
+        </Center>
+       
+      )}
     </div>
   );
 };

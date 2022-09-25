@@ -1,5 +1,7 @@
 import React, { FunctionComponent } from "react";
-
+import { LoaderOverlay } from "components/atoms";
+import { IconPencil, IconTrash } from "@tabler/icons";
+import { ActionIcon } from "@mantine/core";
 interface ImagePreviewProps {
   src: string;
   uploadStatus?: {
@@ -42,7 +44,7 @@ const ImagePreview: FunctionComponent<ImagePreviewProps> = ({
             alt="file"
           />
         )}
-        {uploadStatus?.uploading && (
+        {/* {uploadStatus?.uploading && (
           <div
             style={{
               height: "100%",
@@ -57,6 +59,12 @@ const ImagePreview: FunctionComponent<ImagePreviewProps> = ({
               color: "white",
             }}
           >{`${uploadStatus.progress.toFixed(2)}%`}</div>
+        )} */}
+        {uploadStatus?.uploading && (
+          <LoaderOverlay
+            loading={true}
+            uploadProgress={uploadStatus.progress}
+          />
         )}
       </div>
 
@@ -69,8 +77,12 @@ const ImagePreview: FunctionComponent<ImagePreviewProps> = ({
               alignItems: "center",
             }}
           >
-            <button onClick={onDelete}>Delete</button>
-            <button onClick={() => onEdit(src)}>Edit</button>
+            <ActionIcon color="red" onClick={onDelete}>
+              <IconTrash size={16} stroke={1.5} />
+            </ActionIcon>
+            <ActionIcon onClick={() => onEdit(src)}>
+              <IconPencil size={16} stroke={1.5} />
+            </ActionIcon>
           </div>
         ))}
 

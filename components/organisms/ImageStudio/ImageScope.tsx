@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useRef, useState } from "react";
 import AvatarEditor from "react-avatar-editor";
-import { Slider } from "@mantine/core";
+import { ActionIcon, Slider } from "@mantine/core";
+import { IconCheck,IconX } from "@tabler/icons";
 
 interface ImageScopeProps {
   url: string;
@@ -38,9 +39,9 @@ const ImageScope: FunctionComponent<ImageScopeProps> = ({
       <AvatarEditor
         ref={(ref) => (editorRef.current = ref)}
         image={url}
-        width={250}
+        width={350}
         height={250}
-        border={50}
+        border={20}
         color={[0, 0, 0, 0.6]} // RGBA
         scale={scale}
         rotate={0}
@@ -57,10 +58,16 @@ const ImageScope: FunctionComponent<ImageScopeProps> = ({
         style={{
           display: "flex",
           justifyContent: "space-between",
+          paddingTop: "0.5rem",
+          paddingBottom: "1rem",
         }}
       >
-        <button onClick={onDiscard}>Discard</button>
-        <button onClick={onSaveHandler}>Save</button>
+        <ActionIcon onClick={onDiscard}>
+          <IconX size={18} stroke={2} color="red" />
+        </ActionIcon>
+        <ActionIcon onClick={onSaveHandler}>
+          <IconCheck size={18} stroke={2} color="green" />
+        </ActionIcon>
       </div>
     </div>
   );
