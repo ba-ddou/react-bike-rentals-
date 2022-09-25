@@ -18,12 +18,12 @@ const CreateBikeForm: FunctionComponent<CreateBikeFormProps> = ({
   const [loading, setLoading] = React.useState<boolean>(false);
   const { user } = useAuthState();
   const onSubmit = async (values: BikeCreationInput) => {
-    const { image, ...rest } = values;
     setLoading(true);
     const res = await createBike({
-      ...rest,
+      ...values,
       status: BikeStatus.AVAILABLE,
       ratingCount: 0,
+      rating: 0,
       // @ts-ignore
       createBy: user?.uid,
     });

@@ -19,11 +19,11 @@ const Input: FunctionComponent<InputProps> = ({
   const { touched, error } = meta;
   return (
     <TextInput
-      name={name}
       label={label}
       placeholder={placeholder}
       type={type}
       error={touched && error ? error : undefined}
+      {...field}
     />
   );
 };

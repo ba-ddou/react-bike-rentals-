@@ -6,7 +6,7 @@ import ImageFormField from "../ImageFormField";
 import { v4 as uuidv4 } from "uuid";
 import { BikeCreationInput } from "@root/@types";
 
-interface MenuItemFromProps {
+interface BikeFormProps {
   initialValues?: BikeCreationInput;
   onSubmit: (input: BikeCreationInput) => Promise<{
     data?: BikeCreationInput;
@@ -20,17 +20,16 @@ interface MenuItemFromProps {
 
 const ValidationSchema = yup.object().shape({
   model: yup.string().required("The bike model is required"),
-  name: yup.string().required("The bike name is required is required"),
   price: yup
     .number()
     .moreThan(0, "The price must greater than 0")
-    .required("Price is required"),
+    .required("The price is required"),
   color: yup.string().required("Name is required"),
-  image: yup.string().required("Name is required"),
-  location: yup.string().required("Name is required"),
+  image: yup.string().required("The image is required"),
+  location: yup.string().required("The city is required"),
 });
 
-const MenuItemFrom: FunctionComponent<MenuItemFromProps> = ({
+const BikeForm: FunctionComponent<BikeFormProps> = ({
   initialValues = {
     model: "",
     name: "string",
@@ -48,6 +47,7 @@ const MenuItemFrom: FunctionComponent<MenuItemFromProps> = ({
   const onSubmitHandler = async (
     values: Omit<BikeCreationInput, "storageRef">
   ) => {
+    console.log("🚀 ~ file: BikeForm.tsx ~ line 50 ~ values", values);
     const { price, ...rest } = values;
 
     await onSubmit({
@@ -116,4 +116,4 @@ const MenuItemFrom: FunctionComponent<MenuItemFromProps> = ({
   );
 };
 
-export default MenuItemFrom;
+export default BikeForm;
