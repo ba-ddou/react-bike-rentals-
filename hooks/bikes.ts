@@ -1,8 +1,18 @@
 import { Bike, BikeStatus } from "@types";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { db } from "config/firebase";
-import { collection, where, query, FirestoreDataConverter, WithFieldValue, DocumentData, QueryDocumentSnapshot, SnapshotOptions } from "firebase/firestore";
+import {
+  collection,
+  where,
+  query,
+  FirestoreDataConverter,
+  WithFieldValue,
+  DocumentData,
+  QueryDocumentSnapshot,
+  SnapshotOptions,
+} from "firebase/firestore";
 import { User, UserRole } from "@root/@types";
+import { useAuth } from "@root/providers";
 
 // const mockBike: Bike = {
 //   id: 1,
@@ -32,15 +42,17 @@ const docConverter: FirestoreDataConverter<any> = {
   },
 };
 export const useBikesData = () => {
-  const [bikes, loading, error] = useCollectionData(
-    query(
-      collection(db, "bikes").withConverter(docConverter),
-      where("status", "==", BikeStatus.AVAILABLE)
-    ),
-    {
-      snapshotOptions: {},
-    }
-  );
+  const { currentUser } = useAuth();
+  const queryC =
+    currentUser?.role == UserRole.MANAGER
+      ? query(collection(db, "bikes").withConverter(docConverter))
+      : query(
+          collection(db, "bikes").withConverter(docConverter),
+          where("status", "==", BikeStatus.AVAILABLE)
+        );
+  const [bikes, loading, error] = useCollectionData(queryC, {
+    snapshotOptions: {},
+  });
 
   return {
     bikes: bikes as Bike[],
