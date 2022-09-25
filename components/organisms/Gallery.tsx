@@ -45,7 +45,7 @@ const Gallery: FunctionComponent<GalleryProps> = () => {
           />
         </div>
       </div>
-      <Modal {...modalControls} centered>
+      <Modal {...modalControls} size="xl" centered>
         <Booking {...payload} />
       </Modal>
     </div>
