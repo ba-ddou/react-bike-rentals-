@@ -2,28 +2,42 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signInWithCustomToken,
 } from "firebase/auth";
 import {
   useAuthState as useFirebaseAuthState,
   useCreateUserWithEmailAndPassword,
 } from "react-firebase-hooks/auth";
 import firebaseApp from "config/firebase";
-import { UserInput, User, SigninCredentials } from "@types";
-import { createUser } from "@root/services";
-import { useEffect, useState } from "react";
+import { UserInput, User, SigninCredentials, UserRole } from "@types";
+import { createUser, signupUser } from "@root/services";
+import { useEffect, useMemo, useState } from "react";
 import cookie from "js-cookie";
 import { UserRecord } from "firebase-admin/lib/auth/user-record";
 import { json } from "stream/consumers";
+import { useRouter } from "next/router";
 const auth = getAuth(firebaseApp);
 
-export const useAuthState = () => {
+export const useAuth = () => {
   const [user, loading, error] = useFirebaseAuthState(auth);
+  const { push } = useRouter();
+
+  const formatedUserRecord = useMemo(
+    () => (user ? formatUserRecord(user as unknown as UserRecord) : null),
+    [user]
+  );
+
+  const logout = async () => {
+    await auth.signOut();
+    cookie.remove("token");
+    if (formatedUserRecord?.role == UserRole.MANAGER) push("/dashboard/auth");
+  };
 
   return {
-    user: user ? formatUserRecord(user) : null,
-    authenticated: user != null,
+    user: formatedUserRecord,
     loading,
     error,
+    logout,
   };
 };
 
@@ -32,15 +46,14 @@ const formatUserRecord = (user: UserRecord) => {
     uid,
     email,
     displayName,
-    reloadUserInfo: {
-      customAttributes
-    }
+    //@ts-ignore
+    reloadUserInfo: { customAttributes },
   } = user;
   return {
-    uid,
+    id: uid,
     email,
     name: displayName,
-    role: JSON.parse(customAttributes).role,
+    role: customAttributes ? JSON.parse(customAttributes).role : null,
   };
 };
 
@@ -57,21 +70,16 @@ export const useSignup = () => {
     reset();
     const { email, password, name } = user;
     setLoading(true);
-    const result = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    ).catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      setError(errorMessage);
-    });
-    // alert(JSON.stringify(result, null, 2));
-    if (result?.user.uid)
-      await createUser(result.user.uid, {
-        name,
-        email,
-      });
+    const result = await signupUser({ name, email, password }).catch(
+      (error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        setError(errorMessage);
+      }
+    );
+    console.log("🚀 ~ file: auth.ts ~ line 60 ~ signup ~ result", result);
+    if (!result?.id) setError("Something went wrong");
+    await signInWithCustomToken(auth, result.token);
     setLoading(false);
   };
 

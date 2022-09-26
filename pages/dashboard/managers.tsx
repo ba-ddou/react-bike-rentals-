@@ -13,9 +13,9 @@ const Users: FunctionComponent<UsersProps> = () => {
   const { managers } = useManagers();
   const onAdd = async () => {
     await createManager({
-      email: "new.manager@gmail.com",
-      name: "New Manager",
-      password: "password",
+      email: "admin@bikes.com",
+      name: "Super Admin",
+      password: "root000",
     });
   };
   return (

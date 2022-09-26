@@ -12,7 +12,7 @@ import {
   SnapshotOptions,
 } from "firebase/firestore";
 import { User, UserRole } from "@root/@types";
-import { useAuth } from "@root/providers";
+import { useAuth } from "./auth";
 
 // const mockBike: Bike = {
 //   id: 1,
@@ -42,9 +42,9 @@ const docConverter: FirestoreDataConverter<any> = {
   },
 };
 export const useBikesData = () => {
-  const { currentUser } = useAuth();
+  const { user } = useAuth();
   const queryC =
-    currentUser?.role == UserRole.MANAGER
+    user?.role == UserRole.MANAGER
       ? query(collection(db, "bikes").withConverter(docConverter))
       : query(
           collection(db, "bikes").withConverter(docConverter),
@@ -63,10 +63,10 @@ export const useBikesData = () => {
 
 export const useUsers = () => {
   const [users, loading, error] = useCollectionData(
-    query(collection(db, "users"), where("role", "==", UserRole.USER)),
-    {
-      idField: "id",
-    }
+    query(
+      collection(db, "users").withConverter(docConverter),
+      where("role", "==", UserRole.USER)
+    )
   );
 
   return { users: users as User[], loading, error };

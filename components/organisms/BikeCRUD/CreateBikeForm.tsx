@@ -1,4 +1,4 @@
-import { useAuthState } from "hooks";
+import { useAuth } from "hooks";
 import React, { FunctionComponent } from "react";
 import BikeForm from "./BikeForm";
 import { BikeCreationInput, BikeStatus } from "@root/@types";
@@ -16,7 +16,7 @@ const CreateBikeForm: FunctionComponent<CreateBikeFormProps> = ({
 }) => {
   const [error, setError] = React.useState<string | null>(null);
   const [loading, setLoading] = React.useState<boolean>(false);
-  const { user } = useAuthState();
+  const { user } = useAuth();
   const onSubmit = async (values: BikeCreationInput) => {
     setLoading(true);
     const res = await createBike({
@@ -25,7 +25,7 @@ const CreateBikeForm: FunctionComponent<CreateBikeFormProps> = ({
       ratingCount: 0,
       rating: 0,
       // @ts-ignore
-      createBy: user?.uid,
+      createBy: user?.id,
     });
     // TODO: refine the error handling
     if (!res.model) setError("Error creating bike");

@@ -3,9 +3,11 @@ import { User, UserRole } from "@types";
 import admin from "@root/lib/firebase";
 import { UserRecord } from "firebase-admin/lib/auth/user-record";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<UserRecord>) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<User & { token: string }>
+) {
   const { body } = req;
-  console.log("🚀 ~ file: manager.ts ~ line 9 ~ body", body);
 
   const { name, email, password } = body;
 
@@ -16,7 +18,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   });
   await admin.auth().setCustomUserClaims(uid, { role: UserRole.USER });
 
-  const user = await admin.auth().getUser(uid);
-
-  res.status(200).json(user);
+  await admin.firestore().collection("users").doc(uid).set({
+    name,
+    email,
+    role: UserRole.USER,
+  });
+  const token = await admin.auth().createCustomToken(uid);
+  res.status(200).json({
+    id: uid,
+    name,
+    email,
+    role: UserRole.USER,
+    token,
+  });
 }

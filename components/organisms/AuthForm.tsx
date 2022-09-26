@@ -15,8 +15,7 @@ import {
 } from "@mantine/core";
 import { FunctionComponent, useEffect } from "react";
 import { LoaderOverlay } from "@components/atoms";
-import { useSignup } from "hooks";
-import { useAuth } from "@root/providers";
+import { useAuth, useSignin, useSignup } from "hooks";
 
 interface AuthFormProps {
   defaultView: "login" | "signup" | null;
@@ -35,7 +34,8 @@ const AuthForm: FunctionComponent<AuthFormProps> = ({ defaultView,onResolve }) =
     defaultView == "signup" ? ["signup", "login"] : ["login", "signup"]
   );
   const { signup, loading: signup_loading } = useSignup();
-  const { currentUser } = useAuth();
+  const {signin} = useSignin()
+  const { user } = useAuth();
   const form = useForm({
     initialValues: {
       email: "",
@@ -55,15 +55,15 @@ const AuthForm: FunctionComponent<AuthFormProps> = ({ defaultView,onResolve }) =
   const onSubmit = (values: InputFields) => {
     const { email, name, password } = values;
     if (type === "login") {
-      login({ email, password });
+      signin({ email, password });
     } else if (type === "signup") {
       signup({ email, name, password });
     }
   };
 
   useEffect(() => {
-    if(currentUser) onResolve?.();
-  }, [currentUser])
+    if(user) onResolve?.();
+  }, [user])
   
 
   return (

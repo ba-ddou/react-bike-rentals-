@@ -23,7 +23,7 @@ import {
 } from "@tabler/icons";
 import { UsersTable } from "@components/organisms";
 import { useRouter } from "next/router";
-import { useAuth } from "@root/providers";
+import { useAuth } from "@root/hooks";
 
 const useStyles = createStyles((theme) => ({
   link: {

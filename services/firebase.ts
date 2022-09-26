@@ -20,12 +20,6 @@ export const getUser = async (id: string) => {
   return user;
 }
 
-export const signOut = async () => { 
-  await auth.signOut();
-  cookie.remove("token");
-}
-
-
 export const createBike = async (bike: ExtendedBikeCreationInput) => { 
   const res = await addDoc(collection(db, "bikes"), bike);
   return res;

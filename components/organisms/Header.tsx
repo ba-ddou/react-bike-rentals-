@@ -7,16 +7,14 @@ import {
   Text,
   UnstyledButton,
 } from "@mantine/core";
-import { useAuth } from "@root/providers";
-import { useAuthState, useModalControls } from "hooks";
+import { useModalControls, useAuth } from "hooks";
 import { FunctionComponent, useState } from "react";
 import AuthForm from "./AuthForm";
 import styles from "./header.module.scss";
 interface HeaderProps {}
 
 const Header: FunctionComponent<HeaderProps> = () => {
-  const { authenticated, loading } = useAuthState();
-  const { currentUser, logout } = useAuth();
+  const { user, loading, logout } = useAuth();
   const { open, payload, ...modalControls } = useModalControls<
     "login" | "signup"
   >();
@@ -30,7 +28,7 @@ const Header: FunctionComponent<HeaderProps> = () => {
           </Text>
           {
             <Text weight="bold" size="md">
-              {currentUser ? currentUser.name : `Stranger`}
+              {user ? user.name : `Stranger`}
             </Text>
           }
         </div>
@@ -42,16 +40,10 @@ const Header: FunctionComponent<HeaderProps> = () => {
           flexDirection: "row",
         }}
       >
-        {currentUser && !loading && (
-          <DynamicAvatar
-            user={currentUser}
-            onLogout={logout}
-            onEdit={() => {}}
-          />
+        {user && !loading && (
+          <DynamicAvatar user={user} onLogout={logout} onEdit={() => {}} />
         )}
-        {!currentUser && !authenticated && !loading && (
-          <HeaderAuthCTAs onClick={open} />
-        )}
+        {!user && !loading && <HeaderAuthCTAs onClick={open} />}
       </Group>
       <Modal {...modalControls} centered>
         <AuthForm defaultView={payload} onResolve={modalControls.onClose} />

@@ -7,22 +7,20 @@ import { DashboardLayout } from "@components/templates";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <AuthProvider>
-      <GlobalDataProvider>
-        <MantineProvider
-          withGlobalStyles
-          withNormalizeCSS
-          theme={{
-            /** Put your mantine theme override here */
-            colorScheme: "light",
-          }}
-        >
-          <DashboardLayout>
-            <Component {...pageProps} />
-          </DashboardLayout>
-        </MantineProvider>
-      </GlobalDataProvider>
-    </AuthProvider>
+    <GlobalDataProvider>
+      <MantineProvider
+        withGlobalStyles
+        withNormalizeCSS
+        theme={{
+          /** Put your mantine theme override here */
+          colorScheme: "light",
+        }}
+      >
+        <DashboardLayout>
+          <Component {...pageProps} />
+        </DashboardLayout>
+      </MantineProvider>
+    </GlobalDataProvider>
   );
 }
 

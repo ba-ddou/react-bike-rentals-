@@ -1,7 +1,7 @@
 import { LoaderOverlay } from "@components/atoms";
 import { BikeBanner } from "@components/moleculs";
 import { Button, Container, Group, Text } from "@mantine/core";
-import { useAuthState } from "@root/hooks";
+import { useAuth } from "@root/hooks";
 import { useBike } from "@root/providers";
 import { createReservation } from "@root/services";
 import React, { FunctionComponent } from "react";
@@ -22,7 +22,7 @@ const Booking: FunctionComponent<BookingProps> = ({
   onResolve,
 }) => {
   const { bike } = useBike(bikeId);
-  const { user } = useAuthState();
+  const { user } = useAuth();
   const [loading, setLoading] = React.useState<boolean>(false);
   const { from, to } = dateRange;
   const bookNow = async () => {
@@ -30,7 +30,7 @@ const Booking: FunctionComponent<BookingProps> = ({
     setLoading(true);
     const res = await createReservation({
       bike,
-      user: user?.uid,
+      user: user?.id,
       dateRange,
     });
     setLoading(false);

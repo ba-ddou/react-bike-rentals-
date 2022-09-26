@@ -5,7 +5,7 @@ import { UserRecord } from "firebase-admin/lib/auth/user-record";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<UserRecord>
+  res: NextApiResponse<User>
 ) {
   const { body } = req;
 
@@ -18,7 +18,15 @@ export default async function handler(
   });
   await admin.auth().setCustomUserClaims(uid, { role: UserRole.MANAGER });
 
-   const user = await admin.auth().getUser(uid);
-
-   res.status(200).json(user);
+  await admin.firestore().collection("users").doc(uid).set({
+    name,
+    email,
+    role: UserRole.MANAGER,
+  });
+  res.status(200).json({
+    id: uid,
+    name,
+    email,
+    role: UserRole.MANAGER,
+  });
 }
