@@ -27,4 +27,7 @@ export type ReservationCreationInput = Omit<Reservation, "id" | "rating">;
 export type ReservationWithProjections = Omit<Reservation, "user" | "bike"> & {
   user: User;
   bike: Bike;
+  numberOfDays: number;
+  totalPrice: number;
+  reservedAt: Date;
 };

@@ -3,7 +3,7 @@ import { BikeBanner } from "@components/moleculs";
 import { Button, Container, Group, Text } from "@mantine/core";
 import { UserRole } from "@root/@types";
 import { useAuth } from "@root/hooks";
-import { useBike } from "@root/providers";
+import { useBike } from "providers/BikeProvider";
 import { createReservation } from "@root/services";
 import React, { FunctionComponent } from "react";
 

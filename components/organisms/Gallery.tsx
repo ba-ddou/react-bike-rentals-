@@ -1,4 +1,4 @@
-import { useBikes } from "providers";
+import { useBikes } from "providers/BikeProvider";
 import React, { FunctionComponent, useState } from "react";
 import BikesGrid from "./BikesGrid";
 import Sidebar from "./Sidebar";

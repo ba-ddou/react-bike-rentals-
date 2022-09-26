@@ -1,13 +1,12 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { MantineProvider } from "@mantine/core";
-import { AuthProvider, GlobalDataProvider } from "@root/providers";
 import "config/firebase";
-import { DashboardLayout } from "@components/templates";
+import { Layout } from "@components/templates";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <GlobalDataProvider>
+   
       <MantineProvider
         withGlobalStyles
         withNormalizeCSS
@@ -16,11 +15,10 @@ function MyApp({ Component, pageProps }: AppProps) {
           colorScheme: "light",
         }}
       >
-        <DashboardLayout>
+        <Layout>
           <Component {...pageProps} />
-        </DashboardLayout>
+        </Layout>
       </MantineProvider>
-    </GlobalDataProvider>
   );
 }
 
