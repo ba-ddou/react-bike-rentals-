@@ -1,7 +1,7 @@
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { db } from "config/firebase";
 import { collection, where, query } from "firebase/firestore";
-import { Bike, BikeStatus, ReservationWithProjections, User, UserRole } from "@root/@types";
+import { Bike, BikeStatus, Reservation, ReservationWithProjections, User, UserRole } from "@root/@types";
 import { docConverter } from "@helpers/firebase";
 import { useAuth } from "./auth";
 
@@ -51,6 +51,7 @@ export const useManagersData = (authenticatedManagerID?: string) => {
 };
 
 
+
 export const useReservationsData = () => {
   const [reservations, loading, error] = useCollectionData(
     query(
@@ -59,7 +60,7 @@ export const useReservationsData = () => {
   );
 
   return {
-    reservations: reservations as ReservationWithProjections[],
+    reservations: reservations as Reservation[],
     loading,
     error,
   };

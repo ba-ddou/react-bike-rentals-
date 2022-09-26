@@ -1,6 +1,6 @@
 import { BikeCreationInput, ExtendedBikeCreationInput, StrippedUser, UserRole,Bike, Reservation, ReservationStatus, ReservationCreationInput } from "@root/@types";
 import firebaseApp from "../config/firebase";
-import { getFirestore, doc, setDoc, getDoc,addDoc,collection } from "firebase/firestore";
+import { getFirestore, doc, setDoc, getDoc,addDoc,collection,serverTimestamp } from "firebase/firestore";
 import cookie from "js-cookie";
 import { getAuth } from "firebase/auth";
 
@@ -51,6 +51,7 @@ export const createReservation = async ({
       location,
     },
     status: ReservationStatus.PENDING,
+    reservedAt: serverTimestamp(),
   };
   const res = await addDoc(collection(db, "reservations"), reservation);
   return res;

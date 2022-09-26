@@ -13,6 +13,7 @@ export interface Reservation {
   };
   rating?: number;
   status: ReservationStatus;
+  reservedAt: Date;
 }
 
 export enum ReservationStatus {
@@ -22,7 +23,7 @@ export enum ReservationStatus {
   COMPLETED,
 }
 
-export type ReservationCreationInput = Omit<Reservation, "id" | "rating">;
+export type ReservationCreationInput = Omit<Reservation, "id" | "rating" | "reservedAt">;
 
 export type ReservationWithProjections = Omit<Reservation, "user" | "bike"> & {
   user: User;

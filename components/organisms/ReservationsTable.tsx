@@ -1,6 +1,5 @@
 import { Bike, Reservation, ReservationWithProjections } from "@types";
 import React, { FunctionComponent } from "react";
-import { useUsers } from "hooks";
 import {
   Avatar,
   Badge,
@@ -14,10 +13,11 @@ import {
   ColorSwatch,
   useMantineTheme,
 } from "@mantine/core";
-import { IconPencil, IconTrash, IconStar, IconPlus } from "@tabler/icons";
+import { IconPencil, IconTrash, IconStar, IconPlus, IconArrowBarRight, IconArrowRight } from "@tabler/icons";
 import { User } from "@root/@types";
 import Link from "next/link";
 import { StatusBadge } from "@components/atoms";
+import { formatDateTime } from "@helpers/dates";
 
 interface ReservationsTableProps {
   reservations: ReservationWithProjections[];
@@ -54,19 +54,26 @@ const ReservationsTable: FunctionComponent<ReservationsTableProps> = ({
       </td>
       <td>
         <Text size="sm" weight={500}>
-          {/* {item.reservedAt.toDateString()} */}
-          jioj
+          {formatDateTime(item.reservedAt, true)}
         </Text>
       </td>
       <td>
-        <Text size="sm" weight={500}>
-          {`from ${item.start.toDate()} to ${item.end.toDate()}`}
-        </Text>
+        <Group spacing={3}>
+          <Text size="sm" weight={500}>
+            {`${formatDateTime(item.start)}`}
+          </Text>
+          <IconArrowRight size={18} />
+          <Text size="sm" weight={500}>
+            {`${formatDateTime(item.end)}`}
+          </Text>
+        </Group>
       </td>
       <td>
-        <Text size="sm" weight={500}>
-          2
-        </Text>
+        <Center>
+          <Text size="sm" weight={500}>
+            {item.numberOfDays}
+          </Text>
+        </Center>
       </td>
       {/* <td>
         <Text size="sm" weight={500}>
@@ -74,12 +81,23 @@ const ReservationsTable: FunctionComponent<ReservationsTableProps> = ({
         </Text>
       </td> */}
       <td>
-        <Text size="sm" weight={500}>
-          {`${item.bikeSnapshot.price} $`}
-        </Text>
+        <Center>
+          <Text size="sm" weight={500}>
+            {`${item.bikeSnapshot.price} $/day`}
+          </Text>
+        </Center>
       </td>
       <td>
-        <StatusBadge status={item.status} entity="reservation" />
+        <Center>
+          <Text size="sm" weight={500}>
+            {`${item.totalPrice} $`}
+          </Text>
+        </Center>
+      </td>
+      <td>
+        <Center>
+          <StatusBadge status={item.status} entity="reservation" />
+        </Center>
       </td>
     </tr>
   ));
@@ -98,6 +116,7 @@ const ReservationsTable: FunctionComponent<ReservationsTableProps> = ({
               <th>Reserved At</th>
               <th>Date range</th>
               <th>Number of days</th>
+              <th>price</th>
               <th>Total price</th>
               <th>Status</th>
               <th />
