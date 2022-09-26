@@ -42,6 +42,7 @@ export const useAuth = () => {
 };
 
 const formatUserRecord = (user: UserRecord) => {
+  console.log("🚀 ~ file: auth.ts ~ line 45 ~ formatUserRecord ~ user", user);
   const {
     uid,
     email,

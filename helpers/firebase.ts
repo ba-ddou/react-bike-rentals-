@@ -1,21 +1,15 @@
-import { IncomingMessage } from "http";
-import admin from "../lib/firebase";
+import { FirestoreDataConverter, QueryDocumentSnapshot, SnapshotOptions } from "firebase/firestore";
 
-export const getAuthUser = async (
-  req: IncomingMessage & {
-    cookies: Partial<{
-      [key: string]: string;
-    }>;
-  }
-) => {
-  const {
-    cookies: { token },
-  } = req;
-  if (!token) return null;
-  try {
-    const decodedToken = await admin.auth().verifyIdToken(token);
-    return decodedToken;
-  } catch (error: any) {
-    return null;
-  }
+export const docConverter: FirestoreDataConverter<any> = {
+  toFirestore: (data: any) => data,
+  fromFirestore(
+    snapshot: QueryDocumentSnapshot,
+    options: SnapshotOptions
+  ): any {
+    const data = snapshot.data(options);
+    return {
+      ...data,
+      id: snapshot.id,
+    };
+  },
 };

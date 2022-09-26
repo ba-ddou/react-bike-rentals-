@@ -1,5 +1,5 @@
 import { SigninForm } from "@components/moleculs";
-import { getAuthUser } from "@helpers/firebase";
+import { getAuthUser } from "@helpers/getAuthUser";
 import {
   TextInput,
   PasswordInput,

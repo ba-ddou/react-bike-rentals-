@@ -1,5 +1,5 @@
 import { BikeBanner } from "@components/moleculs";
-import { getAuthUser } from "@helpers/firebase";
+import { getAuthUser } from "@helpers/getAuthUser";
 import { Container } from "@mantine/core";
 import { useBike } from "@root/providers";
 import { GetServerSideProps } from "next";

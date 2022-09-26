@@ -1,16 +1,17 @@
 import { LargeHeading } from "@components/atoms";
 import { UsersTable } from "@components/organisms";
+import { getAuthUser } from "@helpers/getAuthUser";
 import { UserRole } from "@root/@types";
-import { useManagers, useUsers } from "@root/hooks";
+import { useAuth, useManagers, useUsers } from "@root/hooks";
 import { createManager } from "@root/services";
-import { getAuthUser } from "helpers/firebase";
 import { GetServerSideProps } from "next";
 import { FunctionComponent } from "react";
 
-interface UsersProps {}
+interface ManagersProps {}
 
-const Users: FunctionComponent<UsersProps> = () => {
-  const { managers } = useManagers();
+const Managers: FunctionComponent<ManagersProps> = () => {
+  const { user} = useAuth();
+  const { managers } = useManagers(user?.id);
   const onAdd = async () => {
     await createManager({
       email: "admin@bikes.com",
@@ -26,7 +27,7 @@ const Users: FunctionComponent<UsersProps> = () => {
   );
 };
 
-export default Users;
+export default Managers;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   // TODO: Encapsulate & DRY out the auth redirection logic in a middleware

@@ -13,6 +13,7 @@ import {
 } from "firebase/firestore";
 import { User, UserRole } from "@root/@types";
 import { useAuth } from "./auth";
+import { docConverter } from "helpers";
 
 // const mockBike: Bike = {
 //   id: 1,
@@ -28,19 +29,7 @@ import { useAuth } from "./auth";
 //   createBy: "1",
 // };
 
-const docConverter: FirestoreDataConverter<any> = {
-  toFirestore: (data: any) => data,
-  fromFirestore(
-    snapshot: QueryDocumentSnapshot,
-    options: SnapshotOptions
-  ): any {
-    const data = snapshot.data(options);
-    return {
-      ...data,
-      id: snapshot.id,
-    };
-  },
-};
+
 export const useBikesData = () => {
   const { user } = useAuth();
   const queryC =
