@@ -12,7 +12,7 @@ import {
   Group,
   Button,
 } from "@mantine/core";
-import { SigninCredentials } from "@root/@types";
+import { SigninCredentials, UserRole } from "@root/@types";
 import { useSignin } from "hooks";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
@@ -51,7 +51,7 @@ export default ManagerAuthentication;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const user = await getAuthUser(context.req);
-  if (user) {
+  if (user && user.role === UserRole.MANAGER) {
     return {
       redirect: {
         destination: "/dashboard",

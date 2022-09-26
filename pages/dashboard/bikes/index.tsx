@@ -1,6 +1,7 @@
 import { LargeHeading } from "@components/atoms";
 import { BikesTable, CreateBikeForm, UsersTable } from "@components/organisms";
 import { getAuthUser } from "@helpers/getAuthUser";
+import { getGetServerSidePropsWithManagerAuth } from "@helpers/getGetServerSidePropsWithManagerAuth";
 import { Modal } from "@mantine/core";
 import { useModalControls, useUsers } from "@root/hooks";
 import { useBikes } from "@root/providers";
@@ -30,19 +31,4 @@ const Bikes: FunctionComponent<BikesProps> = () => {
 
 export default Bikes;
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  // TODO: Encapsulate & DRY out the auth redirection logic in a middleware
-  const user = await getAuthUser(context.req);
-  if (!user) {
-    return {
-      redirect: {
-        destination: "/dashboard/auth",
-      },
-      props: {},
-    };
-  }
-
-  return {
-    props: {},
-  };
-};
+export const getServerSideProps = getGetServerSidePropsWithManagerAuth();

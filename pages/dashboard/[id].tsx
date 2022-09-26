@@ -1,3 +1,4 @@
+import { getGetServerSidePropsWithManagerAuth } from "@helpers/getGetServerSidePropsWithManagerAuth";
 import {
   createStyles,
   Title,
@@ -76,3 +77,5 @@ function NotFoundTitle() {
 
 
 export default NotFoundTitle;
+
+export const getServerSideProps = getGetServerSidePropsWithManagerAuth();

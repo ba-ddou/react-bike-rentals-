@@ -1,5 +1,6 @@
 import { BikeBanner } from "@components/moleculs";
 import { getAuthUser } from "@helpers/getAuthUser";
+import { getGetServerSidePropsWithManagerAuth } from "@helpers/getGetServerSidePropsWithManagerAuth";
 import { Container } from "@mantine/core";
 import { useBike } from "@root/providers";
 import { GetServerSideProps } from "next";
@@ -21,22 +22,6 @@ const Bike: FunctionComponent<BikeProps> = ({ id }) => {
 
 export default Bike;
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  // TODO: Encapsulate & DRY out the auth redirection logic in a middleware
-  const user = await getAuthUser(context.req);
-  const { id } = context.params;
-  if (!user) {
-    return {
-      redirect: {
-        destination: "/dashboard/auth",
-      },
-      props: {},
-    };
-  }
+export const getServerSideProps = getGetServerSidePropsWithManagerAuth();
 
-  return {
-    props: {
-      id,
-    },
-  };
-};
+

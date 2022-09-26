@@ -1,8 +1,10 @@
 import { LargeHeading } from "@components/atoms";
 import { UsersTable } from "@components/organisms";
 import { getAuthUser } from "@helpers/getAuthUser";
+import { getGetServerSidePropsWithManagerAuth } from "@helpers/getGetServerSidePropsWithManagerAuth";
 import { UserRole } from "@root/@types";
 import { useAuth, useManagers, useUsers } from "@root/hooks";
+import { onlyAllow } from "@root/middlewares";
 import { createManager } from "@root/services";
 import { GetServerSideProps } from "next";
 import { FunctionComponent } from "react";
@@ -10,7 +12,7 @@ import { FunctionComponent } from "react";
 interface ManagersProps {}
 
 const Managers: FunctionComponent<ManagersProps> = () => {
-  const { user} = useAuth();
+  const { user } = useAuth();
   const { managers } = useManagers(user?.id);
   const onAdd = async () => {
     await createManager({
@@ -29,20 +31,4 @@ const Managers: FunctionComponent<ManagersProps> = () => {
 
 export default Managers;
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  // TODO: Encapsulate & DRY out the auth redirection logic in a middleware
-  const user = await getAuthUser(context.req);
-  console.log("🚀 ~ file: managers.tsx ~ line 34 ~ constgetServerSideProps:GetServerSideProps= ~ user", user);
-  if (!user) {
-    return {
-      redirect: {
-        destination: "/dashboard/auth",
-      },
-      props: {},
-    };
-  }
-
-  return {
-    props: {},
-  };
-};
+export const getServerSideProps = getGetServerSidePropsWithManagerAuth();
