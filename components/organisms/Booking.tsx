@@ -1,6 +1,7 @@
 import { LoaderOverlay } from "@components/atoms";
 import { BikeBanner } from "@components/moleculs";
 import { Button, Container, Group, Text } from "@mantine/core";
+import { UserRole } from "@root/@types";
 import { useAuth } from "@root/hooks";
 import { useBike } from "@root/providers";
 import { createReservation } from "@root/services";
@@ -58,9 +59,13 @@ const Booking: FunctionComponent<BookingProps> = ({
           width: "15rem",
         }}
         onClick={bookNow}
+        disabled={user?.role === UserRole.MANAGER}
       >
         Book now
       </Button>
+      {user?.role === UserRole.MANAGER && (
+        <Text size="xs" color="dimmed">{`You're logged in as a manager`}</Text>
+      )}
       <LoaderOverlay loading={loading} />
     </div>
   );
