@@ -90,9 +90,9 @@ function NavbarLink({
   );
 }
 
-const mockdata = [
-  { icon: IconBike, label: "Bikes", path: "bikes" },
+const tabs = [
   { icon: IconCalendar, label: "Reservations", path: "reservations" },
+  { icon: IconBike, label: "Bikes", path: "bikes" },
   { icon: IconUsers, label: "Users", path: "users" },
   { icon: IconUser, label: "Managers", path: "managers" },
 ];
@@ -108,12 +108,12 @@ const DashboardNavbar: FunctionComponent<DashboardNavbarProps> = ({
   const { logout } = useAuth();
 
 
-  const links = mockdata.map((link, index) => (
+  const links = tabs.map((tab, index) => (
     <NavbarLink
-      {...link}
-      key={link.label}
-      active={link.path === active}
-      onClick={() => setActive(link.path)}
+      {...tab}
+      key={tab.label}
+      active={tab.path === active}
+      onClick={() => setActive(tab.path)}
     />
   ));
   return (

@@ -8,7 +8,7 @@ export function middleware(request: NextRequest) {
     cookies,
   } = request;
   if (pathname === "/dashboard") {
-    return NextResponse.redirect(new URL("/dashboard/users", request.url));
+    return NextResponse.redirect(new URL("/dashboard/reservations", request.url));
   }
 
   //   return NextResponse.redirect(new URL("/dashboard/auth", request.url));
