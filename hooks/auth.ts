@@ -3,6 +3,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signInWithCustomToken,
+  getIdToken,
 } from "firebase/auth";
 import {
   useAuthState as useFirebaseAuthState,
@@ -48,13 +49,15 @@ const formatUserRecord = (user: UserRecord) => {
     email,
     displayName,
     //@ts-ignore
-    reloadUserInfo: { customAttributes },
+    reloadUserInfo,
   } = user;
   return {
     id: uid,
     email,
     name: displayName,
-    role: customAttributes ? JSON.parse(customAttributes).role : null,
+    role: reloadUserInfo?.customAttributes
+      ? JSON.parse(reloadUserInfo?.customAttributes).role
+      : null,
   };
 };
 
@@ -80,7 +83,13 @@ export const useSignup = () => {
     );
     console.log("🚀 ~ file: auth.ts ~ line 60 ~ signup ~ result", result);
     if (!result?.id) setError("Something went wrong");
-    await signInWithCustomToken(auth, result.token);
+    const userCredential = await signInWithCustomToken(auth, result.token);
+    userCredential?.user.getIdToken().then((token) => {
+      cookie.set("token", token, {
+        expires: 10,
+        path: "/",
+      });
+    });
     setLoading(false);
   };
 
@@ -104,7 +113,7 @@ export const useSignin = () => {
     reset();
     const { email, password } = credentials;
     setLoading(true);
-    const result = await signInWithEmailAndPassword(
+    const userCredential = await signInWithEmailAndPassword(
       auth,
       email,
       password
@@ -113,14 +122,14 @@ export const useSignin = () => {
       const errorMessage = error.message;
       setError(errorMessage);
     });
-    result?.user.getIdToken().then((token) => {
+    userCredential?.user.getIdToken().then((token) => {
       cookie.set("token", token, {
         expires: 10,
         path: "/",
       });
     });
     setLoading(false);
-    return result?.user ? true : false;
+    return userCredential?.user ? true : false;
   };
 
   return {
