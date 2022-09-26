@@ -1,14 +1,30 @@
 import { DashboardNavbar, Header } from "@components/organisms";
-import { useAuth } from "@root/providers";
 import { useRouter } from "next/router";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useEffect } from "react";
+import { onAuthStateChanged, getAuth } from "firebase/auth";
+import firebaseApp from "config/firebase";
+const auth = getAuth(firebaseApp);
 
-interface DashboardLayoutProps {}
+interface DashboardLayoutProps {
+  children: React.ReactNode;
+}
 
 const DashboardLayout: FunctionComponent<DashboardLayoutProps> = ({
   children,
 }) => {
-  const { pathname } = useRouter();
+  const { pathname, push } = useRouter();
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        push("/dashboard/auth");
+      }
+      else {
+        push("/dashboard");
+      }
+    });
+  }, []);
+
   if (isInMainDashboard(pathname))
     return (
       <div
@@ -47,7 +63,6 @@ function parseDashboardPath(pathname: string) {
   const path = pathname.split("/");
   return path[2];
 }
-
 
 function isInMainDashboard(pathname: string) {
   return pathname.includes("dashboard") && !pathname.includes("auth");
