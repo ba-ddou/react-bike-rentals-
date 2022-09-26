@@ -19,43 +19,37 @@ export const AuthContext = createContext<{
   loading: boolean;
   currentUser: User | null;
   logout: () => void;
+  
   // @ts-ignore
 }>(undefined);
 
-export interface AuthProviderProps {}
+export interface AuthProviderProps {
+  children: React.ReactNode;
+}
 
 export const AuthProvider: FunctionComponent<AuthProviderProps> = ({
   children,
 }) => {
   const { user, loading, error } = useAuthState();
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
   const { push } = useRouter();
-  useEffect(() => {
-    loadUser();
-  }, [user]);
 
-  const loadUser = async () => {
-    if (user) {
-      const { uid } = user;
-      const currentUser = await getUser(uid);
-      if (currentUser) {
-        return setCurrentUser(currentUser.data() as User);
-      }
-    }
-    return null;
-  };
+  // useEffect(() => {
+  //   console.log(JSON.stringify(user,null,2));
+  // }, [user])
+  
+
 
   const logout = async () => {
+    console.log(user);
     await signOut();
-    if (currentUser?.role == UserRole.MANAGER) push("/dashboard/auth");
-    setCurrentUser(null);
+    if (user?.role == UserRole.MANAGER) push("/dashboard/auth");
   };
 
   return (
     <AuthContext.Provider
       value={{
         loading,
-        currentUser: currentUser,
+        currentUser: user,
         logout,
       }}
     >

@@ -10,13 +10,38 @@ import {
 import firebaseApp from "config/firebase";
 import { UserInput, User, SigninCredentials } from "@types";
 import { createUser } from "@root/services";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import cookie from "js-cookie";
+import { UserRecord } from "firebase-admin/lib/auth/user-record";
+import { json } from "stream/consumers";
 const auth = getAuth(firebaseApp);
 
 export const useAuthState = () => {
   const [user, loading, error] = useFirebaseAuthState(auth);
-  return { user, authenticated: user != null, loading, error };
+
+  return {
+    user: user ? formatUserRecord(user) : null,
+    authenticated: user != null,
+    loading,
+    error,
+  };
+};
+
+const formatUserRecord = (user: UserRecord) => {
+  const {
+    uid,
+    email,
+    displayName,
+    reloadUserInfo: {
+      customAttributes
+    }
+  } = user;
+  return {
+    uid,
+    email,
+    name: displayName,
+    role: JSON.parse(customAttributes).role,
+  };
 };
 
 export const useSignup = () => {
