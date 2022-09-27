@@ -29,6 +29,7 @@ import { getUser } from "services";
 import { useRouter } from "next/router";
 import { getNumberOfDays } from "@helpers/dates";
 import { EntityStatus } from "@root/@types/Global";
+import { applyPropFilter } from "@helpers/filters";
 const auth = getAuth(firebaseApp);
 
 export const GlobalDataContext = createContext<{
@@ -62,16 +63,24 @@ export const GlobalDataProvider: FunctionComponent<GlobalDataProviderProps> = ({
     <GlobalDataContext.Provider
       value={{
         users: users
-          ? applyPropFilter<User>(users, {
-              entityStatus: EntityStatus.DELETED,
-            })
+          ? applyPropFilter<User>(
+              users,
+              {
+                entityStatus: EntityStatus.DELETED,
+              },
+              "exclusion"
+            )
           : null,
         managers,
         reservations: formatedReservations,
         bikes: bikes
-          ? applyPropFilter<Bike>(bikes, {
-              entityStatus: EntityStatus.DELETED,
-            })
+          ? applyPropFilter<Bike>(
+              bikes,
+              {
+                entityStatus: EntityStatus.DELETED,
+              },
+              "exclusion"
+            )
           : null,
         bikesMap: new Map(bikes?.map((bike) => [bike.id, bike])),
       }}
@@ -137,16 +146,5 @@ function formatReservations(
       reservedAt: reservedAt.toDate(),
       totalPrice: numberOfDays * reservation.bikeSnapshot.price,
     };
-  });
-}
-
-function applyPropFilter<T extends Record<string, any>>(
-  items: T[],
-  filters: Partial<T>
-): T[] {
-  return items.filter((item) => {
-    return Object.keys(filters).every((key) => {
-      return item[key] !== filters[key];
-    });
   });
 }

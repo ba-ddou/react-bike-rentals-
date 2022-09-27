@@ -8,6 +8,8 @@ import React, {
 } from "react";
 
 import { useBikesData, useReservationsData } from "hooks";
+import { applyPropFilter } from "@helpers/filters";
+import { EntityStatus } from "@root/@types/Global";
 
 export const BikeContext = createContext<{
   bikes: Bike[] | null;
@@ -52,8 +54,14 @@ export const BikeProvider: FunctionComponent<BikeProviderProps> = ({
 
   const availableBikes = useMemo(() => {
     if (!bikes) return null;
-    return bikes.filter(
-      (bike) => !bikesUnavailableInTheSelectedDateRange.includes(bike.id)
+    return applyPropFilter<Bike>(
+      bikes.filter(
+        (bike) => !bikesUnavailableInTheSelectedDateRange.includes(bike.id)
+      ),
+      {
+        entityStatus: EntityStatus.DELETED,
+      },
+      "exclusion"
     );
   }, [bikes, bikesUnavailableInTheSelectedDateRange]);
 
