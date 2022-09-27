@@ -58,7 +58,7 @@ export const ColorSwatchSelectionGroup: FunctionComponent<
     <Group position="center" spacing="xs">
       {colors.map((color) => (
         <ColorSwatch
-          key="color"
+          key={color}
           component="button"
           color={color}
           onClick={() => onCheck(color)}

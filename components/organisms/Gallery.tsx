@@ -17,14 +17,11 @@ interface DateRange {
 interface GalleryProps {}
 
 const Gallery: FunctionComponent<GalleryProps> = () => {
-  const { bikes } = useBikes();
+  const { bikes, filters, applyFilters } = useBikes();
   const { open, payload, ...modalControls } = useModalControls<{
     bikeId: string;
   }>();
-  const [dateRange, setDateRange] = useState<DateRange>({
-    from: new Date(),
-    to: new Date(),
-  });
+  // const [dateRange, setDateRange] = useState<DateRange>(filters.dateRange);
   if (!bikes) return null;
   return (
     <div className={styles.gallery}>
@@ -43,9 +40,15 @@ const Gallery: FunctionComponent<GalleryProps> = () => {
           <Center>
             <DateRangePicker
               onChange={([from, to]) =>
-                setDateRange({
-                  from,
-                  to,
+                // setDateRange({
+                //   from,
+                //   to,
+                // })
+                applyFilters({
+                  dateRange: {
+                    from,
+                    to,
+                  },
                 })
               }
             />
@@ -62,7 +65,11 @@ const Gallery: FunctionComponent<GalleryProps> = () => {
         </div>
       </div>
       <Modal {...modalControls} size="xl" centered>
-        <Booking {...payload} dateRange={dateRange} onResolve={modalControls.onClose} />
+        <Booking
+          {...payload}
+          dateRange={filters.dateRange}
+          onResolve={modalControls.onClose}
+        />
       </Modal>
     </div>
   );

@@ -1,9 +1,18 @@
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { db } from "config/firebase";
-import { collection, where, query } from "firebase/firestore";
-import { Bike, BikeStatus, Reservation, ReservationWithProjections, User, UserRole } from "@root/@types";
+import { collection, where, query, startAt, endAt } from "firebase/firestore";
+import {
+  Bike,
+  BikeStatus,
+  Filters,
+  Reservation,
+  ReservationWithProjections,
+  User,
+  UserRole,
+} from "@root/@types";
 import { docConverter } from "@helpers/firebase";
 import { useAuth } from "./auth";
+import { checkDateRangeIntersection } from "@helpers/dates";
 
 export const useBikesData = () => {
   const { user } = useAuth();
@@ -38,7 +47,10 @@ export const useUsersData = () => {
 
 export const useManagersData = (authenticatedManagerID?: string) => {
   const [managers, loading, error] = useCollectionData(
-    query(collection(db, "users").withConverter(docConverter), where("role", "==", UserRole.MANAGER))
+    query(
+      collection(db, "users").withConverter(docConverter),
+      where("role", "==", UserRole.MANAGER)
+    )
   );
 
   return {
@@ -50,18 +62,60 @@ export const useManagersData = (authenticatedManagerID?: string) => {
   };
 };
 
+interface DateRange {
+  from: Date;
+  to: Date;
+}
 
-
-export const useReservationsData = () => {
+export const useReservationsData = (dateRange?: DateRange) => {
   const [reservations, loading, error] = useCollectionData(
-    query(
-      collection(db, "reservations").withConverter(docConverter),
-    )
+    query(collection(db, "reservations").withConverter(docConverter))
   );
 
   return {
-    reservations: reservations as Reservation[],
+    reservations: applyDateRangeFilter(reservations,dateRange) as Reservation[],
     loading,
     error,
   };
 };
+
+const applyDateRangeFilter = (
+  reservations?: Reservation[],
+  dateRange?: DateRange
+) => {
+  if (!dateRange || !reservations) return reservations;
+
+  return reservations.filter((reservation) => {
+    return checkDateRangeIntersection(
+      {
+        from: reservation.from.toDate(),
+        to: reservation.to.toDate(),
+      },
+      dateRange
+    );
+  });
+};
+
+// const getReservationsQuery = (filters?: Filters) => {
+
+//   if (!filters) return query(collection(db, "reservations").withConverter(docConverter));
+//   const constraints = [];
+//   const {
+//     // model,
+//     // color,
+//     // location,
+//     dateRange,
+//   } = filters || {};
+
+//   if (dateRange) {
+//     const { from, to } = dateRange;
+//     constraints.push(
+//       where("to", "<=", to),
+//       where("to", ">=", from)
+//     );
+//   }
+//   return query(
+//     collection(db, "reservations").withConverter(docConverter),
+//     ...constraints
+//   );
+// };

@@ -11,3 +11,19 @@ export const formatDateTime = (date: Date, includeTime: boolean = false) => {
   if (!includeTime) return DateTime.fromJSDate(date).toFormat("dd LLL yyyy");
   return DateTime.fromJSDate(date).toFormat("dd LLL yyyy HH:mm");
 };
+
+interface DateRange {
+  from: Date;
+  to: Date;
+}
+
+export const checkDateRangeIntersection = (
+  dateRangeA: DateRange,
+  dateRangeB: DateRange
+): boolean => {
+  const dateRangeAStart = DateTime.fromJSDate(dateRangeA.from);
+  const dateRangeAEnd = DateTime.fromJSDate(dateRangeA.to);
+  const dateRangeBStart = DateTime.fromJSDate(dateRangeB.from);
+  const dateRangeBEnd = DateTime.fromJSDate(dateRangeB.to);
+  return dateRangeAStart <= dateRangeBEnd && dateRangeAEnd >= dateRangeBStart;
+};
