@@ -27,3 +27,9 @@ export const checkDateRangeIntersection = (
   const dateRangeBEnd = DateTime.fromJSDate(dateRangeB.to);
   return dateRangeAStart <= dateRangeBEnd && dateRangeAEnd >= dateRangeBStart;
 };
+
+
+export const normalizeDate = (date: Date) => { 
+  date.setHours(0, 0, 0, 1);
+  return date;
+}

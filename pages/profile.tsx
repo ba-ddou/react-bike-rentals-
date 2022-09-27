@@ -4,6 +4,7 @@ import ReservationsTable from "@components/organisms/ReservationsTable";
 import { getGetServerSidePropsWithUserAuth } from "@helpers/getGetServerSideProps";
 import { useAuth } from "@root/hooks";
 import { useUserReservations } from "@root/providers/BikeProvider";
+import { cancelReservation } from "@root/services";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
@@ -20,7 +21,7 @@ const Profile: NextPage = () => {
       <ReservationsTable
         reservations={reservations}
         omitColumns={["user"]}
-        onCancel={(id) => console.log(id)}
+        onCancel={cancelReservation}
       />
     </div>
   );

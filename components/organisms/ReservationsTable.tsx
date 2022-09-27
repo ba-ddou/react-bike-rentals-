@@ -26,6 +26,7 @@ import { User } from "@root/@types";
 import Link from "next/link";
 import { StatusBadge } from "@components/atoms";
 import { formatDateTime } from "@helpers/dates";
+import DynamicActionIcon from "@components/atoms/DynamicActionIcon";
 
 interface ReservationsTableProps {
   reservations: ReservationWithProjections[];
@@ -114,9 +115,7 @@ const ReservationsTable: FunctionComponent<ReservationsTableProps> = ({
       </td>
       <td>
         {onCancel && (
-          <ActionIcon color="red" onClick={()=>onCancel(item.id)}>
-            <IconX size={16} stroke={2} />
-          </ActionIcon>
+          <DynamicActionIcon Icon={IconX} color="red"  onClick={()=>onCancel(item.id)}/>
         )}
       </td>
     </tr>
@@ -128,7 +127,7 @@ const ReservationsTable: FunctionComponent<ReservationsTableProps> = ({
       }}
     >
       <ScrollArea>
-        <Table sx={{ minWidth: 1000 }} verticalSpacing="md" highlightOnHover>
+        <Table sx={{ minWidth: 1000 }} verticalSpacing="md">
           <thead>
             <tr>
               {!omitColumns.includes("user") && <th>User</th>}

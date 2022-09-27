@@ -2,6 +2,7 @@ import {
   Bike,
   Filters,
   Reservation,
+  ReservationStatus,
   ReservationWithProjections,
   User,
 } from "@types";
@@ -64,10 +65,9 @@ export const BikeProvider: FunctionComponent<BikeProviderProps> = ({
   }, [reservations, filters.dateRange]);
 
   const bikesUnavailableInTheSelectedDateRange = useMemo(() => {
-    return (
-      reservationOnSelectedDateRange?.map((reservation) => reservation.bike) ||
-      []
-    );
+    return reservationOnSelectedDateRange
+      ? getUniqueProp(reservationOnSelectedDateRange, "bike")
+      : [];
   }, [reservationOnSelectedDateRange]);
 
   const availableBikes = useMemo(() => {
@@ -133,11 +133,11 @@ export const useUserReservations = () => {
   };
 };
 
-export const getUniqueProp = (bikes: Bike[] | null, prop: string) => {
-  return bikes
-    ? Array.from(new Set(bikes.map((bike) => bike[prop])).values())
+export function getUniqueProp<T>(entities: T[] | null, prop: string) {
+  return entities
+    ? Array.from(new Set(entities.map((entity) => entity[prop])).values())
     : [];
-};
+}
 
 const applyBikeFilters = (bikes: Bike[], filters: Filters) => {
   const { color, model, location } = filters;
@@ -159,12 +159,15 @@ const applyDateRangeFilter = (
   if (!dateRange || !reservations) return reservations;
 
   return reservations.filter((reservation) => {
-    return checkDateRangeIntersection(
-      {
-        from: reservation.from.toDate(),
-        to: reservation.to.toDate(),
-      },
-      dateRange
+    return (
+      reservation.status != ReservationStatus.CANCELLED &&
+      checkDateRangeIntersection(
+        {
+          from: reservation.from.toDate(),
+          to: reservation.to.toDate(),
+        },
+        dateRange
+      )
     );
   });
 };

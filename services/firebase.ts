@@ -4,6 +4,7 @@ import { getFirestore, doc, setDoc, getDoc,addDoc,collection,serverTimestamp } f
 import cookie from "js-cookie";
 import { getAuth } from "firebase/auth";
 import { EntityStatus } from "@root/@types/Global";
+import { normalizeDate } from "@helpers/dates";
 
 const db = getFirestore(firebaseApp);
 const auth = getAuth(firebaseApp);
@@ -52,8 +53,8 @@ export const createReservation = async ({
   const {id:bikeId,price,location } = bike;
   const {from,to } = dateRange;
   const reservation: ReservationCreationInput = {
-    from,
-    to,
+    from: normalizeDate(from),
+    to: normalizeDate(to),
     user,
     bike: bikeId,
     bikeSnapshot: {
@@ -65,5 +66,14 @@ export const createReservation = async ({
     reservedAt: serverTimestamp(),
   };
   const res = await addDoc(collection(db, "reservations"), reservation);
+  return res;
+}
+
+export const cancelReservation = async (id: string) => { 
+  const res = await setDoc(
+    doc(db, "reservations", id),
+    { status: ReservationStatus.CANCELLED },
+    { merge: true }
+  );
   return res;
 }
