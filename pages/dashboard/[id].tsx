@@ -1,4 +1,4 @@
-import { getGetServerSidePropsWithManagerAuth } from "@helpers/getGetServerSidePropsWithManagerAuth";
+import { getGetServerSidePropsWithManagerAuth } from "@helpers/getGetServerSideProps";
 import {
   createStyles,
   Title,

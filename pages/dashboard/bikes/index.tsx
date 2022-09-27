@@ -1,7 +1,7 @@
 import { LargeHeading } from "@components/atoms";
 import { BikesTable, CreateBikeForm, UsersTable } from "@components/organisms";
 import { getAuthUser } from "@helpers/getAuthUser";
-import { getGetServerSidePropsWithManagerAuth } from "@helpers/getGetServerSidePropsWithManagerAuth";
+import { getGetServerSidePropsWithManagerAuth } from "@helpers/getGetServerSideProps";
 import { Modal } from "@mantine/core";
 import { useModalControls } from "@root/hooks";
 import { useBikes } from "@root/providers";

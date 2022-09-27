@@ -1,6 +1,6 @@
 import { BikeBanner } from "@components/moleculs";
 import { getAuthUser } from "@helpers/getAuthUser";
-import { getGetServerSidePropsWithManagerAuth } from "@helpers/getGetServerSidePropsWithManagerAuth";
+import { getGetServerSidePropsWithManagerAuth } from "@helpers/getGetServerSideProps";
 import { Container } from "@mantine/core";
 import { useBike } from "@root/providers";
 import { GetServerSideProps } from "next";

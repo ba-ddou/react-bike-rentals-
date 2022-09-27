@@ -1,8 +1,9 @@
 import React, { FunctionComponent } from "react";
 import { Avatar, Menu, Text } from "@mantine/core";
-import { IconLogout, IconPencil } from "@tabler/icons";
+import { IconLogout, IconPencil, IconUser } from "@tabler/icons";
 import type { NextPage } from "next";
 import { User, UserRole } from "@types";
+import Link from "next/link";
 
 interface DynamicAvatarProps {
   user: User;
@@ -51,7 +52,11 @@ type MenuDropdownType = {
   onEdit: () => void;
   onLogout: () => void;
 };
-const MenuDropDown = ({ user, onEdit, onLogout }: MenuDropdownType) => {
+const MenuDropDown = ({
+  user,
+  onEdit,
+  onLogout,
+}: MenuDropdownType) => {
   return (
     <Menu.Dropdown>
       <Avatar color="brand" radius="xl" mx="auto" sx={{ marginTop: "0.5rem" }}>
@@ -70,9 +75,17 @@ const MenuDropDown = ({ user, onEdit, onLogout }: MenuDropdownType) => {
       </Text>
       <Menu.Divider />
 
-      <Menu.Item icon={<IconPencil size={14} onClick={onEdit} />}>
-        Edit account
-      </Menu.Item>
+      {user.role == UserRole.MANAGER ? (
+        <Menu.Item icon={<IconPencil size={14} onClick={onEdit} />}>
+          Edit account
+        </Menu.Item>
+      ) : (
+        <Link href="/profile">
+          <Menu.Item icon={<IconUser size={14}/>}>
+            Profile
+          </Menu.Item>
+        </Link>
+      )}
       <Menu.Item color="red" icon={<IconLogout size={14} />} onClick={onLogout}>
         Logout
       </Menu.Item>

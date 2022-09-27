@@ -1,7 +1,7 @@
 import { LargeHeading } from "@components/atoms";
 import { UsersTable } from "@components/organisms";
 import { getAuthUser } from "@helpers/getAuthUser";
-import { getGetServerSidePropsWithManagerAuth } from "@helpers/getGetServerSidePropsWithManagerAuth";
+import { getGetServerSidePropsWithManagerAuth } from "@helpers/getGetServerSideProps";
 import { UserRole } from "@root/@types";
 import { useAuth } from "@root/hooks";
 import { onlyAllow } from "@root/middlewares";
