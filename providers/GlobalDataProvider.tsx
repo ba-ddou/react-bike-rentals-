@@ -13,6 +13,7 @@ import React, {
   FunctionComponent,
   ComponentProps,
   useEffect,
+  useMemo,
 } from "react";
 
 import firebaseApp from "config/firebase";
@@ -27,11 +28,12 @@ import {
 import { getUser } from "services";
 import { useRouter } from "next/router";
 import { getNumberOfDays } from "@helpers/dates";
+import { EntityStatus } from "@root/@types/Global";
 const auth = getAuth(firebaseApp);
 
 export const GlobalDataContext = createContext<{
-  users: User[];
-  managers: User[];
+  users: User[] | null;
+  managers: User[] | null;
   reservations: ReservationWithProjections[] | null;
   bikes: Bike[] | null;
   bikesMap: Map<string, Bike>;
@@ -51,15 +53,21 @@ export const GlobalDataProvider: FunctionComponent<GlobalDataProviderProps> = ({
   const { bikes, loading, error } = useBikesData();
   const { reservations } = useReservationsData();
 
+
+
+  const formatedReservations = useMemo(() => {
+    if (!reservations || !users || !bikes) return null;
+    return formatReservations(reservations, users, bikes);
+  }, [reservations, users, bikes]);
+
   return (
     <GlobalDataContext.Provider
       value={{
-        users,
+        users: users ? applyPropFilter<User>(users, {
+          entityStatus: EntityStatus.DELETED
+        }) : null,
         managers,
-        reservations:
-          reservations && users && bikes
-            ? formatReservations(reservations, users, bikes)
-            : null,
+        reservations: formatedReservations,
         bikes,
         bikesMap: new Map(bikes?.map((bike) => [bike.id, bike])),
       }}
@@ -125,5 +133,17 @@ function formatReservations(
       reservedAt: reservedAt.toDate(),
       totalPrice: numberOfDays * reservation.bikeSnapshot.price,
     };
+  });
+}
+
+
+function applyPropFilter<T extends Record<string, any>>(
+  items: T[],
+  filters: Partial<T>
+): T[] {
+  return items.filter((item) => {
+    return Object.keys(filters).every((key) => {
+      return item[key] !== filters[key];
+    });
   });
 }

@@ -1,5 +1,5 @@
 import { Bike, Reservation, ReservationWithProjections } from "@types";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useEffect } from "react";
 import {
   Avatar,
   Badge,
@@ -28,7 +28,9 @@ const ReservationsTable: FunctionComponent<ReservationsTableProps> = ({
   reservations,
   onAdd,
 }) => {
-  if (!reservations) return null;
+
+  // return null;
+  
   const rows = reservations.map((item) => (
     <tr
       key={item.id}

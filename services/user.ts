@@ -14,5 +14,5 @@ export const signupUser = async (user: UserInput) => {
 export const deletedUser = async (id: string) => {
   return await fetch(`/api/user/${id}`, {
     method: "DELETE",
-  }).then((res) => res.json());
+  }).then((res) => res.json()).catch((err) => console.log(err));
 }

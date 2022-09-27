@@ -14,5 +14,7 @@ export const createManager = async (manager: UserInput) => {
 export const deletedManager = async (id: string) => {
   return await fetch(`/api/manager/${id}`, {
     method: "DELETE",
-  }).then((res) => res.json());
+  })
+    .then((res) => res.json())
+    .catch((err) => console.log(err));
 };

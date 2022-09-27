@@ -40,7 +40,7 @@ export const useUsersData = () => {
     query(
       collection(db, "users").withConverter(docConverter),
       where("role", "==", UserRole.USER),
-      where("entityStatus", "==", EntityStatus.ACTIVE)
+      // where("entityStatus", "==", EntityStatus.ACTIVE)
     )
   );
 
