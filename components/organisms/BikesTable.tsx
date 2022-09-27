@@ -1,6 +1,5 @@
 import { Bike } from "@types";
 import React, { FunctionComponent } from "react";
-import { useUsers } from "hooks";
 import {
   Avatar,
   Badge,
@@ -17,13 +16,19 @@ import {
 import { IconPencil, IconTrash, IconStar, IconPlus } from "@tabler/icons";
 import { User } from "@root/@types";
 import Link from "next/link";
+import DynamicActionIcon from "@components/atoms/DynamicActionIcon";
 
 interface BikesTableProps {
   bikes: Bike[];
   onAdd: () => void;
+  onDelete?: (id: string) => void;
 }
 
-const BikesTable: FunctionComponent<BikesTableProps> = ({ bikes, onAdd }) => {
+const BikesTable: FunctionComponent<BikesTableProps> = ({
+  bikes,
+  onAdd,
+  onDelete,
+}) => {
   const { colors } = useMantineTheme();
   if (!bikes) return null;
   const rows = bikes.map((item) => (
@@ -84,9 +89,11 @@ const BikesTable: FunctionComponent<BikesTableProps> = ({ bikes, onAdd }) => {
             <ActionIcon>
               <IconPencil size={16} stroke={1.5} />
             </ActionIcon>
-            <ActionIcon color="red">
-              <IconTrash size={16} stroke={1.5} />
-            </ActionIcon>
+            <DynamicActionIcon
+              color="red"
+              onClick={() => onDelete?.(item.id)}
+              Icon={IconTrash}
+            />
           </Group>
         </td>
       </tr>

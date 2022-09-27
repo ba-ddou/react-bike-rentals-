@@ -53,8 +53,6 @@ export const GlobalDataProvider: FunctionComponent<GlobalDataProviderProps> = ({
   const { bikes, loading, error } = useBikesData();
   const { reservations } = useReservationsData();
 
-
-
   const formatedReservations = useMemo(() => {
     if (!reservations || !users || !bikes) return null;
     return formatReservations(reservations, users, bikes);
@@ -63,12 +61,18 @@ export const GlobalDataProvider: FunctionComponent<GlobalDataProviderProps> = ({
   return (
     <GlobalDataContext.Provider
       value={{
-        users: users ? applyPropFilter<User>(users, {
-          entityStatus: EntityStatus.DELETED
-        }) : null,
+        users: users
+          ? applyPropFilter<User>(users, {
+              entityStatus: EntityStatus.DELETED,
+            })
+          : null,
         managers,
         reservations: formatedReservations,
-        bikes,
+        bikes: bikes
+          ? applyPropFilter<Bike>(bikes, {
+              entityStatus: EntityStatus.DELETED,
+            })
+          : null,
         bikesMap: new Map(bikes?.map((bike) => [bike.id, bike])),
       }}
     >
@@ -135,7 +139,6 @@ function formatReservations(
     };
   });
 }
-
 
 function applyPropFilter<T extends Record<string, any>>(
   items: T[],

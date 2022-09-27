@@ -22,7 +22,7 @@ export const useBikesData = () => {
       ? query(collection(db, "bikes").withConverter(docConverter))
       : query(
           collection(db, "bikes").withConverter(docConverter),
-          where("status", "==", BikeStatus.AVAILABLE)
+        where("status", "==", BikeStatus.AVAILABLE),
         );
   const [bikes, loading, error] = useCollectionData(queryC, {
     snapshotOptions: {},

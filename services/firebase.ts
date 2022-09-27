@@ -26,6 +26,15 @@ export const createBike = async (bike: ExtendedBikeCreationInput) => {
   return res;
 }
 
+export const deleteBike = async (id: string) => { 
+  const res = await setDoc(
+    doc(db, "bikes", id),
+    { entityStatus: EntityStatus.DELETED },
+    { merge: true }
+  );
+  return res;
+}
+
 interface DateRange {
   from: Date;
   to: Date;
@@ -52,6 +61,7 @@ export const createReservation = async ({
       location,
     },
     status: ReservationStatus.PENDING,
+    // @ts-ignore
     reservedAt: serverTimestamp(),
     entityStatus: EntityStatus.ACTIVE,
   };

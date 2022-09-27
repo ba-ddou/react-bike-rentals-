@@ -14,7 +14,10 @@ const DynamicActionIcon: React.FunctionComponent<DynamicActionIconProps> = ({
   onClick,
 }) => {
   const [loading, setLoading] = React.useState(false);
-  const onClickHandler = async () => {
+  const onClickHandler: React.MouseEventHandler<HTMLButtonElement> = async (
+    event
+  ) => {
+    event.stopPropagation();
     setLoading(true);
     await onClick();
     setLoading(false);
