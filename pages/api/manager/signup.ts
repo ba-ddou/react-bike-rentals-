@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { User, UserRole } from "@types";
 import admin from "@root/lib/firebase";
 import { UserRecord } from "firebase-admin/lib/auth/user-record";
+import { EntityStatus } from "@root/@types/Global";
 
 export default async function handler(
   req: NextApiRequest,
@@ -22,11 +23,13 @@ export default async function handler(
     name,
     email,
     role: UserRole.MANAGER,
+    entityStatus: EntityStatus.ACTIVE,
   });
   res.status(200).json({
     id: uid,
     name,
     email,
     role: UserRole.MANAGER,
+    entityStatus: EntityStatus.ACTIVE,
   });
 }

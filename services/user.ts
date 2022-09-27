@@ -9,3 +9,10 @@ export const signupUser = async (user: UserInput) => {
     body: JSON.stringify(user),
   }).then((res) => res.json());
 };
+
+
+export const deletedUser = async (id: string) => {
+  return await fetch(`/api/user/${id}`, {
+    method: "DELETE",
+  }).then((res) => res.json());
+}

@@ -1,9 +1,13 @@
+import { EntityStatus } from "./Global";
+
 export interface User {
   id: string;
   name: string;
   email: string;
   role: UserRole;
+  entityStatus: EntityStatus;
 }
+
 
 export enum UserRole {
   MANAGER = "manager",

@@ -4,6 +4,7 @@ import { getAuthUser } from "@helpers/getAuthUser";
 import { getGetServerSidePropsWithManagerAuth } from "@helpers/getGetServerSidePropsWithManagerAuth";
 import { UserRole } from "@root/@types";
 import { useUsers } from "@root/providers";
+import { deletedUser } from "@root/services";
 import { GetServerSideProps } from "next";
 import { FunctionComponent } from "react";
 
@@ -14,7 +15,7 @@ const Users: FunctionComponent<UsersProps> = () => {
   return (
     <>
       <LargeHeading>Users</LargeHeading>
-      <UsersTable users={users} role={UserRole.USER} />
+      <UsersTable users={users} role={UserRole.USER} onDelete={deletedUser} />
     </>
   );
 };

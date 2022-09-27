@@ -6,7 +6,7 @@ import { UserRole } from "@root/@types";
 import { useAuth } from "@root/hooks";
 import { onlyAllow } from "@root/middlewares";
 import { useManagers } from "@root/providers";
-import { createManager } from "@root/services";
+import { createManager, deletedManager } from "@root/services";
 import { GetServerSideProps } from "next";
 import { FunctionComponent } from "react";
 
@@ -25,7 +25,12 @@ const Managers: FunctionComponent<ManagersProps> = () => {
   return (
     <>
       <LargeHeading>Managers</LargeHeading>
-      <UsersTable users={managers} role={UserRole.MANAGER} onAdd={onAdd} />
+      <UsersTable
+        users={managers}
+        role={UserRole.MANAGER}
+        onAdd={onAdd}
+        onDelete={deletedManager}
+      />
     </>
   );
 };

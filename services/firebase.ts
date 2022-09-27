@@ -3,6 +3,7 @@ import firebaseApp from "../config/firebase";
 import { getFirestore, doc, setDoc, getDoc,addDoc,collection,serverTimestamp } from "firebase/firestore";
 import cookie from "js-cookie";
 import { getAuth } from "firebase/auth";
+import { EntityStatus } from "@root/@types/Global";
 
 const db = getFirestore(firebaseApp);
 const auth = getAuth(firebaseApp);
@@ -52,6 +53,7 @@ export const createReservation = async ({
     },
     status: ReservationStatus.PENDING,
     reservedAt: serverTimestamp(),
+    entityStatus: EntityStatus.ACTIVE,
   };
   const res = await addDoc(collection(db, "reservations"), reservation);
   return res;

@@ -13,6 +13,7 @@ import {
 import { docConverter } from "@helpers/firebase";
 import { useAuth } from "./auth";
 import { checkDateRangeIntersection } from "@helpers/dates";
+import { EntityStatus } from "@root/@types/Global";
 
 export const useBikesData = () => {
   const { user } = useAuth();
@@ -38,7 +39,8 @@ export const useUsersData = () => {
   const [users, loading, error] = useCollectionData(
     query(
       collection(db, "users").withConverter(docConverter),
-      where("role", "==", UserRole.USER)
+      where("role", "==", UserRole.USER),
+      where("entityStatus", "==", EntityStatus.ACTIVE)
     )
   );
 
@@ -49,7 +51,8 @@ export const useManagersData = (authenticatedManagerID?: string) => {
   const [managers, loading, error] = useCollectionData(
     query(
       collection(db, "users").withConverter(docConverter),
-      where("role", "==", UserRole.MANAGER)
+      where("role", "==", UserRole.MANAGER),
+      where("entityStatus", "==", EntityStatus.ACTIVE)
     )
   );
 

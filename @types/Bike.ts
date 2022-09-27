@@ -1,3 +1,5 @@
+import { EntityStatus } from "./Global";
+
 export interface Bike {
   id: string;
   model: string;
@@ -10,6 +12,7 @@ export interface Bike {
   ratingCount: number;
   createBy: string; // Manager id
   status: BikeStatus;
+  entityStatus: EntityStatus;
 }
 
 export enum BikeStatus {

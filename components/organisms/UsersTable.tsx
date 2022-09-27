@@ -14,11 +14,13 @@ import {
 } from "@mantine/core";
 import { IconPencil, IconPlus, IconTrash } from "@tabler/icons";
 import { User, UserRole } from "@root/@types";
+import DynamicActionIcon from "@components/atoms/DynamicActionIcon";
 
 interface UsersTableProps {
   users: User[] | null;
   role: UserRole;
   onAdd?: () => void;
+  onDelete?: (id: string) => void;
 }
 
 interface UsersTableProps {}
@@ -27,6 +29,7 @@ const UsersTable: FunctionComponent<UsersTableProps> = ({
   users,
   role,
   onAdd,
+  onDelete,
 }) => {
   if (!users) return null;
   const rows = users.map((item) => (
@@ -49,11 +52,11 @@ const UsersTable: FunctionComponent<UsersTableProps> = ({
         </Anchor>
       </td>
       <td>
-        <Group spacing={0} position="right">
-          <ActionIcon color="red">
-            <IconTrash size={16} stroke={1.5} />
-          </ActionIcon>
-        </Group>
+        <DynamicActionIcon
+          color="red"
+          onClick={() => onDelete?.(item.id)}
+          Icon={IconTrash}
+        />
       </td>
     </tr>
   ));
