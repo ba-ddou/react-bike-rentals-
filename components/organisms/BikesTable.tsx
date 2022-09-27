@@ -17,6 +17,7 @@ import { IconPencil, IconTrash, IconStar, IconPlus } from "@tabler/icons";
 import { User } from "@root/@types";
 import Link from "next/link";
 import DynamicActionIcon from "@components/atoms/DynamicActionIcon";
+import RatingPreview from "@components/atoms/Rating";
 
 interface BikesTableProps {
   bikes: Bike[];
@@ -74,15 +75,10 @@ const BikesTable: FunctionComponent<BikesTableProps> = ({
           </Text>
         </td>
         <td>
-          <Group spacing={1}>
-            <IconStar size={18} />
-            <Text size="sm" weight={500}>
-              {`${item.rating}`}
-            </Text>
-            <Text size="xs" weight={500} color="dimmed">
-              {`(${item.ratingCount})`}
-            </Text>
-          </Group>
+          <RatingPreview
+            rating={item.rating}
+            ratingCount={item.ratingCount}
+          />
         </td>
         <td>
           <Group spacing={0} position="right">
