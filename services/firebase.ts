@@ -42,8 +42,8 @@ export const createReservation = async ({
   const {id:bikeId,price,location } = bike;
   const {from,to } = dateRange;
   const reservation: ReservationCreationInput = {
-    start: from,
-    end: to,
+    from,
+    to,
     user,
     bike: bikeId,
     bikeSnapshot: {

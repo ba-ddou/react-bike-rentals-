@@ -3,8 +3,8 @@ import { User } from "./User";
 
 export interface Reservation {
   id: string;
-  start: Date;
-  end: Date;
+  from: Date;
+  to: Date;
   user: string;
   bike: string;
   bikeSnapshot: {

@@ -8,6 +8,6 @@ export const getNumberOfDays = (start: Date, end: Date) => {
 };
 
 export const formatDateTime = (date: Date, includeTime: boolean = false) => {
-  if (!includeTime) return DateTime.fromJSDate(date).toFormat("dd/MM/yyyy");
-  return DateTime.fromJSDate(date).toFormat("dd/MM/yyyy HH:mm");
+  if (!includeTime) return DateTime.fromJSDate(date).toFormat("dd LLL yyyy");
+  return DateTime.fromJSDate(date).toFormat("dd LLL yyyy HH:mm");
 };

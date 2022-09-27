@@ -108,17 +108,17 @@ function formatReservations(
   bikes: Bike[]
 ): ReservationWithProjections[] {
   return reservations.map((reservation) => {
-    const { start, end, reservedAt } = reservation;
+    const { from, to, reservedAt } = reservation;
     const user = users.find((user) => user.id === reservation.user) as User;
     const bike = bikes.find((bike) => bike.id === reservation.bike) as Bike;
 
-    const startDate = start.toDate();
-    const endDate = end.toDate();
-    const numberOfDays = getNumberOfDays(startDate, endDate);
+    const fromDate = from.toDate();
+    const toDate = to.toDate();
+    const numberOfDays = getNumberOfDays(fromDate, toDate);
     return {
       ...reservation,
-      start: startDate,
-      end: endDate,
+      from: fromDate,
+      to: fromDate,
       user,
       bike,
       numberOfDays,

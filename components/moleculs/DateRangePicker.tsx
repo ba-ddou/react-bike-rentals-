@@ -27,6 +27,7 @@ const DateRangePicker: FunctionComponent<DateRangePickerProps> = ({
       }}
       allowSingleDateInRange
       style={{ width: "25rem" }}
+      minDate={new Date()}
     />
   );
 };

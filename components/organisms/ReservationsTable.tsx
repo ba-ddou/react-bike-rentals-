@@ -60,11 +60,11 @@ const ReservationsTable: FunctionComponent<ReservationsTableProps> = ({
       <td>
         <Group spacing={3}>
           <Text size="sm" weight={500}>
-            {`${formatDateTime(item.start)}`}
+            {`${formatDateTime(item.from)}`}
           </Text>
           <IconArrowRight size={18} />
           <Text size="sm" weight={500}>
-            {`${formatDateTime(item.end)}`}
+            {`${formatDateTime(item.to)}`}
           </Text>
         </Group>
       </td>
