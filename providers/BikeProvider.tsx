@@ -1,4 +1,10 @@
-import { Bike, Filters } from "@types";
+import {
+  Bike,
+  Filters,
+  Reservation,
+  ReservationWithProjections,
+  User,
+} from "@types";
 import React, {
   createContext,
   useContext,
@@ -7,12 +13,14 @@ import React, {
   useMemo,
 } from "react";
 
-import { useBikesData, useReservationsData } from "hooks";
+import { useAuth, useBikesData, useReservationsData } from "hooks";
 import { applyPropFilter } from "@helpers/filters";
-import { EntityStatus } from "@root/@types/Global";
+import { DateRange, EntityStatus } from "@root/@types/Global";
+import { checkDateRangeIntersection, getNumberOfDays } from "@helpers/dates";
 
 export const BikeContext = createContext<{
   bikes: Bike[] | null;
+  reservations: Reservation[] | null;
   models: string[];
   locations: string[];
   colors: string[];
@@ -38,7 +46,7 @@ export const BikeProvider: FunctionComponent<BikeProviderProps> = ({
 }) => {
   const [filters, setFilters] = React.useState<Filters>(DEFAULT_FILTERS);
   const { bikes, loading, error } = useBikesData();
-  const { reservations } = useReservationsData(filters.dateRange);
+  const { reservations } = useReservationsData();
 
   const applyFilters = (filters: Partial<Filters>) => {
     setFilters((previousFilters) => {
@@ -49,9 +57,16 @@ export const BikeProvider: FunctionComponent<BikeProviderProps> = ({
     });
   };
 
+  const reservationOnSelectedDateRange = useMemo(() => {
+    return applyDateRangeFilter(reservations, filters.dateRange);
+  }, [reservations, filters.dateRange]);
+
   const bikesUnavailableInTheSelectedDateRange = useMemo(() => {
-    return reservations?.map((reservation) => reservation.bike) || [];
-  }, [reservations]);
+    return (
+      reservationOnSelectedDateRange?.map((reservation) => reservation.bike) ||
+      []
+    );
+  }, [reservationOnSelectedDateRange]);
 
   const availableBikes = useMemo(() => {
     if (!bikes) return null;
@@ -73,6 +88,7 @@ export const BikeProvider: FunctionComponent<BikeProviderProps> = ({
         bikes: availableBikes
           ? applyBikeFilters(availableBikes, filters)
           : null,
+        reservations,
         colors: getUniqueProp(availableBikes, "color"),
         models: getUniqueProp(availableBikes, "model"),
         locations: getUniqueProp(availableBikes, "location"),
@@ -99,6 +115,21 @@ export const useBike = (id: string) => {
   return { bike: bikesMap.get(id) };
 };
 
+export const useUserReservations = () => {
+  const { reservations, bikes } = useBikes();
+  const { user } = useAuth();
+  const userReservations = useMemo(() => { 
+    if (!reservations || !bikes || !user) return null;
+    const userReservations = reservations.filter(
+      (reservation) => reservation.user === user.id
+    );
+    return formatReservations(userReservations, bikes);
+  }, [reservations, user, bikes]);
+  return {
+    reservations: userReservations,
+  };
+};
+
 export const getUniqueProp = (bikes: Bike[] | null, prop: string) => {
   return bikes
     ? Array.from(new Set(bikes.map((bike) => bike[prop])).values())
@@ -112,8 +143,49 @@ const applyBikeFilters = (bikes: Bike[], filters: Filters) => {
     {
       color,
       model,
-      location
+      location,
     },
     "inclusion"
   );
 };
+
+const applyDateRangeFilter = (
+  reservations?: Reservation[],
+  dateRange?: DateRange
+) => {
+  if (!dateRange || !reservations) return reservations;
+
+  return reservations.filter((reservation) => {
+    return checkDateRangeIntersection(
+      {
+        from: reservation.from.toDate(),
+        to: reservation.to.toDate(),
+      },
+      dateRange
+    );
+  });
+};
+
+function formatReservations(
+  reservations: Reservation[],
+  bikes: Bike[]
+): Omit<ReservationWithProjections, "user">[] {
+  return reservations.map(({ user, ...reservation }) => {
+    const { from, to, reservedAt } = reservation;
+    const bike = bikes.find((bike) => bike.id === reservation.bike) as Bike;
+
+    const fromDate = from.toDate();
+    const toDate = to.toDate();
+    const numberOfDays = getNumberOfDays(fromDate, toDate);
+    return {
+      ...reservation,
+      from: fromDate,
+      to: fromDate,
+      user,
+      bike,
+      numberOfDays,
+      reservedAt: reservedAt.toDate(),
+      totalPrice: numberOfDays * reservation.bikeSnapshot.price,
+    };
+  });
+}

@@ -13,7 +13,15 @@ import {
   ColorSwatch,
   useMantineTheme,
 } from "@mantine/core";
-import { IconPencil, IconTrash, IconStar, IconPlus, IconArrowBarRight, IconArrowRight } from "@tabler/icons";
+import {
+  IconPencil,
+  IconTrash,
+  IconStar,
+  IconPlus,
+  IconArrowBarRight,
+  IconArrowRight,
+  IconX
+} from "@tabler/icons";
 import { User } from "@root/@types";
 import Link from "next/link";
 import { StatusBadge } from "@components/atoms";
@@ -21,16 +29,17 @@ import { formatDateTime } from "@helpers/dates";
 
 interface ReservationsTableProps {
   reservations: ReservationWithProjections[];
-  onAdd: () => void;
+  omitColumns?: string[];
+  onCancel?: (id: string) => void;
 }
 
 const ReservationsTable: FunctionComponent<ReservationsTableProps> = ({
   reservations,
-  onAdd,
+  omitColumns = [],
+  onCancel,
 }) => {
-
   // return null;
-  
+
   const rows = reservations.map((item) => (
     <tr
       key={item.id}
@@ -38,14 +47,16 @@ const ReservationsTable: FunctionComponent<ReservationsTableProps> = ({
         cursor: "pointer",
       }}
     >
-      <td>
-        <Group spacing="sm">
-          <Avatar size={30} radius={30} />
-          <Text size="sm" weight={500}>
-            {item.user.name}
-          </Text>
-        </Group>
-      </td>
+      {!omitColumns.includes("user") && (
+        <td>
+          <Group spacing="sm">
+            <Avatar size={30} radius={30} />
+            <Text size="sm" weight={500}>
+              {item.user.name}
+            </Text>
+          </Group>
+        </td>
+      )}
       <td>
         <Group spacing="sm">
           <Avatar size={30} src={item.bike.image} radius={30} />
@@ -101,6 +112,13 @@ const ReservationsTable: FunctionComponent<ReservationsTableProps> = ({
           <StatusBadge status={item.status} entity="reservation" />
         </Center>
       </td>
+      <td>
+        {onCancel && (
+          <ActionIcon color="red" onClick={()=>onCancel(item.id)}>
+            <IconX size={16} stroke={2} />
+          </ActionIcon>
+        )}
+      </td>
     </tr>
   ));
   return (
@@ -113,7 +131,7 @@ const ReservationsTable: FunctionComponent<ReservationsTableProps> = ({
         <Table sx={{ minWidth: 1000 }} verticalSpacing="md" highlightOnHover>
           <thead>
             <tr>
-              <th>User</th>
+              {!omitColumns.includes("user") && <th>User</th>}
               <th>Bike</th>
               <th>Reserved At</th>
               <th>Date range</th>

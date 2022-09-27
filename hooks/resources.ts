@@ -65,60 +65,15 @@ export const useManagersData = (authenticatedManagerID?: string) => {
   };
 };
 
-interface DateRange {
-  from: Date;
-  to: Date;
-}
 
-export const useReservationsData = (dateRange?: DateRange) => {
+export const useReservationsData = () => {
   const [reservations, loading, error] = useCollectionData(
     query(collection(db, "reservations").withConverter(docConverter))
   );
 
   return {
-    reservations: applyDateRangeFilter(reservations,dateRange) as Reservation[],
+    reservations: reservations as Reservation[],
     loading,
     error,
   };
 };
-
-const applyDateRangeFilter = (
-  reservations?: Reservation[],
-  dateRange?: DateRange
-) => {
-  if (!dateRange || !reservations) return reservations;
-
-  return reservations.filter((reservation) => {
-    return checkDateRangeIntersection(
-      {
-        from: reservation.from.toDate(),
-        to: reservation.to.toDate(),
-      },
-      dateRange
-    );
-  });
-};
-
-// const getReservationsQuery = (filters?: Filters) => {
-
-//   if (!filters) return query(collection(db, "reservations").withConverter(docConverter));
-//   const constraints = [];
-//   const {
-//     // model,
-//     // color,
-//     // location,
-//     dateRange,
-//   } = filters || {};
-
-//   if (dateRange) {
-//     const { from, to } = dateRange;
-//     constraints.push(
-//       where("to", "<=", to),
-//       where("to", ">=", from)
-//     );
-//   }
-//   return query(
-//     collection(db, "reservations").withConverter(docConverter),
-//     ...constraints
-//   );
-// };
