@@ -1,6 +1,6 @@
 import { LoaderOverlay } from "@components/atoms";
 import { BikeBanner } from "@components/moleculs";
-import { Button, Container, Group, Text } from "@mantine/core";
+import { Button, Container, Group, Text, Title } from "@mantine/core";
 import { UserRole } from "@root/@types";
 import { useAuth } from "@root/hooks";
 import { useBike } from "providers/BikeProvider";
@@ -70,10 +70,16 @@ const Booking: FunctionComponent<BookingProps> = ({
             {`${formatDateTime(to)}`}
           </Text>
         </Group>
-        <Group>
-          <Text weight={500} size="lg">
-            {bike.price * numberOfDays}$
-          </Text>
+        <Group
+          sx={{
+            flexDirection: "column",
+          }}
+          spacing={0}
+        >
+          <Title weight={800}>{bike.price * numberOfDays}$</Title>
+          <Text size="xs" color="dimmed">{`${numberOfDays} ${
+            numberOfDays > 1 ? "days" : "day"
+          }`}</Text>
         </Group>
         <div>
           <Button
