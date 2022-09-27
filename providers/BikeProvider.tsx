@@ -17,8 +17,10 @@ import { useAuth, useBikesData, useReservationsData } from "hooks";
 import { applyPropFilter } from "@helpers/filters";
 import { DateRange, EntityStatus } from "@root/@types/Global";
 import { checkDateRangeIntersection, getNumberOfDays } from "@helpers/dates";
+import { inferConceptualStatus } from "@helpers/utils";
 
 export const BikeContext = createContext<{
+  allBikes: Bike[] | null;
   bikes: Bike[] | null;
   reservations: Reservation[] | null;
   models: string[];
@@ -85,6 +87,7 @@ export const BikeProvider: FunctionComponent<BikeProviderProps> = ({
   return (
     <BikeContext.Provider
       value={{
+        allBikes: bikes,
         bikes: availableBikes
           ? applyBikeFilters(availableBikes, filters)
           : null,
@@ -92,7 +95,7 @@ export const BikeProvider: FunctionComponent<BikeProviderProps> = ({
         colors: getUniqueProp(availableBikes, "color"),
         models: getUniqueProp(availableBikes, "model"),
         locations: getUniqueProp(availableBikes, "location"),
-        bikesMap: new Map(availableBikes?.map((bike) => [bike.id, bike])),
+        bikesMap: new Map(bikes?.map((bike) => [bike.id, bike])),
         filters,
         applyFilters,
       }}
@@ -116,15 +119,15 @@ export const useBike = (id: string) => {
 };
 
 export const useUserReservations = () => {
-  const { reservations, bikes } = useBikes();
+  const { reservations, allBikes } = useBikes();
   const { user } = useAuth();
-  const userReservations = useMemo(() => { 
-    if (!reservations || !bikes || !user) return null;
+  const userReservations = useMemo(() => {
+    if (!reservations || !allBikes || !user) return null;
     const userReservations = reservations.filter(
       (reservation) => reservation.user === user.id
     );
-    return formatReservations(userReservations, bikes);
-  }, [reservations, user, bikes]);
+    return formatReservations(userReservations, allBikes);
+  }, [reservations, user, allBikes]);
   return {
     reservations: userReservations,
   };
@@ -170,22 +173,23 @@ function formatReservations(
   reservations: Reservation[],
   bikes: Bike[]
 ): Omit<ReservationWithProjections, "user">[] {
-  return reservations.map(({ user, ...reservation }) => {
+  return reservations.map(({ user, status, ...reservation }) => {
     const { from, to, reservedAt } = reservation;
     const bike = bikes.find((bike) => bike.id === reservation.bike) as Bike;
 
     const fromDate = from.toDate();
     const toDate = to.toDate();
-    const numberOfDays = getNumberOfDays(fromDate, toDate);
+    const numberOfDays = parseInt(getNumberOfDays(fromDate, toDate));
     return {
       ...reservation,
       from: fromDate,
-      to: fromDate,
+      to: toDate,
       user,
       bike,
       numberOfDays,
       reservedAt: reservedAt.toDate(),
       totalPrice: numberOfDays * reservation.bikeSnapshot.price,
+      status: inferConceptualStatus(status, { from: fromDate, to: toDate }),
     };
   });
 }

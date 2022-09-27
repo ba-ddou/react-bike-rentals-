@@ -60,10 +60,9 @@ export const createReservation = async ({
       price,
       location,
     },
-    status: ReservationStatus.PENDING,
+    status: ReservationStatus.ACTIVE,
     // @ts-ignore
     reservedAt: serverTimestamp(),
-    entityStatus: EntityStatus.ACTIVE,
   };
   const res = await addDoc(collection(db, "reservations"), reservation);
   return res;

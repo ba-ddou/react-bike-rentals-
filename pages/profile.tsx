@@ -10,7 +10,6 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 
 const Profile: NextPage = () => {
-  const { user } = useAuth();
   const { reservations } = useUserReservations();
 
   if(!reservations) return null;

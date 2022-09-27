@@ -30,6 +30,7 @@ import { useRouter } from "next/router";
 import { getNumberOfDays } from "@helpers/dates";
 import { EntityStatus } from "@root/@types/Global";
 import { applyPropFilter } from "@helpers/filters";
+import { inferConceptualStatus } from "@helpers/utils";
 const auth = getAuth(firebaseApp);
 
 export const GlobalDataContext = createContext<{
@@ -130,7 +131,7 @@ function formatReservations(
   users: User[],
   bikes: Bike[]
 ): ReservationWithProjections[] {
-  return reservations.map((reservation) => {
+  return reservations.map(({status,...reservation}) => {
     const { from, to, reservedAt } = reservation;
     const user = users.find((user) => user.id === reservation.user) as User;
     const bike = bikes.find((bike) => bike.id === reservation.bike) as Bike;
@@ -141,12 +142,13 @@ function formatReservations(
     return {
       ...reservation,
       from: fromDate,
-      to: fromDate,
+      to: toDate,
       user,
       bike,
       numberOfDays,
       reservedAt: reservedAt.toDate(),
       totalPrice: numberOfDays * reservation.bikeSnapshot.price,
+      status: inferConceptualStatus(status, { from: fromDate, to:toDate }),
     };
   });
 }

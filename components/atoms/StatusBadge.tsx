@@ -1,5 +1,5 @@
 import { Badge, BadgeProps } from "@mantine/core";
-import { BikeStatus, ReservationStatus } from "@root/@types";
+import { BikeStatus, ConceptualReservationStatus } from "@root/@types";
 import React, { FunctionComponent } from "react";
 
 const statusLabelsMap = {
@@ -14,18 +14,18 @@ const statusLabelsMap = {
     },
   },
   reservation: {
-    [ReservationStatus.CANCELLED]: {
+    [ConceptualReservationStatus.CANCELLED]: {
       label: "Cancelled",
       color: "red",
     },
-    [ReservationStatus.PENDING]: {
+    [ConceptualReservationStatus.PENDING]: {
       label: "Pending",
       color: "yellow",
     },
-    [ReservationStatus.IN_PROGRESS]: {
+    [ConceptualReservationStatus.IN_PROGRESS]: {
       label: "In progress",
     },
-    [ReservationStatus.COMPLETED]: {
+    [ConceptualReservationStatus.COMPLETED]: {
       label: "Completed",
       color: "green",
     },
@@ -33,7 +33,7 @@ const statusLabelsMap = {
 };
 
 type StatusBadgeProps = {
-  status: BikeStatus | ReservationStatus;
+  status: BikeStatus | ConceptualReservationStatus;
   entity: "bike" | "reservation";
 } & BadgeProps;
 
