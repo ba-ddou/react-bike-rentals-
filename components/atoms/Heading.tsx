@@ -3,16 +3,18 @@ import { Center, Text } from "@mantine/core";
 
 interface LargeHeadingProps {
   children: React.ReactNode;
+  minWidth: number;
 }
 
 export const LargeHeading: FunctionComponent<LargeHeadingProps> = ({
   children,
+  minWidth = 1000,
 }) => {
   return (
     <Center>
       <div
         style={{
-          minWidth: 1000,
+          minWidth,
           paddingBottom: "2rem",
         }}
       >

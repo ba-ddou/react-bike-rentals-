@@ -20,7 +20,7 @@ import {
   IconPlus,
   IconArrowBarRight,
   IconArrowRight,
-  IconX
+  IconX,
 } from "@tabler/icons";
 import { User } from "@root/@types";
 import Link from "next/link";
@@ -48,6 +48,11 @@ const ReservationsTable: FunctionComponent<ReservationsTableProps> = ({
         cursor: "pointer",
       }}
     >
+      <td>
+        <Text size="xs" weight={500} color="dimmed">
+          {formatDateTime(item.reservedAt, true)}
+        </Text>
+      </td>
       {!omitColumns.includes("user") && (
         <td>
           <Group spacing="sm">
@@ -66,21 +71,19 @@ const ReservationsTable: FunctionComponent<ReservationsTableProps> = ({
           </Text>
         </Group>
       </td>
+
       <td>
-        <Text size="sm" weight={500}>
-          {formatDateTime(item.reservedAt, true)}
-        </Text>
-      </td>
-      <td>
-        <Group spacing={3}>
-          <Text size="sm" weight={500}>
-            {`${formatDateTime(item.from)}`}
-          </Text>
-          <IconArrowRight size={18} />
-          <Text size="sm" weight={500}>
-            {`${formatDateTime(item.to)}`}
-          </Text>
-        </Group>
+        <Center>
+          <Group spacing={3}>
+            <Text size="sm" weight={500}>
+              {`${formatDateTime(item.from)}`}
+            </Text>
+            <IconArrowRight size={18} />
+            <Text size="sm" weight={500}>
+              {`${formatDateTime(item.to)}`}
+            </Text>
+          </Group>
+        </Center>
       </td>
       <td>
         <Center>
@@ -115,7 +118,11 @@ const ReservationsTable: FunctionComponent<ReservationsTableProps> = ({
       </td>
       <td>
         {onCancel && (
-          <DynamicActionIcon Icon={IconX} color="red"  onClick={()=>onCancel(item.id)}/>
+          <DynamicActionIcon
+            Icon={IconX}
+            color="red"
+            onClick={() => onCancel(item.id)}
+          />
         )}
       </td>
     </tr>
@@ -127,18 +134,19 @@ const ReservationsTable: FunctionComponent<ReservationsTableProps> = ({
       }}
     >
       <ScrollArea>
-        <Table sx={{ minWidth: 1000 }} verticalSpacing="md">
+        <Table sx={{ minWidth: 1200 }} verticalSpacing="md" align="center">
           <thead>
             <tr>
-              {!omitColumns.includes("user") && <th>User</th>}
-              <th>Bike</th>
-              <th>Reserved At</th>
-              <th>Date range</th>
-              <th>Number of days</th>
-              <th>price</th>
-              <th>Total price</th>
-              <th>Status</th>
-              <th />
+              <Th />
+              {!omitColumns.includes("user") && <Th>User</Th>}
+              <Th>Bike</Th>
+              {/* <Th>Reserved At</Th> */}
+              <Th>Date range</Th>
+              <Th>Number of days</Th>
+              <Th>Unit price</Th>
+              <Th>Total price</Th>
+              <Th>Status</Th>
+              <Th />
             </tr>
           </thead>
           <tbody>{rows}</tbody>
@@ -149,3 +157,11 @@ const ReservationsTable: FunctionComponent<ReservationsTableProps> = ({
 };
 
 export default ReservationsTable;
+
+function Th({ children }) {
+  return (
+    <th>
+      <Center>{children}</Center>
+    </th>
+  );
+}

@@ -17,7 +17,7 @@ const Profile: NextPage = () => {
   return (
     <div className={styles.container}>
       <Header />
-      <LargeHeading>Reservations History</LargeHeading>
+      <LargeHeading minWidth={1200}>Reservations History</LargeHeading>
       <ReservationsTable
         reservations={reservations}
         omitColumns={["user"]}

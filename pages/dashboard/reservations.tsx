@@ -16,7 +16,7 @@ const Reservations: FunctionComponent<ReservationsProps> = () => {
   if (!reservations) return null;
   return (
     <>
-      <LargeHeading>Reservations</LargeHeading>
+      <LargeHeading minWidth={1200}>Reservations</LargeHeading>
       <ReservationsTable reservations={reservations} onAdd={open} />
     </>
   );
