@@ -34,6 +34,7 @@ const auth = getAuth(firebaseApp);
 
 export const GlobalDataContext = createContext<{
   users: User[] | null;
+  usersLoading: boolean;
   managers: User[] | null;
   reservations: ReservationWithProjections[] | null;
   bikes: Bike[] | null;
@@ -49,7 +50,7 @@ export const GlobalDataProvider: FunctionComponent<GlobalDataProviderProps> = ({
   children,
 }) => {
   const { user } = useAuth();
-  const { users } = useUsersData();
+  const { users,loading: usersLoading } = useUsersData();
   const { managers } = useManagersData(user?.id);
   const { bikes, loading, error } = useBikesData();
   const { reservations } = useReservationsData();
@@ -71,6 +72,7 @@ export const GlobalDataProvider: FunctionComponent<GlobalDataProviderProps> = ({
               "exclusion"
             )
           : null,
+        usersLoading,
         managers,
         reservations: formatedReservations,
         bikes: bikes
@@ -109,8 +111,8 @@ export const useBike = (id: string) => {
 };
 
 export const useUsers = () => {
-  const { users } = useGlobalData();
-  return { users };
+  const { users, usersLoading } = useGlobalData();
+  return { users, loading: usersLoading };
 };
 
 export const useManagers = () => {

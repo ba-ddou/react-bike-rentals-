@@ -11,7 +11,7 @@ import { FunctionComponent } from "react";
 interface UsersProps {}
 
 const Users: FunctionComponent<UsersProps> = () => {
-  const { users } = useUsers();
+  const { users, loading } = useUsers();
   return (
     <>
       <LargeHeading>Users</LargeHeading>
