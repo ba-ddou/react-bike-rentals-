@@ -21,7 +21,7 @@ export const CheckboxGroup: FunctionComponent<CheckboxGroupProps> = ({
 }) => {
   return (
     <Checkbox.Group
-      defaultValue={[options[0].id]}
+      defaultValue={options.map((option) => option.id)}
       // label="Select your favorite framework/library"
       // description="This is anonymous"
       // withAsterisk

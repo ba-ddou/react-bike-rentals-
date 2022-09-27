@@ -6,11 +6,12 @@ import {
   MultiSelectWithSearch,
 } from "@components/moleculs";
 import { colors } from "@root/config/colors";
+import { useBikes } from "@root/providers/BikeProvider";
 
 interface FiltersPanelProps {}
 
 const FiltersPanel: FunctionComponent<FiltersPanelProps> = () => {
-  const cities = ["New York", "London", "Paris", "Berlin", "Madrid"];
+  const { models, colors, locations, applyFilters } = useBikes();
   return (
     <div>
       <Text
@@ -29,16 +30,14 @@ const FiltersPanel: FunctionComponent<FiltersPanelProps> = () => {
           </Accordion.Control>
           <Accordion.Panel>
             <CheckboxGroup
-              options={[
-                {
-                  id: "Model 1",
-                  label: "Model 1",
-                },
-                {
-                  id: "Model 2",
-                  label: "Model 2",
-                },
-              ]}
+              options={models.map(
+                (model) => ({ label: model, id: model } as const)
+              )}
+              onChange={(selected) => {
+                applyFilters({
+                  model: selected,
+                });
+              }}
             />
           </Accordion.Panel>
         </Accordion.Item>
@@ -51,7 +50,11 @@ const FiltersPanel: FunctionComponent<FiltersPanelProps> = () => {
             <ColorSwatchSelectionGroup
               colors={colors}
               initialColors={colors}
-              onChange={(colors) => {}}
+              onChange={(colors) => {
+                applyFilters({
+                  color: colors,
+                });
+              }}
             />
           </Accordion.Panel>
         </Accordion.Item>
@@ -62,7 +65,12 @@ const FiltersPanel: FunctionComponent<FiltersPanelProps> = () => {
           </Accordion.Control>
           <Accordion.Panel>
             <MultiSelectWithSearch
-              options={cities.map((city) => ({ label: city, value: city }))}
+              options={locations.map((city) => ({ label: city, value: city }))}
+              onChange={(selected) => {
+                applyFilters({
+                  location: selected,
+                });
+              }}
             />
           </Accordion.Panel>
         </Accordion.Item>

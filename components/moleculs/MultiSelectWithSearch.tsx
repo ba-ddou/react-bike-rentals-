@@ -61,10 +61,12 @@ const Item = forwardRef<HTMLDivElement, SelectItemProps>(
 
 interface MultiSelectWithSearchProps {
   options: { label: string; value: string }[];
+  onChange(value: string[]): void;
 }
 
 const MultiSelectWithSearch: FunctionComponent<MultiSelectWithSearchProps> = ({
   options,
+  onChange,
 }) => {
   return (
     <MultiSelect
@@ -75,7 +77,8 @@ const MultiSelectWithSearch: FunctionComponent<MultiSelectWithSearchProps> = ({
       searchable
       defaultValue={options.map((option) => option.value)}
       placeholder="Pick cities"
-    //   label="Which countries you visited last year?"
+      onChange={onChange}
+      //   label="Which countries you visited last year?"
     />
   );
 };

@@ -1,6 +1,6 @@
 export interface Filters {
-  model?: string;
-  color?: string;
+  model?: string[];
+  color?: string[];
   location?: string[];
   dateRange: {
     from: Date;

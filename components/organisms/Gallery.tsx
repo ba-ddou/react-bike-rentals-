@@ -40,10 +40,6 @@ const Gallery: FunctionComponent<GalleryProps> = () => {
           <Center>
             <DateRangePicker
               onChange={([from, to]) =>
-                // setDateRange({
-                //   from,
-                //   to,
-                // })
                 applyFilters({
                   dateRange: {
                     from,

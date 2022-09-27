@@ -5,8 +5,10 @@ export function applyPropFilter<T extends Record<string, any>>(
 ): T[] {
   return items.filter((item) => {
     return Object.keys(filters).every((key) => {
-      if (checkType === "inclusion") return item[key] === filters[key];
-      else return item[key] !== filters[key];
+      if (checkType === "inclusion")
+        return filters[key] != null ? filters[key]?.includes(item[key]) : true;
+      else
+        return filters[key] != null ? !filters[key]?.includes(item[key]) : true;
     });
   });
 }

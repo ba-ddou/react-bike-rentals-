@@ -13,9 +13,12 @@ import { EntityStatus } from "@root/@types/Global";
 
 export const BikeContext = createContext<{
   bikes: Bike[] | null;
+  models: string[];
+  locations: string[];
+  colors: string[];
   bikesMap: Map<string, Bike>;
   filters: Filters;
-  applyFilters: (filters: Filters) => void;
+  applyFilters: (filters: Partial<Filters>) => void;
   // @ts-ignore
 }>(undefined);
 
@@ -37,9 +40,7 @@ export const BikeProvider: FunctionComponent<BikeProviderProps> = ({
   const { bikes, loading, error } = useBikesData();
   const { reservations } = useReservationsData(filters.dateRange);
 
-  
-
-  const applyFilters = (filters: Filters) => {
+  const applyFilters = (filters: Partial<Filters>) => {
     setFilters((previousFilters) => {
       return {
         ...previousFilters,
@@ -54,21 +55,27 @@ export const BikeProvider: FunctionComponent<BikeProviderProps> = ({
 
   const availableBikes = useMemo(() => {
     if (!bikes) return null;
-    return applyPropFilter<Bike>(
-      bikes.filter(
-        (bike) => !bikesUnavailableInTheSelectedDateRange.includes(bike.id)
-      ),
+    const bikesWithDeletionFilter = applyPropFilter<Bike>(
+      bikes,
       {
         entityStatus: EntityStatus.DELETED,
       },
       "exclusion"
+    );
+    return bikesWithDeletionFilter.filter(
+      (bike) => !bikesUnavailableInTheSelectedDateRange.includes(bike.id)
     );
   }, [bikes, bikesUnavailableInTheSelectedDateRange]);
 
   return (
     <BikeContext.Provider
       value={{
-        bikes: availableBikes,
+        bikes: availableBikes
+          ? applyBikeFilters(availableBikes, filters)
+          : null,
+        colors: getUniqueProp(availableBikes, "color"),
+        models: getUniqueProp(availableBikes, "model"),
+        locations: getUniqueProp(availableBikes, "location"),
         bikesMap: new Map(availableBikes?.map((bike) => [bike.id, bike])),
         filters,
         applyFilters,
@@ -81,18 +88,32 @@ export const BikeProvider: FunctionComponent<BikeProviderProps> = ({
 
 export default BikeProvider;
 
-const useGlobalData = () => {
+export const useBikes = () => {
   const context = useContext(BikeContext);
 
   return context;
 };
 
-export const useBikes = () => {
-  const { bikes, filters, applyFilters } = useGlobalData();
-  return { bikes, filters, applyFilters };
+export const useBike = (id: string) => {
+  const { bikesMap } = useBikes();
+  return { bike: bikesMap.get(id) };
 };
 
-export const useBike = (id: string) => {
-  const { bikesMap } = useGlobalData();
-  return { bike: bikesMap.get(id) };
+export const getUniqueProp = (bikes: Bike[] | null, prop: string) => {
+  return bikes
+    ? Array.from(new Set(bikes.map((bike) => bike[prop])).values())
+    : [];
+};
+
+const applyBikeFilters = (bikes: Bike[], filters: Filters) => {
+  const { color, model, location } = filters;
+  return applyPropFilter<Bike>(
+    bikes,
+    {
+      color,
+      model,
+      location
+    },
+    "inclusion"
+  );
 };
