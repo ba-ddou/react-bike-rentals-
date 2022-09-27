@@ -1,5 +1,11 @@
 import React, { FunctionComponent } from "react";
-import { Checkbox, CheckIcon, ColorSwatch, Group } from "@mantine/core";
+import {
+  Checkbox,
+  CheckIcon,
+  ColorSwatch,
+  Group,
+  useMantineTheme,
+} from "@mantine/core";
 
 interface CheckboxGroupProps {
   options: {
@@ -38,12 +44,14 @@ export const CheckboxGroup: FunctionComponent<CheckboxGroupProps> = ({
 interface ColorSwatchSelectionGroupProps {
   colors: string[];
   onChange(value: string[]): void;
+  initialColors: string[];
 }
 
 export const ColorSwatchSelectionGroup: FunctionComponent<
   ColorSwatchSelectionGroupProps
-> = ({ colors, onChange }) => {
-  const [selectedColors, setSelectedColors] = React.useState<string[]>(colors);
+> = ({ colors, onChange, initialColors }) => {
+  const [selectedColors, setSelectedColors] =
+    React.useState<string[]>(initialColors);
   const onCheck = (color: string) => {
     let newSelectedColors = [];
     if (selectedColors.includes(color)) {
@@ -65,6 +73,38 @@ export const ColorSwatchSelectionGroup: FunctionComponent<
           sx={{ color: "#fff", cursor: "pointer" }}
         >
           {selectedColors.includes(color) && <CheckIcon width={10} />}
+        </ColorSwatch>
+      ))}
+    </Group>
+  );
+};
+
+interface ColorSwatchRadioSelectionGroupProps {
+  colors: string[];
+  onChange(value: string): void;
+  initialColor: string;
+}
+
+export const ColorSwatchRadioSelectionGroup: FunctionComponent<
+  ColorSwatchRadioSelectionGroupProps
+> = ({ colors, onChange, initialColor }) => {
+  const [selectedColor, setSelectedColor] =
+    React.useState<string>(initialColor);
+  const onCheck = (color: string) => {
+    setSelectedColor(color);
+    onChange(color);
+  };
+  return (
+    <Group position="center" spacing="xs">
+      {colors.map((color) => (
+        <ColorSwatch
+          key={color}
+          component="button"
+          color={color}
+          onClick={() => onCheck(color)}
+          sx={{ color: "#fff", cursor: "pointer" }}
+        >
+          {selectedColor == color && <CheckIcon width={10} />}
         </ColorSwatch>
       ))}
     </Group>

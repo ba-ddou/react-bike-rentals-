@@ -5,12 +5,11 @@ import {
   ColorSwatchSelectionGroup,
   MultiSelectWithSearch,
 } from "@components/moleculs";
+import { colors } from "@root/config/colors";
 
 interface FiltersPanelProps {}
 
 const FiltersPanel: FunctionComponent<FiltersPanelProps> = () => {
-  const theme = useMantineTheme();
-  const colors = Object.keys(theme.colors);
   const cities = ["New York", "London", "Paris", "Berlin", "Madrid"];
   return (
     <div>
@@ -51,6 +50,7 @@ const FiltersPanel: FunctionComponent<FiltersPanelProps> = () => {
           <Accordion.Panel>
             <ColorSwatchSelectionGroup
               colors={colors}
+              initialColors={colors}
               onChange={(colors) => {}}
             />
           </Accordion.Panel>

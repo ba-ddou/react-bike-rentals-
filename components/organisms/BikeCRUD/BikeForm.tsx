@@ -1,11 +1,13 @@
 import React, { FunctionComponent, useRef, useState } from "react";
 import { Formik } from "formik";
-import { Input } from "components/moleculs";
+import { ColorSwatchRadioSelectionGroup, Input } from "components/moleculs";
 import * as yup from "yup";
 import ImageFormField from "../ImageFormField";
 import { v4 as uuidv4 } from "uuid";
 import { BikeCreationInput } from "@root/@types";
-import { Button, Container, Group } from "@mantine/core";
+import { Button, Container, Group, Text } from "@mantine/core";
+import { colors } from "@root/config/colors";
+import { LoaderOverlay } from "@components/atoms";
 
 interface BikeFormProps {
   initialValues?: BikeCreationInput;
@@ -34,7 +36,7 @@ const BikeForm: FunctionComponent<BikeFormProps> = ({
   initialValues = {
     model: "",
     price: 0,
-    color: "",
+    color: colors[0],
     image: "",
     location: "",
   },
@@ -88,12 +90,23 @@ const BikeForm: FunctionComponent<BikeFormProps> = ({
                   label="Model"
                   placeholder="Bike model"
                 />
-                <Input
-                  type="text"
-                  name="color"
-                  label="Color"
-                  placeholder="#000000"
-                />
+                <Container
+                  sx={{
+                    marginTop: 10,
+                    mqrginleft: 0,
+                    paddingLeft: 0,
+                  }}
+                >
+                  <Text size="sm" weight={500}>
+                    Color
+                  </Text>
+                  <ColorSwatchRadioSelectionGroup
+                    colors={colors}
+                    initialColor={values.color}
+                    onChange={handleChange("color")}
+                  />
+                </Container>
+
                 <Input
                   type="text"
                   name="location"
@@ -137,7 +150,7 @@ const BikeForm: FunctionComponent<BikeFormProps> = ({
               </Button>
             </Group>
             {!isSubmitting && error != null && <div>{error}</div>}
-            {isSubmitting && <div>Submitting...</div>}
+            <LoaderOverlay loading={isSubmitting} />
           </form>
         )}
       </Formik>
