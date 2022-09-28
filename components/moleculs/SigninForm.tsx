@@ -27,20 +27,25 @@ const ValidationSchema = yup.object().shape({
 
 interface SigninFormProps {
   signin: (values: SigninCredentials) => void;
-  loading: boolean;
-  error: string | null;
+  loading?: boolean;
+  error?: string | null;
+  headerText: string;
 }
 
 const SigninForm: FunctionComponent<SigninFormProps> = ({
   signin,
   loading,
   error,
+  headerText,
 }) => {
   const onSubmit = async (values: SigninCredentials) => {
     await signin(values);
   };
   return (
     <>
+      <Text size="lg" weight={500}>
+        {headerText}
+      </Text>
       <Formik
         initialValues={{ email: "", password: "" }}
         validationSchema={ValidationSchema}
@@ -54,6 +59,7 @@ const SigninForm: FunctionComponent<SigninFormProps> = ({
           errors,
           handleBlur,
         }) => (
+          <>
           <form onSubmit={handleSubmit}>
             <TextInput
               label="Email"
@@ -81,11 +87,17 @@ const SigninForm: FunctionComponent<SigninFormProps> = ({
             <Button type="submit" fullWidth mt="xl">
               Sign in
             </Button>
-            {error && <Text>{error}</Text>}
+            {error && (
+              <Text color="red" size="sm">
+                {error}
+              </Text>
+            )}
           </form>
+          <LoaderOverlay loading={isSubmitting} />
+          </>
         )}
       </Formik>
-      <LoaderOverlay loading={loading} />
+      
     </>
   );
 };

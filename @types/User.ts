@@ -14,7 +14,7 @@ export enum UserRole {
   USER = "user",
 }
 
-export type UserInput = Omit<User, "id" | "role"> & { password: string };
+export type UserInput = Omit<User, "id" | "role" | "entityStatus"> & { password: string };
 
 
 export type StrippedUser = Omit<User, "id" | "role">;
