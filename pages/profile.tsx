@@ -1,4 +1,5 @@
 import { LargeHeading } from "@components/atoms";
+import { ProfileBanner } from "@components/moleculs";
 import { Gallery, Header } from "@components/organisms";
 import ReservationsTable from "@components/organisms/ReservationsTable";
 import { getGetServerSidePropsWithUserAuth } from "@helpers/getGetServerSideProps";
@@ -11,12 +12,14 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 
 const Profile: NextPage = () => {
+  const {user} = useAuth();
   const { reservations } = useUserReservations();
 
   if(!reservations) return null;
   return (
     <div className={styles.container}>
       <Header />
+      <ProfileBanner user={user} />
       <LargeHeading minWidth={1200}>Reservations History</LargeHeading>
       <ReservationsTable
         reservations={reservations}

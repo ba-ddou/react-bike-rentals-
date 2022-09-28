@@ -7,3 +7,4 @@ export { default as SigninForm } from "./SigninForm";
 export { default as DynamicAvatar } from "./DynamicAvatar";
 export { default as Input } from "./Input";
 export { default as BikeBanner } from "./BikeBanner";
+export { default as ProfileBanner } from "./ProfileBanner";
