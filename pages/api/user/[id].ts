@@ -34,6 +34,14 @@ export default async function handler(
     if (name) defiendFields.displayName = name;
     if (password) defiendFields.password = password;
     await admin.auth().updateUser(id as string, defiendFields);
+    if (name)
+      await admin
+        .firestore()
+        .collection("users")
+        .doc(id as string)
+        .update({
+          name,
+        });
     res.status(200).json({
       message: `User ${id} was updated successfully`,
       action: password ? "logout" : undefined,
