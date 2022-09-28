@@ -139,6 +139,15 @@ export const useUserReservations = (user: string) => {
   return { reservations: userReservations };
 };
 
+export const useBikeReservations = (bike: string) => {
+  const { reservations } = useGlobalData();
+  const userReservations = useMemo(() => {
+    if (!reservations) return null;
+    return reservations.filter((reservation) => reservation.bike.id === bike);
+  }, [reservations, bike]);
+  return { reservations: userReservations };
+};
+
 function formatReservations(
   reservations: Reservation[],
   users: User[],
