@@ -25,6 +25,7 @@ interface SignupFormProps {
   loading?: boolean;
   error?: string | null;
   headerText: string;
+  onResolve?: () => void;
 }
 
 const SignupForm: FunctionComponent<SignupFormProps> = ({
@@ -32,9 +33,11 @@ const SignupForm: FunctionComponent<SignupFormProps> = ({
   loading,
   error,
   headerText,
+  onResolve,
 }) => {
   const onSubmit = async (values: UserInput) => {
     await signup(values);
+    onResolve?.();
   };
   return (
     <>

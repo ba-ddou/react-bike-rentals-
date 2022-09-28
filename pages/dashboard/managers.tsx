@@ -1,9 +1,11 @@
 import { LargeHeading } from "@components/atoms";
+import { SignupForm } from "@components/moleculs";
 import { UsersTable } from "@components/organisms";
 import { getAuthUser } from "@helpers/getAuthUser";
 import { getGetServerSidePropsWithManagerAuth } from "@helpers/getGetServerSideProps";
+import { Modal } from "@mantine/core";
 import { UserRole } from "@root/@types";
-import { useAuth } from "@root/hooks";
+import { useAuth, useModalControls } from "@root/hooks";
 import { onlyAllow } from "@root/middlewares";
 import { useManagers } from "@root/providers";
 import { createManager, deletedManager } from "@root/services";
@@ -15,22 +17,25 @@ interface ManagersProps {}
 const Managers: FunctionComponent<ManagersProps> = () => {
   const { user } = useAuth();
   const { managers } = useManagers(user?.id);
-  const onAdd = async () => {
-    await createManager({
-      email: "admin@bikes.com",
-      name: "Super Admin",
-      password: "root000",
-    });
-  };
+  const { open, payload, ...modalControls } = useModalControls();
+
   return (
     <>
       <LargeHeading>Managers</LargeHeading>
       <UsersTable
         users={managers}
         role={UserRole.MANAGER}
-        onAdd={onAdd}
+        onAdd={() => open(null)}
         onDelete={deletedManager}
+        highlightOnHover={false}
       />
+      <Modal {...modalControls} centered>
+        <SignupForm
+          signup={createManager}
+          headerText="Create a manager account"
+          onResolve={modalControls.onClose}
+        />
+      </Modal>
     </>
   );
 };
