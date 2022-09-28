@@ -15,7 +15,13 @@ const Users: FunctionComponent<UsersProps> = () => {
   return (
     <>
       <LargeHeading>Users</LargeHeading>
-      <UsersTable users={users} role={UserRole.USER} onDelete={deletedUser} />
+      <UsersTable
+        users={users}
+        role={UserRole.USER}
+        onDelete={deletedUser}
+        link={(user) => `/dashboard/users/${user.id}`}
+        highlightOnHover={true}
+      />
     </>
   );
 };

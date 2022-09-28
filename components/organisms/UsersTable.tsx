@@ -22,6 +22,8 @@ interface UsersTableProps {
   role: UserRole;
   onAdd?: () => void;
   onDelete?: (id: string) => void;
+  link?: (user: User) => string;
+  highlightOnHover: boolean;
 }
 
 interface UsersTableProps {}
@@ -31,10 +33,12 @@ const UsersTable: FunctionComponent<UsersTableProps> = ({
   role,
   onAdd,
   onDelete,
+  link,
+  highlightOnHover = false,
 }) => {
   if (!users) return null;
-  const rows = users.map((item) => (
-    <Link key={item.id} href={`/dashboard/users/${item.id}`}>
+  const rows = users.map((item) => {
+    const row = (
       <tr key={item.name}>
         <td>
           <Group spacing="sm">
@@ -61,8 +65,16 @@ const UsersTable: FunctionComponent<UsersTableProps> = ({
           />
         </td>
       </tr>
-    </Link>
-  ));
+    );
+    const path: string | undefined = link?.(item);
+    if (path)
+      return (
+        <Link key={item.id} href={path}>
+          {row}
+        </Link>
+      );
+    return row;
+  });
   return (
     <Center
       style={{
@@ -70,7 +82,14 @@ const UsersTable: FunctionComponent<UsersTableProps> = ({
       }}
     >
       <ScrollArea>
-        <Table sx={{ minWidth: 1000 }} verticalSpacing="sm" highlightOnHover>
+        <Table
+          sx={{
+            minWidth: 1000,
+            cursor: highlightOnHover ? "pointer" : "default",
+          }}
+          verticalSpacing="sm"
+          highlightOnHover={highlightOnHover}
+        >
           <thead>
             <tr>
               <th>{role}</th>
