@@ -30,9 +30,7 @@ export default async function handler(
     res.status(200).json({
       message: `User ${id} was deleted successfully`,
     });
+  } else {
+    res.status(404).json({ message: "Method not found" });
   }
-
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-
-  res.status(200).json({ message: "Hello" });
 }
