@@ -52,11 +52,7 @@ type MenuDropdownType = {
   onEdit: () => void;
   onLogout: () => void;
 };
-const MenuDropDown = ({
-  user,
-  onEdit,
-  onLogout,
-}: MenuDropdownType) => {
+const MenuDropDown = ({ user, onEdit, onLogout }: MenuDropdownType) => {
   return (
     <Menu.Dropdown>
       <Avatar color="brand" radius="xl" mx="auto" sx={{ marginTop: "0.5rem" }}>
@@ -76,14 +72,12 @@ const MenuDropDown = ({
       <Menu.Divider />
 
       {user.role == UserRole.MANAGER ? (
-        <Menu.Item icon={<IconPencil size={14} onClick={onEdit} />}>
+        <Menu.Item icon={<IconPencil size={14} />} onClick={onEdit}>
           Edit account
         </Menu.Item>
       ) : (
         <Link href="/profile">
-          <Menu.Item icon={<IconUser size={14}/>}>
-            Profile
-          </Menu.Item>
+          <Menu.Item icon={<IconUser size={14} />}>Profile</Menu.Item>
         </Link>
       )}
       <Menu.Item color="red" icon={<IconLogout size={14} />} onClick={onLogout}>

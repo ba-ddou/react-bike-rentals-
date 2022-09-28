@@ -35,13 +35,21 @@ export const useAuth = () => {
     else push("/");
   };
 
+  const reload = async () => { 
+    const user = await auth.currentUser?.reload();
+    console.log("🚀 ~ file: auth.ts ~ line 40 ~ reload ~ user", user)
+    return user;
+  }
+
   return {
     user: formatedUserRecord,
     loading,
     error,
     logout,
+    reload,
   };
 };
+
 
 const formatUserRecord = (user: UserRecord) => {
   const {

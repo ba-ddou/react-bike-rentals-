@@ -1,4 +1,8 @@
-import { DynamicAvatar, HeaderAuthCTAs } from "@components/moleculs";
+import {
+  AccountUpdateForm,
+  DynamicAvatar,
+  HeaderAuthCTAs,
+} from "@components/moleculs";
 import {
   Avatar,
   Button,
@@ -7,6 +11,7 @@ import {
   Text,
   UnstyledButton,
 } from "@mantine/core";
+import { updateUser } from "@root/services";
 import { useModalControls, useAuth } from "hooks";
 import { FunctionComponent, useState } from "react";
 import AuthForm from "./AuthForm";
@@ -16,7 +21,7 @@ interface HeaderProps {}
 const Header: FunctionComponent<HeaderProps> = () => {
   const { user, loading, logout } = useAuth();
   const { open, payload, ...modalControls } = useModalControls<
-    "login" | "signup"
+    "login" | "signup" | "edit"
   >();
   return (
     <div className={styles.header}>
@@ -41,12 +46,37 @@ const Header: FunctionComponent<HeaderProps> = () => {
         }}
       >
         {user && !loading && (
-          <DynamicAvatar user={user} onLogout={logout} onEdit={() => {}} />
+          <DynamicAvatar
+            user={user}
+            onLogout={logout}
+            onEdit={() => {
+              open("edit");
+            }}
+          />
         )}
         {!user && !loading && <HeaderAuthCTAs onClick={open} />}
       </Group>
       <Modal {...modalControls} centered>
-        <AuthForm defaultView={payload} onResolve={modalControls.onClose} />
+        {(payload == "login" || payload == "signup") && (
+          <AuthForm defaultView={payload} onResolve={modalControls.onClose} />
+        )}
+        {payload == "edit" && (
+          <AccountUpdateForm
+            initialValues={{
+              email: user.email,
+              name: user.name,
+              password: "",
+            }}
+            headerText="Edit your account"
+            update={(values) => {
+              return updateUser(user?.id, {
+                name: values.name,
+                password: values.password,
+              });
+            }}
+            onResolve={modalControls.onClose}
+          />
+        )}
       </Modal>
     </div>
   );

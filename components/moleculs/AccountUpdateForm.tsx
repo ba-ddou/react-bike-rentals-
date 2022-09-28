@@ -25,9 +25,10 @@ const AccountUpdateForm: FunctionComponent<AccountUpdateFormProps> = ({
   onResolve,
   initialValues,
 }) => {
-  const { logout } = useAuth();
+  const { logout, reload } = useAuth();
   const onSubmit = async (values: UserInput) => {
     const res = await update(values);
+    reload();
     if (res.action == "logout") logout();
     onResolve?.();
   };
