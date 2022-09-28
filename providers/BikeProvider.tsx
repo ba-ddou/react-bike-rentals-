@@ -38,6 +38,7 @@ const DEFAULT_FILTERS: Filters = {
     from: new Date(),
     to: new Date(),
   },
+  rating: 0,
 };
 
 export interface BikeProviderProps {
@@ -140,8 +141,8 @@ export function getUniqueProp<T>(entities: T[] | null, prop: string) {
 }
 
 const applyBikeFilters = (bikes: Bike[], filters: Filters) => {
-  const { color, model, location } = filters;
-  return applyPropFilter<Bike>(
+  const { color, model, location ,rating } = filters;
+  const initialRes=  applyPropFilter<Bike>(
     bikes,
     {
       color,
@@ -150,6 +151,8 @@ const applyBikeFilters = (bikes: Bike[], filters: Filters) => {
     },
     "inclusion"
   );
+
+  return initialRes.filter((bike) => bike.rating >= (rating || 0));
 };
 
 const applyDateRangeFilter = (

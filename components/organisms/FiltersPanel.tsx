@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import { Accordion, Text, useMantineTheme } from "@mantine/core";
+import { Accordion, Text, useMantineTheme, Slider } from "@mantine/core";
 import {
   CheckboxGroup,
   ColorSwatchSelectionGroup,
@@ -78,7 +78,19 @@ const FiltersPanel: FunctionComponent<FiltersPanelProps> = () => {
           <Accordion.Control>
             <Text size="sm">Rating</Text>
           </Accordion.Control>
-          <Accordion.Panel></Accordion.Panel>
+          <Accordion.Panel>
+            <Text size="xs" color="dimmed">Minimun rating</Text>
+            <Slider
+              min={0}
+              max={5}
+              step={1}
+              onChangeEnd={(value) => {
+                applyFilters({
+                  rating: value,
+                })
+              }}
+            />
+          </Accordion.Panel>
         </Accordion.Item>
       </Accordion>
     </div>

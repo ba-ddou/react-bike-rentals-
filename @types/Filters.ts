@@ -6,4 +6,5 @@ export interface Filters {
     from: Date;
     to: Date;
   };
+  rating?: number;
 }
