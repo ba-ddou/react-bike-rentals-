@@ -2,6 +2,7 @@ import { LargeHeading } from "@components/atoms";
 import { ProfileBanner } from "@components/moleculs";
 import { Gallery, Header } from "@components/organisms";
 import ReservationsTable from "@components/organisms/ReservationsTable";
+import { UserProfile } from "@components/templates";
 import { getGetServerSidePropsWithUserAuth } from "@helpers/getGetServerSideProps";
 import { useAuth } from "@root/hooks";
 import { useUserReservations } from "@root/providers/BikeProvider";
@@ -16,18 +17,7 @@ const Profile: NextPage = () => {
   const { reservations } = useUserReservations();
 
   if(!reservations) return null;
-  return (
-    <div className={styles.container}>
-      <Header />
-      <ProfileBanner user={user} />
-      <LargeHeading minWidth={1200}>Reservations History</LargeHeading>
-      <ReservationsTable
-        reservations={reservations}
-        omitColumns={["user"]}
-        onCancel={cancelReservation}
-      />
-    </div>
-  );
+  return <UserProfile reservations={reservations} user={user} />;
 };
 
 export default Profile;
