@@ -12,6 +12,7 @@ interface UserProfileProps {
   user: User;
   onCancel?: (id: string) => void;
   onEdit?: () => void;
+  onRate?: (id: string, rating: number) => Promise<void>;
 }
 
 const UserProfile: FunctionComponent<UserProfileProps> = ({
@@ -19,6 +20,7 @@ const UserProfile: FunctionComponent<UserProfileProps> = ({
   user,
   onCancel,
   onEdit,
+  onRate,
 }) => {
   return (
     <div className={styles.container}>
@@ -28,6 +30,7 @@ const UserProfile: FunctionComponent<UserProfileProps> = ({
         reservations={reservations}
         omitColumns={["user"]}
         onCancel={onCancel}
+        onRate={onRate}
       />
     </div>
   );

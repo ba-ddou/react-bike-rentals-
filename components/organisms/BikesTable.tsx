@@ -17,7 +17,7 @@ import { IconPencil, IconTrash, IconStar, IconPlus } from "@tabler/icons";
 import { User } from "@root/@types";
 import Link from "next/link";
 import DynamicActionIcon from "@components/atoms/DynamicActionIcon";
-import RatingPreview from "@components/atoms/Rating";
+import { RatingPreview } from "@components/atoms";
 
 interface BikesTableProps {
   bikes: Bike[];

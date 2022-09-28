@@ -1,4 +1,9 @@
-import { Bike, ConceptualReservationStatus, Reservation, ReservationWithProjections } from "@types";
+import {
+  Bike,
+  ConceptualReservationStatus,
+  Reservation,
+  ReservationWithProjections,
+} from "@types";
 import React, { FunctionComponent, useEffect } from "react";
 import {
   Avatar,
@@ -24,7 +29,11 @@ import {
 } from "@tabler/icons";
 import { User } from "@root/@types";
 import Link from "next/link";
-import { StatusBadge } from "@components/atoms";
+import {
+  FiveStarRatingInput,
+  RatingPreview,
+  StatusBadge,
+} from "@components/atoms";
 import { formatDateTime } from "@helpers/dates";
 import DynamicActionIcon from "@components/atoms/DynamicActionIcon";
 
@@ -32,12 +41,14 @@ interface ReservationsTableProps {
   reservations: ReservationWithProjections[];
   omitColumns?: string[];
   onCancel?: (id: string) => void;
+  onRate?: (id: string, rating: number) => Promise<void>;
 }
 
 const ReservationsTable: FunctionComponent<ReservationsTableProps> = ({
   reservations,
   omitColumns = [],
   onCancel,
+  onRate,
 }) => {
   // return null;
 
@@ -63,14 +74,16 @@ const ReservationsTable: FunctionComponent<ReservationsTableProps> = ({
           </Group>
         </td>
       )}
-      {!omitColumns.includes("bike") && <td>
-        <Group spacing="sm">
-          <Avatar size={30} src={item.bike.image} radius={30} />
-          <Text size="sm" weight={500}>
-            {item.bike.model}
-          </Text>
-        </Group>
-      </td>}
+      {!omitColumns.includes("bike") && (
+        <td>
+          <Group spacing="sm">
+            <Avatar size={30} src={item.bike.image} radius={30} />
+            <Text size="sm" weight={500}>
+              {item.bike.model}
+            </Text>
+          </Group>
+        </td>
+      )}
 
       <td>
         <Center>
@@ -112,12 +125,22 @@ const ReservationsTable: FunctionComponent<ReservationsTableProps> = ({
         </Center>
       </td>
       <td>
+        {item.rating != null && <RatingPreview rating={item.rating} />}
+        {onRate &&
+          item.status == ConceptualReservationStatus.COMPLETED &&
+          item.rating == null && (
+            <FiveStarRatingInput
+              onChange={(rating) => onRate(item.id, rating)}
+            />
+          )}
+      </td>
+      <td>
         <Center>
           <StatusBadge status={item.status} entity="reservation" />
         </Center>
       </td>
       <td>
-        {onCancel && item.status != ConceptualReservationStatus.CANCELLED && (
+        {onCancel && item.status == ConceptualReservationStatus.PENDING && (
           <DynamicActionIcon
             Icon={IconX}
             color="red"
@@ -145,6 +168,7 @@ const ReservationsTable: FunctionComponent<ReservationsTableProps> = ({
               <Th>Number of days</Th>
               <Th>Unit price</Th>
               <Th>Total price</Th>
+              <Th>Rating</Th>
               <Th>Status</Th>
               <Th />
             </tr>

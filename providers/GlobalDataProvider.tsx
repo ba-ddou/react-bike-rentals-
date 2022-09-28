@@ -160,7 +160,7 @@ function formatReservations(
 
     const fromDate = from.toDate();
     const toDate = to.toDate();
-    const numberOfDays = getNumberOfDays(fromDate, toDate);
+    const numberOfDays = parseInt(getNumberOfDays(fromDate, toDate));
     return {
       ...reservation,
       from: fromDate,
@@ -169,7 +169,7 @@ function formatReservations(
       bike,
       numberOfDays,
       reservedAt: reservedAt.toDate(),
-      totalPrice: numberOfDays * reservation.bikeSnapshot.price,
+      totalPrice: parseFloat((numberOfDays * reservation.bikeSnapshot.price).toFixed(2)),
       status: inferConceptualStatus(status, { from: fromDate, to: toDate }),
     };
   });

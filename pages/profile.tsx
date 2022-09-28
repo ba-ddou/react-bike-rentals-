@@ -24,7 +24,8 @@ const Profile: NextPage = () => {
         reservations={reservations}
         user={user}
         onCancel={cancelReservation}
-        onEdit={()=>{}}
+        onEdit={() => {}}
+        onRate={() => {}}
       />
     </>
   );
