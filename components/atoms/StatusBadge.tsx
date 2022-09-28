@@ -43,7 +43,7 @@ const StatusBadge: FunctionComponent<StatusBadgeProps> = ({
   ...props
 }) => {
   return (
-    <Badge color={statusLabelsMap[entity]?.[status]?.color} {...props}>
+    <Badge color={statusLabelsMap[entity]?.[status]?.color} {...props} >
       {statusLabelsMap[entity]?.[status]?.label}
     </Badge>
   );

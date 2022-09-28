@@ -26,7 +26,7 @@ export const createBike = async (bike: ExtendedBikeCreationInput) => {
   const res = await addDoc(collection(db, "bikes"), bike);
   return res;
 }
-export const updateBike = async (id: string, bike: Bike) => { 
+export const updateBike = async (id: string, bike: Partial<Bike>) => { 
   const res = await updateDoc(doc(db, "bikes", id), bike);
   return res;
 }

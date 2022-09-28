@@ -10,9 +10,11 @@ import {
   Center,
   ColorSwatch,
 } from "@mantine/core";
-import { Bike } from "@root/@types";
+import { Bike, BikeStatus } from "@root/@types";
+import { updateBike } from "@root/services";
 import { IconStar } from "@tabler/icons";
 import { FunctionComponent } from "react";
+import InteractiveStatusBadge from "./InteractiveStatusBadge";
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -151,13 +153,26 @@ const BikeBanner: FunctionComponent<BikeBannerProps> = ({ bike }) => {
             <KeyValueDataGroup keyText="Price" value={`${bike.price} $/day`} />
           </Group>
         </div>
-        <StatusBadge
+        <InteractiveStatusBadge
           status={bike.status}
           entity="bike"
           sx={{
             position: "absolute",
             top: "2rem",
             right: "2rem",
+          }}
+          tooltipLabel={
+            bike.status == BikeStatus.AVAILABLE
+              ? "Set as unavailable"
+              : "Set back as available"
+          }
+          onClick={() => {
+            return updateBike(bike.id, {
+              status:
+                bike.status == BikeStatus.AVAILABLE
+                  ? BikeStatus.UNAVAILABLE
+                  : BikeStatus.AVAILABLE,
+            });
           }}
         />
       </div>
