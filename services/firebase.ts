@@ -1,6 +1,6 @@
 import { BikeCreationInput, ExtendedBikeCreationInput, StrippedUser, UserRole,Bike, Reservation, ReservationStatus, ReservationCreationInput } from "@root/@types";
 import firebaseApp from "../config/firebase";
-import { getFirestore, doc, setDoc, getDoc,addDoc,collection,serverTimestamp } from "firebase/firestore";
+import { getFirestore, doc, setDoc, getDoc,addDoc,collection,serverTimestamp,updateDoc } from "firebase/firestore";
 import cookie from "js-cookie";
 import { getAuth } from "firebase/auth";
 import { EntityStatus } from "@root/@types/Global";
@@ -24,6 +24,10 @@ export const getUser = async (id: string) => {
 
 export const createBike = async (bike: ExtendedBikeCreationInput) => { 
   const res = await addDoc(collection(db, "bikes"), bike);
+  return res;
+}
+export const updateBike = async (id: string, bike: Bike) => { 
+  const res = await updateDoc(doc(db, "bikes", id), bike);
   return res;
 }
 

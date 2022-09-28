@@ -5,3 +5,4 @@ export { default as UsersTable } from "./UsersTable";
 export { default as DashboardNavbar } from "./DashboardNavbar";
 export { default as BikesTable } from "./BikesTable";
 export { default as CreateBikeForm } from "./BikeCRUD/CreateBikeForm";
+export { default as UpdateBikeForm } from "./BikeCRUD/UpdateBikeForm";

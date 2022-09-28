@@ -22,13 +22,15 @@ import { RatingPreview } from "@components/atoms";
 interface BikesTableProps {
   bikes: Bike[];
   onAdd: () => void;
-  onDelete?: (id: string) => void;
+  onDelete: (id: string) => void;
+  onEdit: (bike: Bike) => void;
 }
 
 const BikesTable: FunctionComponent<BikesTableProps> = ({
   bikes,
   onAdd,
   onDelete,
+  onEdit,
 }) => {
   const { colors } = useMantineTheme();
   if (!bikes) return null;
@@ -75,19 +77,19 @@ const BikesTable: FunctionComponent<BikesTableProps> = ({
           </Text>
         </td>
         <td>
-          <RatingPreview
-            rating={item.rating}
-            ratingCount={item.ratingCount}
-          />
+          <RatingPreview rating={item.rating} ratingCount={item.ratingCount} />
         </td>
         <td>
           <Group spacing={0} position="right">
-            <ActionIcon>
+            <ActionIcon onClick={(event) => {
+              event.stopPropagation();
+              onEdit(item)
+            }}>
               <IconPencil size={16} stroke={1.5} />
             </ActionIcon>
             <DynamicActionIcon
               color="red"
-              onClick={() => onDelete?.(item.id)}
+              onClick={() => onDelete(item.id)}
               Icon={IconTrash}
             />
           </Group>
