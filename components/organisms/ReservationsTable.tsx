@@ -63,14 +63,14 @@ const ReservationsTable: FunctionComponent<ReservationsTableProps> = ({
           </Group>
         </td>
       )}
-      <td>
+      {!omitColumns.includes("bike") && <td>
         <Group spacing="sm">
           <Avatar size={30} src={item.bike.image} radius={30} />
           <Text size="sm" weight={500}>
             {item.bike.model}
           </Text>
         </Group>
-      </td>
+      </td>}
 
       <td>
         <Center>
@@ -139,7 +139,7 @@ const ReservationsTable: FunctionComponent<ReservationsTableProps> = ({
             <tr>
               <Th />
               {!omitColumns.includes("user") && <Th>User</Th>}
-              <Th>Bike</Th>
+              {!omitColumns.includes("bike") && <Th>Bike</Th>}
               {/* <Th>Reserved At</Th> */}
               <Th>Date range</Th>
               <Th>Number of days</Th>
