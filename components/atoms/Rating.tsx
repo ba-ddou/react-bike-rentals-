@@ -59,6 +59,7 @@ export const FiveStarRatingInput: FunctionComponent<
     });
     setLoading(true);
     await onRate?.(newRating);
+    setLoading(false);
   };
 
   const hoverRating = (rating: number) => {

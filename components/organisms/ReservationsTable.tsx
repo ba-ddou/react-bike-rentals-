@@ -130,7 +130,7 @@ const ReservationsTable: FunctionComponent<ReservationsTableProps> = ({
           item.status == ConceptualReservationStatus.COMPLETED &&
           item.rating == null && (
             <FiveStarRatingInput
-              onChange={(rating) => onRate(item.id, rating)}
+              onRate={(rating) => onRate(item.id, rating)}
             />
           )}
       </td>
