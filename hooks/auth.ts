@@ -32,6 +32,7 @@ export const useAuth = () => {
     await auth.signOut();
     cookie.remove("token");
     if (formatedUserRecord?.role == UserRole.MANAGER) push("/dashboard/auth");
+    else push("/");
   };
 
   return {

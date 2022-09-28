@@ -28,6 +28,7 @@ export const getGetServerSidePropsWithUserAuth = (): GetServerSideProps => {
       [UserRole.USER],
       "/"
     );
+    console.log("🚀 ~ file: getGetServerSideProps.ts ~ line 31 ~ return ~ redirect", redirect);
     const { id } = context?.params || { id: null };
     return {
       redirect: redirect,

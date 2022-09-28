@@ -9,3 +9,4 @@ export { default as Input } from "./Input";
 export { default as BikeBanner } from "./BikeBanner";
 export { default as ProfileBanner } from "./ProfileBanner";
 export { default as SignupForm } from "./SignupForm";
+export { default as AccountUpdateForm } from "./AccountUpdateForm";

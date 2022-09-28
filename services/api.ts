@@ -36,6 +36,18 @@ export const deletedUser = async (id: string) => {
     .catch((err) => console.log(err));
 };
 
+export const updateUser = async (id: string,user:Partial<UserInput>) => {
+  return await fetch(`/api/user/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(user),
+  })
+    .then((res) => res.json())
+    .catch((err) => console.log(err));
+};
+
 export const rateReservation = async (id: string, rating: number) => {
   return await fetch(`/api/reservation/${id}`, {
     method: "PUT",
