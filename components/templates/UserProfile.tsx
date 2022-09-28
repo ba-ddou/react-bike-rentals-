@@ -10,24 +10,27 @@ import styles from "../../styles/Home.module.css";
 interface UserProfileProps {
   reservations: ReservationWithProjections[];
   user: User;
+  onCancel?: (id: string) => void;
+  onEdit?: () => void;
 }
- 
+
 const UserProfile: FunctionComponent<UserProfileProps> = ({
-    reservations,
-    user
+  reservations,
+  user,
+  onCancel,
+  onEdit,
 }) => {
-    return (
-      <div className={styles.container}>
-        <Header />
-        <ProfileBanner user={user} />
-        <LargeHeading minWidth={1200}>Reservations History</LargeHeading>
-        <ReservationsTable
-          reservations={reservations}
-          omitColumns={["user"]}
-          onCancel={cancelReservation}
-        />
-      </div>
-    );
-}
- 
+  return (
+    <div className={styles.container}>
+      <ProfileBanner user={user} onEdit={onEdit} />
+      <LargeHeading minWidth={1200}>Reservations History</LargeHeading>
+      <ReservationsTable
+        reservations={reservations}
+        omitColumns={["user"]}
+        onCancel={onCancel}
+      />
+    </div>
+  );
+};
+
 export default UserProfile;

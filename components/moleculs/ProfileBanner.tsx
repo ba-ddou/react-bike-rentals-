@@ -29,9 +29,13 @@ const useStyles = createStyles((theme) => ({
 
 interface ProfileBannerProps {
   user: User;
+  onEdit?: () => void;
 }
 
-const ProfileBanner: FunctionComponent<ProfileBannerProps> = ({ user }) => {
+const ProfileBanner: FunctionComponent<ProfileBannerProps> = ({
+  user,
+  onEdit,
+}) => {
   const { classes } = useStyles();
   return (
     <Container>
@@ -52,9 +56,11 @@ const ProfileBanner: FunctionComponent<ProfileBannerProps> = ({ user }) => {
           </Group>
         </Group>
         <Group>
-          <ActionIcon>
-            <IconPencil size={16} stroke={1.5} />
-          </ActionIcon>
+          {onEdit && (
+            <ActionIcon onClick={onEdit}>
+              <IconPencil size={16} stroke={1.5} />
+            </ActionIcon>
+          )}
         </Group>
       </div>
     </Container>

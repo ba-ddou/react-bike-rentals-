@@ -13,11 +13,21 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 
 const Profile: NextPage = () => {
-  const {user} = useAuth();
+  const { user } = useAuth();
   const { reservations } = useUserReservations();
 
-  if(!reservations) return null;
-  return <UserProfile reservations={reservations} user={user} />;
+  if (!reservations) return null;
+  return (
+    <>
+      <Header />
+      <UserProfile
+        reservations={reservations}
+        user={user}
+        onCancel={cancelReservation}
+        onEdit={()=>{}}
+      />
+    </>
+  );
 };
 
 export default Profile;

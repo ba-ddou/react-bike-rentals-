@@ -51,7 +51,7 @@ export const GlobalDataProvider: FunctionComponent<GlobalDataProviderProps> = ({
   children,
 }) => {
   const { user } = useAuth();
-  const { users,loading: usersLoading } = useUsersData();
+  const { users, loading: usersLoading } = useUsersData();
   const { managers } = useManagersData(user?.id);
   const { bikes, loading, error } = useBikesData();
   const { reservations } = useReservationsData();
@@ -115,6 +115,10 @@ export const useUsers = () => {
   const { users, usersLoading } = useGlobalData();
   return { users, loading: usersLoading };
 };
+export const useUser = (id:string) => {
+  const { users } = useUsers();
+  return { user: users?.find((user) => user.id === id) };
+};
 
 export const useManagers = () => {
   const { managers } = useGlobalData();
@@ -126,12 +130,21 @@ export const useReservations = () => {
   return { reservations };
 };
 
+export const useUserReservations = (user: string) => {
+  const { reservations } = useGlobalData();
+  const userReservations = useMemo(() => {
+    if (!reservations) return null;
+    return reservations.filter((reservation) => reservation.user.id === user);
+  }, [reservations, user]);
+  return { reservations: userReservations };
+};
+
 function formatReservations(
   reservations: Reservation[],
   users: User[],
   bikes: Bike[]
 ): ReservationWithProjections[] {
-  return reservations.map(({status,...reservation}) => {
+  return reservations.map(({ status, ...reservation }) => {
     const { from, to, reservedAt } = reservation;
     const user = users.find((user) => user.id === reservation.user) as User;
     const bike = bikes.find((bike) => bike.id === reservation.bike) as Bike;
@@ -148,7 +161,7 @@ function formatReservations(
       numberOfDays,
       reservedAt: reservedAt.toDate(),
       totalPrice: numberOfDays * reservation.bikeSnapshot.price,
-      status: inferConceptualStatus(status, { from: fromDate, to:toDate }),
+      status: inferConceptualStatus(status, { from: fromDate, to: toDate }),
     };
   });
 }

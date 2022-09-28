@@ -1,4 +1,4 @@
-import { Bike, Reservation, ReservationWithProjections } from "@types";
+import { Bike, ConceptualReservationStatus, Reservation, ReservationWithProjections } from "@types";
 import React, { FunctionComponent, useEffect } from "react";
 import {
   Avatar,
@@ -117,7 +117,7 @@ const ReservationsTable: FunctionComponent<ReservationsTableProps> = ({
         </Center>
       </td>
       <td>
-        {onCancel && (
+        {onCancel && item.status != ConceptualReservationStatus.CANCELLED && (
           <DynamicActionIcon
             Icon={IconX}
             color="red"

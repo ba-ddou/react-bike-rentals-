@@ -15,6 +15,7 @@ import {
 import { IconPencil, IconPlus, IconTrash } from "@tabler/icons";
 import { User, UserRole } from "@root/@types";
 import DynamicActionIcon from "@components/atoms/DynamicActionIcon";
+import Link from "next/link";
 
 interface UsersTableProps {
   users: User[] | null;
@@ -33,32 +34,34 @@ const UsersTable: FunctionComponent<UsersTableProps> = ({
 }) => {
   if (!users) return null;
   const rows = users.map((item) => (
-    <tr key={item.name}>
-      <td>
-        <Group spacing="sm">
-          <Avatar size={30} radius={30} />
-          <Text size="sm" weight={500}>
-            {item.name}
-          </Text>
-        </Group>
-      </td>
-      <td>
-        <Anchor<"a">
-          size="sm"
-          href="#"
-          onClick={(event) => event.preventDefault()}
-        >
-          {item.email}
-        </Anchor>
-      </td>
-      <td>
-        <DynamicActionIcon
-          color="red"
-          onClick={() => onDelete?.(item.id)}
-          Icon={IconTrash}
-        />
-      </td>
-    </tr>
+    <Link key={item.id} href={`/dashboard/users/${item.id}`}>
+      <tr key={item.name}>
+        <td>
+          <Group spacing="sm">
+            <Avatar size={30} radius={30} />
+            <Text size="sm" weight={500}>
+              {item.name}
+            </Text>
+          </Group>
+        </td>
+        <td>
+          <Anchor<"a">
+            size="sm"
+            href="#"
+            onClick={(event) => event.preventDefault()}
+          >
+            {item.email}
+          </Anchor>
+        </td>
+        <td>
+          <DynamicActionIcon
+            color="red"
+            onClick={() => onDelete?.(item.id)}
+            Icon={IconTrash}
+          />
+        </td>
+      </tr>
+    </Link>
   ));
   return (
     <Center
@@ -67,7 +70,7 @@ const UsersTable: FunctionComponent<UsersTableProps> = ({
       }}
     >
       <ScrollArea>
-        <Table sx={{ minWidth: 1000 }} verticalSpacing="sm">
+        <Table sx={{ minWidth: 1000 }} verticalSpacing="sm" highlightOnHover>
           <thead>
             <tr>
               <th>{role}</th>
