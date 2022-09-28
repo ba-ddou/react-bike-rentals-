@@ -4,6 +4,7 @@ import BikeForm from "./BikeForm";
 import { BikeCreationInput, BikeStatus } from "@root/@types";
 import { createBike } from "@root/services";
 import { Text } from "@mantine/core";
+import { LoaderOverlay } from "@components/atoms";
 
 interface CreateBikeFormProps {
   onCancel: () => void;
@@ -36,14 +37,22 @@ const CreateBikeForm: FunctionComponent<CreateBikeFormProps> = ({
   };
   return (
     <>
-      <Text size="lg" weight="bolder" sx={{
-        marginBottom: 30
-      }}>
+      <Text
+        size="lg"
+        weight="bolder"
+        sx={{
+          marginBottom: 30,
+        }}
+      >
         Add a new bike
       </Text>
       <BikeForm onSubmit={onSubmit} onCancel={onCancel} error={error || null} />
-      {loading && <div>Loading...</div>}
-      {error && <div>{error}</div>}
+      <LoaderOverlay loading={loading} />
+      {error && (
+        <Text size="sm" color="red">
+          {error}
+        </Text>
+      )}
     </>
   );
 };
