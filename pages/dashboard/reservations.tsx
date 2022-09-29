@@ -17,6 +17,7 @@ const Reservations: FunctionComponent<ReservationsProps> = () => {
   return (
     <>
       <LargeHeading minWidth={1200}>Reservations</LargeHeading>
+      {/* @ts-ignore */}
       <ReservationsTable reservations={reservations} onAdd={open} />
     </>
   );

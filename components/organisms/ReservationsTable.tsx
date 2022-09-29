@@ -160,6 +160,7 @@ const ReservationsTable: FunctionComponent<ReservationsTableProps> = ({
         <Table sx={{ minWidth: 1200 }} verticalSpacing="md" align="center">
           <thead>
             <tr>
+              {/* @ts-ignore */}
               <Th />
               {!omitColumns.includes("user") && <Th>User</Th>}
               {!omitColumns.includes("bike") && <Th>Bike</Th>}
@@ -170,6 +171,7 @@ const ReservationsTable: FunctionComponent<ReservationsTableProps> = ({
               <Th>Total price</Th>
               <Th>Rating</Th>
               <Th>Status</Th>
+               {/* @ts-ignore */}
               <Th />
             </tr>
           </thead>
@@ -182,6 +184,7 @@ const ReservationsTable: FunctionComponent<ReservationsTableProps> = ({
 
 export default ReservationsTable;
 
+//  @ts-ignore 
 function Th({ children }) {
   return (
     <th>

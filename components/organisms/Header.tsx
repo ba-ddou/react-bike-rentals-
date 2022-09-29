@@ -47,6 +47,7 @@ const Header: FunctionComponent<HeaderProps> = () => {
       >
         {user && !loading && (
           <DynamicAvatar
+            //  @ts-ignore
             user={user}
             onLogout={logout}
             onEdit={() => {
@@ -63,12 +64,15 @@ const Header: FunctionComponent<HeaderProps> = () => {
         {payload == "edit" && (
           <AccountUpdateForm
             initialValues={{
+              //  @ts-ignore
               email: user.email,
+              //  @ts-ignore
               name: user.name,
               password: "",
             }}
             headerText="Edit your account"
             update={(values) => {
+              //  @ts-ignore
               return updateUser(user?.id, {
                 name: values.name,
                 password: values.password,

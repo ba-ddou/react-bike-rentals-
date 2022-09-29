@@ -22,6 +22,7 @@ const InteractiveStatusBadge: FunctionComponent<
   return (
     <Tooltip label={tooltipLabel}>
       <div
+        // @ts-ignore
         style={{
           ...sx,
           display: "flex",
@@ -36,6 +37,7 @@ const InteractiveStatusBadge: FunctionComponent<
             cursor: "pointer",
           }}
           {...rest}
+          // @ts-ignore
           onClick={onClickHandler}
         />
         {loading && (

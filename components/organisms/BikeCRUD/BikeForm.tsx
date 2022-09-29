@@ -61,6 +61,7 @@ const BikeForm: FunctionComponent<BikeFormProps> = ({
   return (
     <Container>
       <Formik
+        // @ts-ignore
         initialValues={initialValues}
         validationSchema={ValidationSchema}
         onSubmit={onSubmitHandler}

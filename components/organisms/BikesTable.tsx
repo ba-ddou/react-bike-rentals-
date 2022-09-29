@@ -81,10 +81,14 @@ const BikesTable: FunctionComponent<BikesTableProps> = ({
         </td>
         <td>
           <Group spacing={0} position="right">
-            <ActionIcon onClick={(event) => {
-              event.stopPropagation();
-              onEdit(item)
-            }}>
+           
+            <ActionIcon
+              // @ts-ignore 
+              onClick={(event) => {
+                event.stopPropagation();
+                onEdit(item);
+              }}
+            >
               <IconPencil size={16} stroke={1.5} />
             </ActionIcon>
             <DynamicActionIcon

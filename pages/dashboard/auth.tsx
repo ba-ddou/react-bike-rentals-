@@ -40,6 +40,7 @@ function ManagerAuthentication() {
         Login using a manager account credentials{" "}
       </Text>
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+        {/* @ts-ignore */}
         <SigninForm signin={onSignin} loading={loading} error={error} />
       </Paper>
     </Container>

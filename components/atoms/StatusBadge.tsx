@@ -43,7 +43,9 @@ const StatusBadge: FunctionComponent<StatusBadgeProps> = ({
   ...props
 }) => {
   return (
+    // @ts-ignore
     <Badge color={statusLabelsMap[entity]?.[status]?.color} {...props} >
+      {/* @ts-ignore */}
       {statusLabelsMap[entity]?.[status]?.label}
     </Badge>
   );

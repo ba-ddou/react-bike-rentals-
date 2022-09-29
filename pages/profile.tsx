@@ -1,7 +1,7 @@
+//  @ts-nocheck
 import { LargeHeading } from "@components/atoms";
 import { AccountUpdateForm, ProfileBanner } from "@components/moleculs";
 import { Gallery, Header } from "@components/organisms";
-import ReservationsTable from "@components/organisms/ReservationsTable";
 import { UserProfile } from "@components/templates";
 import { getGetServerSidePropsWithUserAuth } from "@helpers/getGetServerSideProps";
 import { Modal } from "@mantine/core";
@@ -9,9 +9,6 @@ import { useAuth, useModalControls } from "@root/hooks";
 import { useUserReservations } from "@root/providers/BikeProvider";
 import { cancelReservation, rateReservation, updateUser } from "@root/services";
 import type { NextPage } from "next";
-import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
 
 const Profile: NextPage = () => {
   const { user } = useAuth();

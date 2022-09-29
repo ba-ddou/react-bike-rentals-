@@ -16,11 +16,13 @@ interface ManagersProps {}
 
 const Managers: FunctionComponent<ManagersProps> = () => {
   const { user } = useAuth();
+  //  @ts-ignore
   const { managers } = useManagers(user?.id);
   const { open, payload, ...modalControls } = useModalControls();
 
   return (
     <>
+      {/* @ts-ignore */}
       <LargeHeading>Managers</LargeHeading>
       <UsersTable
         users={managers}

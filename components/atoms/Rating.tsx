@@ -15,12 +15,12 @@ export const RatingPreview: FunctionComponent<RatingPreviewProps> = ({
   return (
     <Group spacing={1}>
       <Group spacing={1}>
-        {[...Array(parseInt(rating))].map((_, index) => (
+        {[...Array(parseInt(`${rating}`))].map((_, index) => (
           <Text key={`full-${index}`} size="md">
             {"★"}
           </Text>
         ))}
-        {[...Array(5 - parseInt(rating))].map((_, index) => (
+        {[...Array(5 - parseInt(`${rating}`))].map((_, index) => (
           <Text key={`full-${index}`} size="md">
             {"☆"}
           </Text>

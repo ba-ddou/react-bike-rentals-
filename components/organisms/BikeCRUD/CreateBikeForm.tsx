@@ -29,6 +29,7 @@ const CreateBikeForm: FunctionComponent<CreateBikeFormProps> = ({
       createBy: user?.id,
     });
     // TODO: refine the error handling
+    // @ts-ignore
     if (!res.model) setError("Error creating bike");
     // TODO: only call onResolve if the menu item was created successfully
     onResolve();

@@ -23,6 +23,7 @@ const Bike: FunctionComponent<BikeProps> = ({ id }) => {
       </Container>
       <Space h={100} />
       <LargeHeading minWidth={1200}>Reservations History</LargeHeading>
+      {/* @ts-ignore */}
       <ReservationsTable reservations={reservations} omitColumns={["bike"]} />
     </>
   );

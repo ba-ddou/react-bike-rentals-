@@ -42,7 +42,9 @@ const Gallery: FunctionComponent<GalleryProps> = () => {
               onChange={([from, to]) =>
                 applyFilters({
                   dateRange: {
+                    //  @ts-ignore
                     from,
+                    //  @ts-ignore
                     to,
                   },
                 })

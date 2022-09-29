@@ -14,6 +14,7 @@ const Users: FunctionComponent<UsersProps> = () => {
   const { users, loading } = useUsers();
   return (
     <>
+      {/* @ts-ignore */}
       <LargeHeading>Users</LargeHeading>
       <UsersTable
         users={users}

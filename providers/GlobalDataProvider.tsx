@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
   Bike,
   Reservation,
@@ -115,7 +116,7 @@ export const useUsers = () => {
   const { users, usersLoading } = useGlobalData();
   return { users, loading: usersLoading };
 };
-export const useUser = (id:string) => {
+export const useUser = (id: string) => {
   const { users } = useUsers();
   return { user: users?.find((user) => user.id === id) };
 };
@@ -169,7 +170,9 @@ function formatReservations(
       bike,
       numberOfDays,
       reservedAt: reservedAt.toDate(),
-      totalPrice: parseFloat((numberOfDays * reservation.bikeSnapshot.price).toFixed(2)),
+      totalPrice: parseFloat(
+        (numberOfDays * reservation.bikeSnapshot.price).toFixed(2)
+      ),
       status: inferConceptualStatus(status, { from: fromDate, to: toDate }),
     };
   });

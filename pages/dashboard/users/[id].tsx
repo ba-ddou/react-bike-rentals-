@@ -14,6 +14,7 @@ interface UserProps {
 const User: FunctionComponent<UserProps> = ({ id }) => {
   const { reservations } = useUserReservations(id);
   const { user } = useUser(id);
+  //  @ts-ignore
   return <UserProfile reservations={reservations} user={user} />;
 };
 

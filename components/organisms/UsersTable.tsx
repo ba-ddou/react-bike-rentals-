@@ -1,4 +1,3 @@
-import { useUsers } from "hooks";
 import React, { FunctionComponent } from "react";
 
 import {

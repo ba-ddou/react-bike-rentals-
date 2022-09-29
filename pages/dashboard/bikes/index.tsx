@@ -26,6 +26,7 @@ const Bikes: FunctionComponent<BikesProps> = () => {
   if (!bikes) return null;
   return (
     <>
+      {/* @ts-ignore */}
       <LargeHeading>Bikes</LargeHeading>
       <BikesTable
         bikes={bikes}
