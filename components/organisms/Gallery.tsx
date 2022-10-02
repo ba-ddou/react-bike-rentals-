@@ -22,7 +22,6 @@ const Gallery: FunctionComponent<GalleryProps> = () => {
     bikeId: string;
   }>();
   // const [dateRange, setDateRange] = useState<DateRange>(filters.dateRange);
-  if (!bikes) return null;
   return (
     <div className={styles.gallery}>
       <Sidebar />

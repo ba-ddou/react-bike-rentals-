@@ -2,6 +2,7 @@ import { BikeCard } from "@components/moleculs";
 import { Bike } from "@types";
 import React, { FunctionComponent } from "react";
 import { Grid } from "@mantine/core";
+import { LoaderOverlay } from "@components/atoms";
 
 interface BikesGridProps {
   bikes: Bike[];
@@ -12,6 +13,7 @@ const BikesGrid: FunctionComponent<BikesGridProps> = ({
   bikes,
   onBikeClick,
 }) => {
+  if (!bikes) return <LoaderOverlay loading={true} />;
   return (
     <Grid
       gutter="xl"
