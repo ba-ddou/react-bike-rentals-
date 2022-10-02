@@ -35,5 +35,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-
+config/firebase_config.json
 lib/service_account.json
